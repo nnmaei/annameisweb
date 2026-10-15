@@ -1815,6 +1815,7 @@
 
 
 
+
   <span class="deco" aria-hidden="true">🍒</span>
   <span class="deco" aria-hidden="true">✨</span>
   <span class="deco" aria-hidden="true">🍒</span>
@@ -2032,6 +2033,7 @@
 
   <div class="toast" id="toast"></div>
 <script>
+
 
 
 
@@ -3836,6 +3838,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       lang: "vi",
       title: "Feedback từ khách",
       meta: "Messenger · Clip",
+      caption: "",
       video: "legit/vi1.mp4",
       poster: ""
     },
@@ -3888,6 +3891,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     modal.querySelectorAll("video").forEach(function (v) {
       try { v.pause(); } catch (e) {}
     });
+    resumeSiteMusicAfterLegit();
   }
   function renderLegitGrid() {
     var grid = document.getElementById("legitGrid");
@@ -3908,7 +3912,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       if (hasVid) {
         media =
           '<div class="legit-media">' +
-          '<video controls playsinline preload="metadata"' +
+          '<video class="legit-video" controls playsinline preload="metadata"' +
           (hasPoster ? ' poster="' + escapeHtml(it.poster) + '"' : "") +
           ' src="' + escapeHtml(it.video) + '"></video></div>';
       } else if (hasPoster) {
@@ -3934,6 +3938,66 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         "</article>"
       );
     }).join("");
+    bindLegitVideos();
+  }
+
+  var legitMusicWasPlaying = false;
+
+  function pauseSiteMusicForLegit() {
+    try {
+      if (typeof music !== "undefined" && music && !music.paused) {
+        legitMusicWasPlaying = true;
+        music.pause();
+        var mb = document.getElementById("musicButton");
+        var box = document.getElementById("musicBox");
+        if (mb) mb.textContent = "►";
+        if (box) box.classList.remove("playing");
+      }
+    } catch (e) {}
+  }
+
+  function resumeSiteMusicAfterLegit() {
+    try {
+      if (!legitMusicWasPlaying) return;
+      var grid = document.getElementById("legitGrid");
+      if (grid) {
+        var still = grid.querySelectorAll("video.legit-video");
+        for (var i = 0; i < still.length; i++) {
+          if (!still[i].paused && !still[i].ended) return;
+        }
+      }
+      legitMusicWasPlaying = false;
+      if (typeof music !== "undefined" && music) {
+        music.play().then(function () {
+          var mb = document.getElementById("musicButton");
+          var box = document.getElementById("musicBox");
+          if (mb) mb.textContent = "Ⅱ";
+          if (box) box.classList.add("playing");
+        }).catch(function () {});
+      }
+    } catch (e) {}
+  }
+
+  function bindLegitVideos() {
+    var grid = document.getElementById("legitGrid");
+    if (!grid) return;
+    var vids = grid.querySelectorAll("video.legit-video");
+    vids.forEach(function (v) {
+      v.addEventListener("play", function () {
+        vids.forEach(function (other) {
+          if (other !== v && !other.paused) {
+            try { other.pause(); } catch (e) {}
+          }
+        });
+        pauseSiteMusicForLegit();
+      });
+      v.addEventListener("pause", function () {
+        resumeSiteMusicAfterLegit();
+      });
+      v.addEventListener("ended", function () {
+        resumeSiteMusicAfterLegit();
+      });
+    });
   }
 
   (function setupLegitUi() {
@@ -4503,8 +4567,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '</ul>' +
 
         '<h4>💲 Giá: Tùy tâm.</strong> Mei không ép giá hay quy định con số cụ thể nào cả. Thuận mua vừa bán, quyết định hoàn toàn ở các bây bi nha! 🍒</h4>' +
-        '<div class="comm-callout note"><strong>Lưu ý về ClankWorld:</strong> Vì nền tảng này chỉ có chế độ Public hoặc Private (không có dạng Unlisted chia sẻ qua link riêng), bạn có thể tự tạo bot từ Prompt Commission để giữ riêng tư, hoặc nhờ Mei đăng công khai để mọi người cùng thưởng thức.</div>' +
-
+        
         '<div class="comm-callout promise">Mei không nhận đơn nếu biết bản thân không thể đáp ứng nhu cầu hoặc không hoàn thành đúng hạn. Mei cam kết không bao giờ <strong>đổ lỗi hoàn cảnh</strong> hay <strong>dây dưa Deadline</strong> sau khi đã nhận Bot. Bạn sẽ luôn nhận được Bot trước hoặc đúng hạn mà Mei đã hứa.</div>' +
 
         '<h4>🚫 Mei xin phép KHÔNG NHẬN</h4>' +
@@ -4983,6 +5046,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   showMeiQuote();
   renderFilters();
 })();
+
 
 
 
