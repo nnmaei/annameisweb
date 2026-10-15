@@ -1626,9 +1626,166 @@
       justify-content: flex-end;
       margin-top: 8px;
     }
+
+    /* LEGIT gallery modal */
+    #legitModal {
+      position: fixed; inset: 0; z-index: 1200;
+      display: none; align-items: center; justify-content: center;
+      padding: 16px;
+      background: rgba(40, 28, 26, 0.55);
+      backdrop-filter: blur(8px);
+    }
+    #legitModal.show { display: flex; }
+    .legit-modal-box {
+      position: relative;
+      width: min(720px, 96vw);
+      max-height: min(88vh, 900px);
+      overflow: auto;
+      background: linear-gradient(165deg, #fff9f5 0%, #f5ebe4 100%);
+      border: 1px solid rgba(160, 110, 100, 0.22);
+      border-radius: 22px;
+      box-shadow: 0 24px 60px rgba(50, 30, 25, 0.35);
+      padding: 22px 20px 24px;
+      animation: modalIn 0.35s ease both;
+    }
+    .legit-modal-box .modal-close {
+      position: absolute; top: 12px; right: 14px;
+    }
+    .legit-head {
+      text-align: center;
+      margin: 0 28px 16px 8px;
+    }
+    .legit-head h3 {
+      margin: 0 0 6px;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+      font-style: italic;
+    }
+    .legit-head p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .legit-tabs {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .legit-tab {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.65);
+      color: var(--ink);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 0 rgba(80,45,40,0.1);
+    }
+    .legit-tab.active {
+      background: linear-gradient(160deg, #c47872, #a85a56);
+      color: #fff8f3;
+      border-color: transparent;
+    }
+    .legit-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .legit-card {
+      background: rgba(255, 252, 249, 0.95);
+      border: 1px solid rgba(160, 110, 100, 0.16);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: 0 8px 20px rgba(60, 35, 30, 0.08);
+    }
+    .legit-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .legit-card-title {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .legit-card-meta {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .legit-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(196, 120, 114, 0.15);
+      color: #8a4a46;
+    }
+    .legit-badge.en {
+      background: rgba(90, 110, 140, 0.12);
+      color: #4a5a78;
+    }
+    .legit-media {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #2a2422;
+      aspect-ratio: 9 / 16;
+      max-height: 420px;
+      margin: 0 auto;
+      width: min(100%, 280px);
+    }
+    .legit-media video,
+    .legit-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #1a1615;
+    }
+    .legit-caption {
+      margin: 10px 0 0;
+      font-size: 13px;
+      line-height: 1.55;
+      color: #4a403c;
+      font-style: italic;
+    }
+    .legit-empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 24px 12px;
+    }
+    .legit-footer-note {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+    @media (min-width: 640px) {
+      .legit-grid.two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      .legit-media { width: 100%; max-height: 380px; }
+    }
 </style>
 </head>
 <body>
+
 
 
 
@@ -1779,7 +1936,25 @@
     <a class="fb-fab" href="https://www.facebook.com/profile.php?id=61594605416874" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.62 23.1 24 18.1 24 12.07"/></svg>
     </a>
-    <section class="music-box" id="musicBox">
+    
+  <div id="legitModal" aria-hidden="true">
+    <div class="legit-modal-box" role="dialog" aria-modal="true" aria-labelledby="legitTitle">
+      <button type="button" class="modal-close" id="legitClose" aria-label="Close">&times;</button>
+      <div class="legit-head">
+        <h3 id="legitTitle">✅ Legit</h3>
+        <p id="legitIntro"></p>
+      </div>
+      <div class="legit-tabs" id="legitTabs">
+        <button type="button" class="legit-tab active" data-legit-tab="all">All</button>
+        <button type="button" class="legit-tab" data-legit-tab="vi">🇻🇳 Việt</button>
+        <button type="button" class="legit-tab" data-legit-tab="en">🇬🇧 English</button>
+      </div>
+      <div class="legit-grid two-col" id="legitGrid"></div>
+      <p class="legit-footer-note" id="legitFoot"></p>
+    </div>
+  </div>
+
+  <section class="music-box" id="musicBox">
       <button type="button" class="music-disc" id="musicDisc" aria-label="Music">♪</button>
       <div class="music-panel" id="musicPanel">
         <button id="musicButton" class="music-button" type="button" aria-label="Play">▷</button>
@@ -1891,6 +2066,7 @@
 
 
 
+
 (function () {
   "use strict";
 
@@ -1943,7 +2119,7 @@
       likes: 8,
       coverLabel: "BOT",
       avatar: "assets/bots/tachibana.jpg",
-      rentryLink: "https://rentry.co/annamei-tachibanakyouya",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Love potion","Yandere","Married","Professor","Japan","University","Pregnant","NSFW/R21"],
@@ -1961,7 +2137,7 @@
       likes: 8,
       coverLabel: "BOT",
       avatar: "assets/bots/tachibana.jpg",
-      rentryLink: "https://rentry.co/annamei-tachibanakyouya-eng",
+      rentryLink: "#",
       tags: ["Love potion","Yandere","Married","Professor","Japan","University","Pregnant","NSFW/21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1EFZLXV0ILAC2cn6RLRa88TvPRkgh0zyC" },
@@ -1979,7 +2155,7 @@
       likes: 15,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
@@ -1999,7 +2175,7 @@
       likes: 15,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/158eFyfftqh2An0s9yEq4jJK1D43b76lv" },
@@ -2018,7 +2194,7 @@
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar ↗ - !Đang cập nhật!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
@@ -2037,7 +2213,7 @@
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1TZK-dXYISDubs6yNdRIENtzFw_oji-3F" },
@@ -2055,7 +2231,7 @@
       likes: 19,
       coverLabel: "BOT",
       avatar: "assets/bots/haizz.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Boyfriend","Vietnam","Artist","Lovesick","Greenflag","Modern"],
@@ -2074,7 +2250,7 @@
       likes: 11,
       coverLabel: "BOT",
       avatar: "assets/bots/daniel.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Ex","Bestfriend","Dad","Bartender","America","Possessive","Harem","3P","University","NSFW/R21"],
@@ -2092,7 +2268,7 @@
       likes: 11,
       coverLabel: "BOT",
       avatar: "assets/bots/daniel.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Ex","Bestfriend","Dad","Bartender","America","Possessive","Harem","3P","University","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1G4kHuOkqJnl6qMaMuj7aBzx2YRR01ie3" },
@@ -2110,7 +2286,7 @@
       likes: 17,
       coverLabel: "BOT",
       avatar: "assets/bots/kenshin.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
@@ -2128,7 +2304,7 @@
       likes: 17,
       coverLabel: "BOT",
       avatar: "assets/bots/kenshin.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1G4kHuOkqJnl6qMaMuj7aBzx2YRR01ie3" },
@@ -2147,7 +2323,7 @@
       likes: 14,
       coverLabel: "BOT",
       avatar: "assets/bots/ethanlucas.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["3P","Twins","Slow Burn","Childhood Friends","BL/BG","NSFW/R21"],
@@ -2166,7 +2342,7 @@
       likes: 14,
       coverLabel: "BOT",
       avatar: "assets/bots/ethanlucas.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["3P","Twins","Slow Burn","Childhood Friends","BL/BG","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1_2svaUS50mMZQ8SLjtlWLBQtuX4cNEpX" },
@@ -2185,7 +2361,7 @@
       likes: 9,
       coverLabel: "BOT",
       avatar: "assets/bots/soradaiki.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
@@ -2204,7 +2380,7 @@
       likes: 9,
       coverLabel: "BOT",
       avatar: "assets/bots/soradaiki.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ZTI07Ii1I6_lKK1jcIUvlQcbzXxnPygQ" },
@@ -2222,7 +2398,7 @@
       likes: 13,
       coverLabel: "BOT",
       avatar: "assets/bots/renelias.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
@@ -2240,7 +2416,7 @@
       likes: 13,
       coverLabel: "BOT",
       avatar: "assets/bots/renelias.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1H9CveYejMHHF-CE9Pnr1Zlqv4ZjnngIJ" },
@@ -2258,7 +2434,7 @@
       likes: 10,
       coverLabel: "BOT",
       avatar: "assets/bots/dariankenzo.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
@@ -2277,7 +2453,7 @@
       likes: 10,
       coverLabel: "BOT",
       avatar: "assets/bots/dariankenzo.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1YIC04P_jkf_kOQuuM5sjMwsgu9Om6nsE" },
@@ -2295,7 +2471,7 @@
       likes: 7,
       coverLabel: "BOT",
       avatar: "assets/bots/sawadoharuki.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Exes","Angst","Playboy","Second Chance"],
@@ -2313,7 +2489,7 @@
       likes: 7,
       coverLabel: "BOT",
       avatar: "assets/bots/sawadoharuki.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Exes","Angst","Playboy","Second Chance"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/168a2V7iiYsYLPp5gAN5BXpUBtuafTA-s" },
@@ -2331,7 +2507,7 @@
       likes: 6,
       coverLabel: "BOT",
       avatar: "assets/bots/ryoujodul.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
@@ -2349,7 +2525,7 @@
       likes: 6,
       coverLabel: "BOT",
       avatar: "assets/bots/ryoujodul.jpg",
-      rentryLink: "",
+      rentryLink: "#",
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1RbBZXxOGOKwzD_-vfa5LkGnDRQzEsDUB" },
@@ -3652,7 +3828,155 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
 
   /* Commands */
   
-  var LEGIT_LINK = "https://docs.google.com/document/d/e/LEGIT_DOC/pub"; /* ← dán link Google Doc legit */
+  var LEGIT_LINK = "https://docs.google.com/document/d/e/LEGIT_DOC/pub";
+
+  /* ===== LEGIT GALLERY (sửa video/caption tại đây) =====
+     video: link mp4 / webm (Drive direct, Streamable, hoặc assets/legit/...)
+     poster: ảnh thumbnail (tuỳ chọn)
+  */
+  var LEGIT_ITEMS = [
+    {
+      id: "vi-1",
+      lang: "vi",
+      title: "Feedback khách Việt",
+      meta: "Messenger · clip",
+      caption: "“Yêu lắm ạaa 🍒” — khách gửi sau khi nhận bot",
+      video: "",
+      poster: ""
+    },
+    {
+      id: "vi-2",
+      lang: "vi",
+      title: "Proof giao dịch",
+      meta: "Chuyển khoản / giao bot",
+      caption: "Ảnh / clip xác nhận đơn (cập nhật dần)",
+      video: "",
+      poster: ""
+    },
+    {
+      id: "en-1",
+      lang: "en",
+      title: "Client feedback",
+      meta: "Messenger · clip",
+      caption: "“I’m grateful for your support…” — after delivery",
+      video: "",
+      poster: ""
+    }
+  ];
+
+  var legitFilter = "all";
+
+  function openLegitModal() {
+    var modal = document.getElementById("legitModal");
+    if (!modal) return;
+    var vi = lang === "vi";
+    document.getElementById("legitTitle").textContent = vi ? "✅ Legit / Feedback" : "✅ Legit / Feedback";
+    document.getElementById("legitIntro").textContent = vi
+      ? "Một phần feedback & proof từ khách đặt commission. Mei cập nhật dần 💕"
+      : "A selection of client feedback & proofs from commissions. Updated over time 💕";
+    document.getElementById("legitFoot").textContent = vi
+      ? "Clip được đăng với sự đồng ý của khách · Thông tin nhạy cảm đã được che"
+      : "Clips shared with client consent · Sensitive info is covered";
+    legitFilter = "all";
+    document.querySelectorAll(".legit-tab").forEach(function (t) {
+      t.classList.toggle("active", t.getAttribute("data-legit-tab") === "all");
+    });
+    renderLegitGrid();
+    modal.classList.add("show");
+    modal.setAttribute("aria-hidden", "false");
+  }
+  function closeLegitModal() {
+    var modal = document.getElementById("legitModal");
+    if (!modal) return;
+    modal.classList.remove("show");
+    modal.setAttribute("aria-hidden", "true");
+    modal.querySelectorAll("video").forEach(function (v) {
+      try { v.pause(); } catch (e) {}
+    });
+  }
+  function renderLegitGrid() {
+    var grid = document.getElementById("legitGrid");
+    if (!grid) return;
+    var vi = lang === "vi";
+    var items = LEGIT_ITEMS.filter(function (it) {
+      if (legitFilter === "all") return true;
+      return it.lang === legitFilter;
+    });
+    if (!items.length) {
+      grid.innerHTML = '<p class="legit-empty">' + (vi ? "Chưa có mục nào trong tab này." : "Nothing in this tab yet.") + "</p>";
+      return;
+    }
+    grid.innerHTML = items.map(function (it) {
+      var hasVid = it.video && it.video !== "#";
+      var hasPoster = it.poster && it.poster !== "#";
+      var media = "";
+      if (hasVid) {
+        media =
+          '<div class="legit-media">' +
+          '<video controls playsinline preload="metadata"' +
+          (hasPoster ? ' poster="' + escapeHtml(it.poster) + '"' : "") +
+          ' src="' + escapeHtml(it.video) + '"></video></div>';
+      } else if (hasPoster) {
+        media =
+          '<div class="legit-media"><img src="' + escapeHtml(it.poster) + '" alt=""></div>';
+      } else {
+        media =
+          '<div class="legit-media" style="display:flex;align-items:center;justify-content:center;color:#c4b4aa;font-size:13px;padding:16px;text-align:center">' +
+          (vi ? "Đang cập nhật clip…" : "Clip coming soon…") +
+          "</div>";
+      }
+      var badge = it.lang === "en"
+        ? '<span class="legit-badge en">EN</span>'
+        : '<span class="legit-badge">VI</span>';
+      return (
+        '<article class="legit-card">' +
+        '<div class="legit-card-top"><div>' +
+        '<h4 class="legit-card-title">' + escapeHtml(it.title) + "</h4>" +
+        '<div class="legit-card-meta">' + escapeHtml(it.meta || "") + "</div>" +
+        "</div>" + badge + "</div>" +
+        media +
+        (it.caption ? '<p class="legit-caption">' + escapeHtml(it.caption) + "</p>" : "") +
+        "</article>"
+      );
+    }).join("");
+  }
+
+  (function setupLegitUi() {
+    var modal = document.getElementById("legitModal");
+    var closeBtn = document.getElementById("legitClose");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("soft");
+        closeLegitModal();
+      });
+    }
+    if (modal) {
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeLegitModal();
+      });
+    }
+    var tabs = document.getElementById("legitTabs");
+    if (tabs) {
+      tabs.addEventListener("click", function (e) {
+        var btn = e.target.closest("[data-legit-tab]");
+        if (!btn) return;
+        if (window.playClick) window.playClick("soft");
+        legitFilter = btn.getAttribute("data-legit-tab");
+        tabs.querySelectorAll(".legit-tab").forEach(function (t) {
+          t.classList.toggle("active", t === btn);
+        });
+        renderLegitGrid();
+      });
+    }
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest("[data-open-legit]");
+      if (!a) return;
+      e.preventDefault();
+      if (window.playClick) window.playClick("pop");
+      openLegitModal();
+    });
+  })();
+ /* ← dán link Google Doc legit */
   var FB_LINK = "https://www.facebook.com/profile.php?id=61594605416874"; /* ← link FB nhắn tin của bạn */
   var FORM_LINK = "https://forms.gle/NM4Q72Fn31GYJ5oS9"; /* ← Google Form request */
   var GOOGLE_FORM_FEEDBACK = "https://forms.gle/hn1qAVd5NvgduceGA"; /* ← dán link Google Form feedback thật */
@@ -3844,8 +4168,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       '<div class="fb-form" style="text-align:center;margin-top:20px">' +
       "<h3 style=\"text-align:center\">" + (vi ? "Gửi góp ý qua Google Form" : "Send feedback via Google Form") + "</h3>" +
       '<p class="fb-form-note" style="text-align:center">' + (vi
-        ? ""
-        : "") + "</p>" +
+        ? "Câu trả lời lưu trên Google của Mei — không mất khi xóa cache."
+        : "Answers are saved on Mei’s Google account — they won’t disappear if you clear cache.") + "</p>" +
       '<a class="comm-link" href="' + GOOGLE_FORM_FEEDBACK + '" target="_blank" rel="noopener" onclick="playClick(\'pop\')" style="margin-top:8px">' +
       (vi ? "📋 Mở Google Form góp ý" : "📋 Open feedback Google Form") + "</a>" +
       "</div>";
@@ -3932,8 +4256,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     }
     if (!roots.length) {
       listEl.innerHTML = '<p class="yt-empty">' + (vi
-        ? "Chưa có bình luận nào - hãy là người đầu tiên nhé 💕"
-        : "No comments yet - be the first 💕") + "</p>";
+        ? "Chưa có bình luận nào — hãy là người đầu tiên nhé 💕"
+        : "No comments yet — be the first 💕") + "</p>";
       return;
     }
     listEl.innerHTML = roots.map(function (c) {
@@ -4182,7 +4506,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>Minh bạch: Bạn sẽ biết rõ phần nào do Mei tự tay viết và phần nào có sự hỗ trợ của AI.</li>' +
         '<li>Không chỉ là Plain Text đơn thuần, bạn hoàn toàn có thể order thêm các yêu cầu về Lệnh (Command) hoặc mã code giao diện (HTML, CSS...).</li>' +
         '</ul>' +
-        '<p><strong>💲 Giá: Tùy tâm.</strong> Mei không ép giá hay quy định con số cụ thể nào cả. Thuận mua vừa bán, quyết định hoàn toàn ở các bây bi nha! 🍒</p>' +
+
+        '<h4>💲 Giá: Tùy tâm.</strong> Mei không ép giá hay quy định con số cụ thể nào cả. Thuận mua vừa bán, quyết định hoàn toàn ở các bây bi nha! 🍒</h4>' +
         '<div class="comm-callout note"><strong>Lưu ý về ClankWorld:</strong> Vì nền tảng này chỉ có chế độ Public hoặc Private (không có dạng Unlisted chia sẻ qua link riêng), bạn có thể tự tạo bot từ Prompt Commission để giữ riêng tư, hoặc nhờ Mei đăng công khai để mọi người cùng thưởng thức.</div>' +
 
         '<div class="comm-callout promise">Mei không nhận đơn nếu biết bản thân không thể đáp ứng nhu cầu hoặc không hoàn thành đúng hạn. Mei cam kết không bao giờ <strong>đổ lỗi hoàn cảnh</strong> hay <strong>dây dưa Deadline</strong> sau khi đã nhận Bot. Bạn sẽ luôn nhận được Bot trước hoặc đúng hạn mà Mei đã hứa.</div>' +
@@ -4197,7 +4522,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Ảnh / video khách đặt comm &amp; chuyển khoản xem tại nút <strong>✅ Legit</strong> bên dưới. (Luôn cập nhật thêm)</p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Nhắn Facebook để trao đổi</a> ' +
-        '<a class="comm-link secondary" href="' + LEGIT_LINK + '" target="_blank" rel="noopener">✅ Legit</a>' +
+        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
         '</div>' +
 
         '<div class="comm-block">' +
@@ -4254,7 +4579,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>Transparency: you will clearly know which parts Mei wrote by hand and which parts had AI assistance.</li>' +
         '<li>Not only plain text - you can also order extra Commands or interface code (HTML, CSS…).</li>' +
         '</ul>' +
-        '<p><strong>💲 Price: Pay what you want.</strong> Mei does not force a price or set a fixed number. Fair deal both ways - the decision is entirely yours! 🍒</p>' +
+        '<h4>💲 Price: Pay what you want.</strong> Mei does not force a price or set a fixed number. Fair deal both ways - the decision is entirely yours! 🍒</h4>' +
         '<div class="comm-callout note"><strong>Note about ClankWorld:</strong> This platform only has Public or Private modes (no Unlisted share-via-link). You can create the bot yourself from the Commission prompt to keep it private, or ask Mei to post it publicly for everyone to enjoy.</div>' +
 
         '<div class="comm-callout promise">Mei will not accept an order if Mei knows the request cannot be met or the deadline cannot be kept. Mei promises never to <strong>blame circumstances</strong> or <strong>drag out the Deadline</strong> after accepting a Bot. You will always receive the Bot on time or early, as Mei promised.</div>' +
@@ -4269,7 +4594,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Client commission photos / videos &amp; transfer proofs can be viewed at the <strong>✅ Legit</strong> button below. (Always being updated)</p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Message on Facebook</a> ' +
-        '<a class="comm-link secondary" href="' + LEGIT_LINK + '" target="_blank" rel="noopener">✅ Legit</a>' +
+        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
         '</div>' +
 
         '<div class="comm-block">' +
@@ -4286,8 +4611,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
 
         '<div class="comm-block">' +
         '<h3>💳 Payment &amp; Support / Tips</h3>' +
-        '<p style="text-align:center"><strong>PayPal:</strong> paypal.me/thynau</p>' +
-        '<p style="text-align:center">You can also <strong>support</strong> Mei via PayPal below - Mei thanks you so much 💕</p>' +
+        '<p style="text-align:center">You can <strong>support</strong> Mei via PayPal below - Mei thanks you so much 💕</p>' +
         '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">💙 PayPal</a></p>' +
         '</div>' +
         '<div class="comm-thanks"><p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p></div>';
@@ -4664,6 +4988,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   showMeiQuote();
   renderFilters();
 })();
+
 
 
 
