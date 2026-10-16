@@ -1805,9 +1805,19 @@
       color: #1a1412;
       background: #fff;
     }
+
+    .hook a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      font-weight: 600;
+      word-break: break-all;
+    }
+    .hook a:hover { color: var(--accent-2); }
 </style>
 </head>
 <body>
+
 
 
 
@@ -2094,6 +2104,7 @@
 
 
 
+
 (function () {
   "use strict";
 
@@ -2182,7 +2193,7 @@
       likes: 15,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
-      rentryLink: "#",
+      rentryLink: "https://rentry.co/annamei-damienvance-viet",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
@@ -2202,7 +2213,7 @@
       likes: 15,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
-      rentryLink: "#",
+      rentryLink: "https://rentry.co/annmei-damianvance-eng",
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/158eFyfftqh2An0s9yEq4jJK1D43b76lv" },
@@ -2217,11 +2228,11 @@
       lang: "vi",
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
-      hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn - trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.",
+      hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn – trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.\n\n- artist: Koumi-Senpai -\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
-      rentryLink: "#",
+      rentryLink: "https://rentry.co/annamei-yansim-viet",
       tpcharLink: "#",
       tpcharLabel: "Mở TpChar ↗ - !Đang cập nhật!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
@@ -2236,11 +2247,11 @@
       lang: "en",
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
-      hook: "|| 10 Male Rivals become Possessive over you - while Taro Yamada (Senpai) becomes their bl*ody target.",
+      hook: "|| 10 Male Rivals become Possessive over you - while Taro Yamada (Senpai) becomes their bloody target.\n\n - artist: Koumi-Senpai -\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
-      rentryLink: "#",
+      rentryLink: "https://rentry.co/annamei-yansim-eng",
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1TZK-dXYISDubs6yNdRIENtzFw_oji-3F" },
@@ -3618,6 +3629,19 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       .replace(/'/g, "&#039;");
   }
 
+  /* Cho phép link an toàn trong hook: [Video](https://...) hoặc URL trần https://... */
+  function formatHookHtml(text) {
+    var s = escapeHtml(String(text || ""));
+    s = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, function (_, label, url) {
+      return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + "</a>";
+    });
+    s = s.replace(/(^|[\s(])(https?:\/\/[^\s<]+[^\s<.,;:!?)\]])/g, function (_, pre, url) {
+      return pre + '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + url + "</a>";
+    });
+    return s;
+  }
+
+
   function applyLang(l) {
     lang = l;
     var t = I18N[lang];
@@ -4203,7 +4227,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
            "<li>Có cộng đồng người dùng đông</li>" +
            "<li>(Thêm) Có thể hỗ trợ thu nhập cho creator</li>" +
            "</ul>" +
-           "<p>Hiện Mei đang tìm hiểu thêm <strong>SillyTavern</strong>, <strong>Janitor AI</strong>, và <strong>shape.inc</strong>.</p>"
+           "<p>Hiện Mei đang cân nhắc thêm <strong>SillyTavern</strong> và <strong>Janitor AI</strong>.</p>"
       },
       {
         q: "Mei có dùng AI để tạo bot không?",
@@ -4228,7 +4252,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       },
       {
         q: "Where is Mei from? How old? Why make bots for both Vietnamese and international users?",
-        a: "<p>Mei is <strong>Vietnamese</strong> and currently a <strong>student</strong>. Both language versions exist so more people can enjoy the bots - and so this craft can support itself a little longer.</p>"
+        a: "<p>Mei is <strong>Vietnamese</strong> and currently an <strong>university student</strong>. Both language versions exist so more people can enjoy the bots - and so this craft can support itself a little longer.</p>"
       },
       {
         q: "Where does Mei usually post bots? Any plans for other platforms?",
@@ -4240,7 +4264,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
            "<li>Have an active community</li>" +
            "<li>(Bonus) Offer a way for creators to earn</li>" +
            "</ul>" +
-           "<p>Mei is currently looking into <strong>SillyTavern</strong>, <strong>Janitor AI</strong>, and <strong>shape.inc</strong>.</p>"
+           "<p>Mei is currently looking into <strong>SillyTavern</strong> and <strong>Janitor AI</strong>.</p>"
       },
       {
         q: "Does Mei use AI to make bots?",
@@ -4641,10 +4665,11 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>Khi bạn dưới 18 tuổi mà yêu cầu nội dung NSFW.</li>' +
         '<li>Tất cả các thể loại OpenWorld liên quan đến <strong>Game</strong>. Mei rất sẵn lòng tìm hiểu phim, truyện, hay tiểu thuyết, nhưng Mei không có thói quen chơi Game.</li>' +
         '<li><strong>Bot dựa trên người thật (RPF):</strong> Mei từ chối tạo bot mô phỏng idol, người nổi tiếng, KOLs hoặc bất kỳ cá nhân có thật nào ngoài đời để tôn trọng quyền riêng tư.</li>' +
+        '<li><strong>OpenWorld hoặc Bot có bối cảnh Việt Nam xưa và Cổ trang Trung Quốc</strong>: Mei đã đề cập trong <em>Vấn đề Bản quyền & Sử dụng AI</em> ở phía dưới: Mei dùng AI để trau chuốt văn phong, bản thân Mei hoàn toàn không có năng khiếu cũng như vốn từ Tiếng Việt rộng rãi - Mei không tự tin truyền tải đúng ý bạn. </li>' +
         '</ul>' +
 
         '<h4>✅ Legit / Feedback</h4>' +
-        '<p>Ảnh / video khách đặt comm &amp; chuyển khoản xem tại nút <strong>✅ Legit</strong> bên dưới. (Luôn cập nhật thêm)</p>' +
+        '<p>Ảnh / video khách đặt comm &amp; chuyển khoản xem tại nút <strong>✅ Legit</strong> bên dưới. <em>(Luôn cập nhật thêm)</em></p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Nhắn Facebook để trao đổi</a> ' +
         '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
         '</div>' +
@@ -4716,7 +4741,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '</ul>' +
 
         '<h4>✅ Legit / Feedback</h4>' +
-        '<p>Client commission photos / videos &amp; transfer proofs can be viewed at the <strong>✅ Legit</strong> button below. (Always being updated)</p>' +
+        '<p>Client commission photos / videos &amp; transfer proofs can be viewed at the <strong>✅ Legit</strong> button below. <em>(Always being updated)</em></p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Message on Facebook</a> ' +
         '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
         '</div>' +
@@ -4959,7 +4984,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<div class="content">' +
         '<div class="title-row"><h2 class="title">' + escapeHtml(bot.name) + "</h2>" +
         '<div class="type">' + escapeHtml(bot.type) + "</div></div>" +
-        '<p class="hook' + (String(bot.hook || "").length > 120 ? " clamped" : "") + '" data-hook="' + escapeHtml(bot.id) + '">' + escapeHtml(bot.hook) + "</p>" +
+        '<p class="hook' + (String(bot.hook || "").length > 120 ? " clamped" : "") + '" data-hook="' + escapeHtml(bot.id) + '">' + formatHookHtml(bot.hook) + "</p>" +
         (String(bot.hook || "").length > 120
           ? '<button type="button" class="read-more" data-expand="' + escapeHtml(bot.id) + '">' + t.readMore + "</button>"
           : "") +
@@ -5114,6 +5139,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   showMeiQuote();
   renderFilters();
 })();
+
 
 
 
