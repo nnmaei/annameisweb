@@ -1782,9 +1782,33 @@
       }
       .legit-media { width: 100%; max-height: 380px; }
     }
+
+    #legitModal .modal-close {
+      color: #3a302c;
+      background: rgba(255, 248, 243, 0.92);
+      border: 1px solid rgba(80, 55, 50, 0.2);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(40, 25, 22, 0.18);
+      top: 12px;
+      right: 12px;
+      padding: 0;
+      z-index: 5;
+    }
+    #legitModal .modal-close:hover {
+      color: #1a1412;
+      background: #fff;
+    }
 </style>
 </head>
 <body>
+
 
 
 
@@ -2033,6 +2057,7 @@
 
   <div class="toast" id="toast"></div>
 <script>
+
 
 
 
@@ -3435,6 +3460,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   try { ageVerified = sessionStorage.getItem("mei_age_ok") === "1"; } catch (e) {}
   var currentMeetBot = null;
   var deepLinkBotId = null;
+  var deepLinkTabId = null;
   var shopeeUnlockedBots = {};
 
   var FAV_KEY = "mei_favorites";
@@ -3633,6 +3659,49 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     showMeiQuote();
   }
 
+  
+  function normalizeTabId(raw) {
+    if (!raw) return null;
+    var t = String(raw).toLowerCase().trim();
+    if (t === "bots" || t === "bot" || t === "home" || t === "characters") return "bots";
+    if (t === "commands" || t === "command" || t === "lenh" || t === "lệnh" || t === "cmd") return "commands";
+    if (t === "commission" || t === "comm" || t === "request" || t === "commision" || t === "comms") return "commission";
+    if (t === "feedback" || t === "qa" || t === "q&a" || t === "faq") return "feedback";
+    return null;
+  }
+
+  function goToPage(pageId) {
+    var id = normalizeTabId(pageId) || pageId;
+    if (!id) return;
+    var btn = document.querySelector('.page-tab[data-page="' + id + '"]');
+    if (!btn) return;
+    activePage = id;
+    document.querySelectorAll(".page-tab").forEach(function (b) {
+      b.classList.toggle("active", b.getAttribute("data-page") === id);
+    });
+    document.querySelectorAll(".page-panel").forEach(function (p) {
+      p.classList.toggle("active", p.id === "page-" + id);
+    });
+    if (id === "commands" && typeof renderCommands === "function") renderCommands();
+    if (id === "commission" && typeof renderComm === "function") renderComm();
+    if (id === "feedback" && typeof renderFeedback === "function") renderFeedback();
+    try {
+      var u = new URL(window.location.href);
+      if (id === "bots") u.searchParams.delete("tab");
+      else u.searchParams.set("tab", id);
+      window.history.replaceState({}, "", u.toString());
+    } catch (e) {}
+  }
+
+  function tabShareUrl(tabId) {
+    var u = new URL(window.location.href);
+    u.searchParams.delete("bot");
+    var id = normalizeTabId(tabId) || tabId;
+    if (!id || id === "bots") u.searchParams.delete("tab");
+    else u.searchParams.set("tab", id);
+    return u.toString().split("#")[0];
+  }
+
   function enterSite(selectedLang) {
     window.playClick("pop");
     try { applyLang(selectedLang); } catch (err) { console.error(err); }
@@ -3640,6 +3709,9 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     mainWrap.classList.add("show");
     musicBox.classList.add("show");
     setTimeout(tryPlayMusic, 350);
+    if (deepLinkTabId) {
+      setTimeout(function () { goToPage(deepLinkTabId); }, 200);
+    }
     if (deepLinkBotId) {
       setTimeout(function () { focusBot(deepLinkBotId); }, 500);
     }
@@ -3652,13 +3724,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     var btn = e.target.closest("[data-page]");
     if (!btn) return;
     window.playClick("soft");
-    activePage = btn.dataset.page;
-    document.querySelectorAll(".page-tab").forEach(function (b) {
-      b.classList.toggle("active", b === btn);
-    });
-    document.querySelectorAll(".page-panel").forEach(function (p) {
-      p.classList.toggle("active", p.id === "page-" + activePage);
-    });
+    goToPage(btn.dataset.page);
   });
 
   function renderFilters() {
@@ -3838,7 +3904,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       lang: "vi",
       title: "Feedback từ khách",
       meta: "Messenger · Clip",
-      caption: "",
+      caption: "legit/background.jpg",
       video: "legit/vi1.mp4",
       poster: ""
     },
@@ -3847,7 +3913,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       lang: "vi",
       title: "Proof giao dịch",
       meta: "Chuyển khoản / Giao bot",
-      caption: "",
+      caption: "legit/background.jpg",
       video: "legit/vi2.mp4",
       poster: ""
     },
@@ -3856,7 +3922,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       lang: "en",
       title: "Client feedback",
       meta: "Messenger · Clip",
-      caption: "",
+      caption: "legit/background.jpg",
       video: "legit/eng1.mp4",
       poster: ""
     }
@@ -3873,8 +3939,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       ? "Một phần feedback & proof từ khách đặt commission. Mei cập nhật dần 💕"
       : "A selection of client feedback & proofs from commissions. Updated over time 💕";
     document.getElementById("legitFoot").textContent = vi
-      ? "Clip được đăng với sự đồng ý của khách · Thông tin nhạy cảm đã được che"
-      : "Clips shared with client consent · Sensitive info is covered";
+      ? "Thông tin nhạy cảm của khách đã được che"
+      : "Client's sensitive info is covered";
     legitFilter = "all";
     document.querySelectorAll(".legit-tab").forEach(function (t) {
       t.classList.toggle("active", t.getAttribute("data-legit-tab") === "all");
@@ -4137,7 +4203,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
            "<li>Có cộng đồng người dùng đông</li>" +
            "<li>(Thêm) Có thể hỗ trợ thu nhập cho creator</li>" +
            "</ul>" +
-           "<p>Hiện Mei đang tìm hiểu thêm <strong>SillyTavern</strong> và <strong>Janitor AI</strong>.</p>"
+           "<p>Hiện Mei đang tìm hiểu thêm <strong>SillyTavern</strong>, <strong>Janitor AI</strong>, và <strong>shape.inc</strong>.</p>"
       },
       {
         q: "Mei có dùng AI để tạo bot không?",
@@ -4174,7 +4240,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
            "<li>Have an active community</li>" +
            "<li>(Bonus) Offer a way for creators to earn</li>" +
            "</ul>" +
-           "<p>Mei is currently looking into <strong>SillyTavern</strong> and <strong>Janitor AI</strong>.</p>"
+           "<p>Mei is currently looking into <strong>SillyTavern</strong>, <strong>Janitor AI</strong>, and <strong>shape.inc</strong>.</p>"
       },
       {
         q: "Does Mei use AI to make bots?",
@@ -4227,8 +4293,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       '<div class="fb-form" style="text-align:center;margin-top:20px">' +
       "<h3 style=\"text-align:center\">" + (vi ? "Gửi góp ý qua Google Form" : "Send feedback via Google Form") + "</h3>" +
       '<p class="fb-form-note" style="text-align:center">' + (vi
-        ? "Câu trả lời lưu trên Google của Mei — không mất khi xóa cache."
-        : "Answers are saved on Mei’s Google account — they won’t disappear if you clear cache.") + "</p>" +
+        ? ""
+        : "") + "</p>" +
       '<a class="comm-link" href="' + GOOGLE_FORM_FEEDBACK + '" target="_blank" rel="noopener" onclick="playClick(\'pop\')" style="margin-top:8px">' +
       (vi ? "📋 Mở Google Form góp ý" : "📋 Open feedback Google Form") + "</a>" +
       "</div>";
@@ -4983,6 +5049,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     var params = new URLSearchParams(window.location.search);
     var botParam = params.get("bot");
     if (botParam) deepLinkBotId = botParam;
+    var tabParam = params.get("tab") || params.get("page");
+    if (tabParam) deepLinkTabId = normalizeTabId(tabParam) || tabParam;
   } catch (e) {}
 
   
@@ -5046,6 +5114,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   showMeiQuote();
   renderFilters();
 })();
+
 
 
 
