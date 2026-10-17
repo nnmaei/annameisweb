@@ -2067,6 +2067,29 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <!-- Firebase (Realtime Database) -->
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-database-compat.js"></script>
+  <script>
+    window.MEI_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBTxtNZ9oy0eBYkF-7B-3oOs8qkf2D1lBs",
+      authDomain: "annaweb-mei.firebaseapp.com",
+      databaseURL: "https://annaweb-mei-default-rtdb.firebaseio.com",
+      projectId: "annaweb-mei",
+      storageBucket: "annaweb-mei.firebasestorage.app",
+      messagingSenderId: "88849807859",
+      appId: "1:88849807859:web:eeaf671453bcd9a945ba86"
+    };
+    try {
+      firebase.initializeApp(window.MEI_FIREBASE_CONFIG);
+      window.meiRtdb = firebase.database();
+    } catch (e) {
+      console.warn("Firebase init:", e);
+      window.meiRtdb = null;
+    }
+  </script>
+
 <script>
 
 
@@ -3477,27 +3500,79 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
   var shopeeUnlockedBots = {};
 
   var FAV_KEY = "mei_favorites";
-  var LIKES_KEY = "mei_like_boost";
+  /* Global like counts from Firebase (fallback = bot.likes in BOT_DATA) */
+  var meiLikeCounts = {};
+  var meiLikesReady = false;
 
   function getFavs() {
     try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch (e) { return []; }
   }
   function setFavs(a) { localStorage.setItem(FAV_KEY, JSON.stringify(a)); }
   function isFav(id) { return getFavs().indexOf(id) !== -1; }
+
+  function baseLikesFor(id) {
+    if (!window.BOT_DATA) return 0;
+    for (var i = 0; i < BOT_DATA.length; i++) {
+      if (BOT_DATA[i].id === id) return BOT_DATA[i].likes || 0;
+    }
+    return 0;
+  }
+
+  function displayLikes(bot) {
+    if (meiLikeCounts[bot.id] != null && meiLikeCounts[bot.id] !== undefined) {
+      return meiLikeCounts[bot.id];
+    }
+    return bot.likes || 0;
+  }
+
   function toggleFav(id) {
     var f = getFavs();
     var i = f.indexOf(id);
-    if (i === -1) { f.push(id); setFavs(f); return true; }
-    f.splice(i, 1); setFavs(f); return false;
+    var willLike = i === -1;
+    if (willLike) {
+      f.push(id);
+      setFavs(f);
+    } else {
+      f.splice(i, 1);
+      setFavs(f);
+    }
+    /* Update Firebase global count */
+    if (window.meiRtdb) {
+      var ref = window.meiRtdb.ref("likes/" + id);
+      ref.transaction(function (cur) {
+        var base = (cur === null || cur === undefined) ? baseLikesFor(id) : cur;
+        if (willLike) return base + 1;
+        return Math.max(0, base - 1);
+      }).then(function (res) {
+        if (res && res.snapshot) {
+          meiLikeCounts[id] = res.snapshot.val() || 0;
+        }
+      }).catch(function () {});
+    } else {
+      /* Offline fallback: local only */
+      meiLikeCounts[id] = (meiLikeCounts[id] != null ? meiLikeCounts[id] : baseLikesFor(id)) + (willLike ? 1 : -1);
+      if (meiLikeCounts[id] < 0) meiLikeCounts[id] = 0;
+    }
+    return willLike;
   }
-  function getLikeBoost() {
-    try { return JSON.parse(localStorage.getItem(LIKES_KEY) || "{}"); } catch (e) { return {}; }
-  }
-  function setLikeBoost(obj) { localStorage.setItem(LIKES_KEY, JSON.stringify(obj)); }
-  function displayLikes(bot) {
-    var boost = getLikeBoost()[bot.id] || 0;
-    return (bot.likes || 0) + boost;
-  }
+
+  /* Listen global likes from Firebase */
+  (function initMeiLikes() {
+    if (!window.meiRtdb) return;
+    window.meiRtdb.ref("likes").on("value", function (snap) {
+      var val = snap.val() || {};
+      meiLikeCounts = val;
+      meiLikesReady = true;
+      /* Refresh heart numbers on cards if already rendered */
+      try {
+        document.querySelectorAll("[data-fav]").forEach(function (btn) {
+          var id = btn.getAttribute("data-fav");
+          var span = btn.querySelector(".heart-num");
+          if (span && meiLikeCounts[id] != null) span.textContent = meiLikeCounts[id];
+        });
+      } catch (e) {}
+    });
+  })();
 
   var grid = document.getElementById("grid");
   var search = document.getElementById("search");
@@ -4358,7 +4433,24 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     setupYtComments(vi);
   }
 
+  /* Comments: Firebase Realtime DB (fallback localStorage if offline) */
+  var meiYtCache = [];
+  var meiYtListening = false;
+  var MY_COMMENTS_KEY = "mei_my_comment_ids";
+
+  function getMyCommentIds() {
+    try { return JSON.parse(localStorage.getItem(MY_COMMENTS_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function addMyCommentId(id) {
+    var a = getMyCommentIds();
+    if (a.indexOf(id) === -1) { a.push(id); try { localStorage.setItem(MY_COMMENTS_KEY, JSON.stringify(a)); } catch (e) {} }
+  }
+  function isMyComment(id) {
+    return getMyCommentIds().indexOf(id) !== -1;
+  }
+
   function getYtComments() {
+    if (meiYtCache && meiYtCache.length) return meiYtCache.slice();
     try {
       var raw = localStorage.getItem("mei_yt_comments");
       var list = raw ? JSON.parse(raw) : [];
@@ -4366,7 +4458,66 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
     } catch (e) { return []; }
   }
   function setYtComments(list) {
-    try { localStorage.setItem("mei_yt_comments", JSON.stringify(list)); } catch (e) {}
+    meiYtCache = list || [];
+    try { localStorage.setItem("mei_yt_comments", JSON.stringify(meiYtCache)); } catch (e) {}
+  }
+
+  function ytPushToFirebase(list) {
+    if (!window.meiRtdb) return;
+    var obj = {};
+    (list || []).forEach(function (c) {
+      if (c && c.id) obj[c.id] = {
+        name: c.name || "",
+        text: c.text || "",
+        ts: c.ts || Date.now(),
+        parentId: c.parentId || null,
+        likes: c.likes || 0,
+        edited: !!c.edited
+      };
+    });
+    window.meiRtdb.ref("comments").set(obj).catch(function () {});
+  }
+
+  function ytSaveOneToFirebase(c) {
+    if (!window.meiRtdb || !c || !c.id) return;
+    window.meiRtdb.ref("comments/" + c.id).set({
+      name: c.name || "",
+      text: c.text || "",
+      ts: c.ts || Date.now(),
+      parentId: c.parentId || null,
+      likes: c.likes || 0,
+      edited: !!c.edited
+    }).catch(function () {});
+  }
+
+  function ytDeleteFromFirebase(id) {
+    if (!window.meiRtdb || !id) return;
+    window.meiRtdb.ref("comments/" + id).remove().catch(function () {});
+  }
+
+  function ytStartFirebaseListen(onUpdate) {
+    if (!window.meiRtdb || meiYtListening) return;
+    meiYtListening = true;
+    window.meiRtdb.ref("comments").on("value", function (snap) {
+      var val = snap.val() || {};
+      var list = [];
+      Object.keys(val).forEach(function (id) {
+        var c = val[id] || {};
+        list.push({
+          id: id,
+          name: c.name || "",
+          text: c.text || "",
+          ts: c.ts || 0,
+          parentId: c.parentId || null,
+          likes: c.likes || 0,
+          edited: !!c.edited,
+          likedLocal: false
+        });
+      });
+      meiYtCache = list;
+      try { localStorage.setItem("mei_yt_comments", JSON.stringify(list)); } catch (e) {}
+      if (typeof onUpdate === "function") onUpdate(list);
+    });
   }
   function ytInitials(name) {
     var s = (name || "?").trim();
@@ -4416,10 +4567,12 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       (liked ? "❤️" : "🤍") + " " + (c.likes || 0) + "</button>" +
       '<button type="button" class="yt-action-btn" data-reply="' + escapeHtml(String(c.id)) + '">' +
       (vi ? "💬 Trả lời" : "💬 Reply") + "</button>" +
-      '<button type="button" class="yt-action-btn" data-edit="' + escapeHtml(String(c.id)) + '">' +
-      (vi ? "✏️ Sửa" : "✏️ Edit") + "</button>" +
-      '<button type="button" class="yt-action-btn danger" data-del="' + escapeHtml(String(c.id)) + '">' +
-      (vi ? "🗑️ Xóa" : "🗑️ Delete") + "</button>" +
+      (isMyComment(c.id) ? (
+        '<button type="button" class="yt-action-btn" data-edit="' + escapeHtml(String(c.id)) + '">' +
+        (vi ? "✏️ Sửa" : "✏️ Edit") + "</button>" +
+        '<button type="button" class="yt-action-btn danger" data-del="' + escapeHtml(String(c.id)) + '">' +
+        (vi ? "🗑️ Xóa" : "🗑️ Delete") + "</button>"
+      ) : "") +
       "</div>" +
       '<div class="yt-reply-block" id="yt-reply-' + escapeHtml(String(c.id)) + '" style="display:none"></div>' +
       '<div class="yt-edit-box" id="yt-edit-' + escapeHtml(String(c.id)) + '" style="display:none"></div>' +
@@ -4499,7 +4652,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       var name = (nameIn && nameIn.value.trim()) || (vi ? "Khách" : "Guest");
       try { if (nameIn && nameIn.value.trim()) localStorage.setItem("mei_yt_name", nameIn.value.trim()); } catch (e) {}
       var list = getYtComments();
-      list.push({
+      var neu = {
         id: ytNewId(),
         parentId: id,
         name: name,
@@ -4507,8 +4660,11 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         ts: Date.now(),
         likes: 0,
         likedLocal: false
-      });
+      };
+      list.push(neu);
+      addMyCommentId(neu.id);
       setYtComments(list);
+      ytSaveOneToFirebase(neu);
       ytClosePanels();
       renderYtList(vi);
     });
@@ -4541,6 +4697,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       item.text = text;
       item.edited = true;
       setYtComments(list);
+      ytSaveOneToFirebase(item);
       ytClosePanels();
       renderYtList(vi);
     });
@@ -4585,17 +4742,26 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       var name = (nameIn && nameIn.value.trim()) || (vi ? "Khách" : "Guest");
       try { localStorage.setItem("mei_yt_name", name === (vi ? "Khách" : "Guest") ? "" : name); } catch (e) {}
       var list = getYtComments();
-      list.push({
+      var neu = {
         id: ytNewId(),
         name: name,
         text: text,
         ts: Date.now(),
         likes: 0,
-        likedLocal: false
-      });
+        likedLocal: false,
+        parentId: null
+      };
+      list.push(neu);
+      addMyCommentId(neu.id);
       setYtComments(list);
+      ytSaveOneToFirebase(neu);
       textIn.value = "";
       syncPost();
+      renderYtList(vi);
+    });
+
+    /* Realtime comments from Firebase */
+    ytStartFirebaseListen(function () {
       renderYtList(vi);
     });
 
@@ -4617,6 +4783,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
             item.likes = (item.likes || 0) + 1;
           }
           setYtComments(list);
+          ytSaveOneToFirebase(item);
           renderYtList(vi);
           return;
         }
@@ -4636,12 +4803,18 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         if (delBtn) {
           if (window.playClick) window.playClick("soft");
           var id2 = delBtn.getAttribute("data-del");
+          if (!isMyComment(id2)) return;
           var msg = vi ? "Xóa bình luận này?" : "Delete this comment?";
           if (!window.confirm(msg)) return;
-          var list2 = getYtComments().filter(function (c) {
+          var before = getYtComments();
+          var toRemove = before.filter(function (c) {
+            return String(c.id) === String(id2) || String(c.parentId) === String(id2);
+          });
+          var list2 = before.filter(function (c) {
             return String(c.id) !== String(id2) && String(c.parentId) !== String(id2);
           });
           setYtComments(list2);
+          toRemove.forEach(function (c) { ytDeleteFromFirebase(c.id); });
           renderYtList(vi);
         }
       });
@@ -5040,13 +5213,15 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       window.playClick("pop");
       var id = favBtn.dataset.fav;
       var nowLiked = toggleFav(id);
-      var boost = getLikeBoost();
-      if (nowLiked) boost[id] = (boost[id] || 0) + 1;
-      else boost[id] = Math.max(0, (boost[id] || 0) - 1);
-      setLikeBoost(boost);
       var bot = BOT_DATA.find(function (b) { return b.id === id; });
+      var shown = bot ? displayLikes(bot) : 0;
+      /* Optimistic UI while Firebase updates */
+      if (meiLikeCounts[id] == null) {
+        shown = (bot ? (bot.likes || 0) : 0) + (nowLiked ? 1 : 0);
+        meiLikeCounts[id] = shown;
+      }
       favBtn.innerHTML = "<span>" + (nowLiked ? "❤️" : "🤍") + '</span><span class="heart-num">' +
-        (bot ? displayLikes(bot) : 0) + "</span>";
+        shown + "</span>";
       favBtn.classList.toggle("liked", nowLiked);
       return;
     }
