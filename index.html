@@ -2612,6 +2612,19 @@
 
   var COMMANDS = {
     vi: [
+      {
+        id: "tips-lenh",
+        name: "Lưu ý về Tips và Lệnh",
+        chars: 680,
+        tokens: 220,
+        content: `【LƯU Ý VỀ TIPS VÀ LỆNH】
+
+Khoảng 3-4 Bot đầu Mei tạo hơn 1 năm trước và dùng chung một loại lệnh (command) nhưng hiệu quả reply có vẻ không ổn.
+
+Hiện tại Mei đang chuyển sang viết mỗi Bot dùng các lệnh riêng để AI có thể hiểu và nắm chiều sâu hơn thay vì là những Lệnh đại trà dùng cho tất cả loại Bot. Vì thế hiện tại Mei không có quá nhiều Lệnh để dùng chung.
+
+Nhưng sắp tới Mei cố gắng tạo 5 Lệnh cơ bản như: Văn phong, Anti-OOC, Slow-burn, NSFW, Chuyển sinh. Mei sẽ trải nghiệm và test nhiều lần để đảm bảo chất lượng trước khi Công Khai.`
+      },
      {
         id: "command",
         name: "6 lệnh Phụ Trợ - Tăng tính thú vị cho Bot",
@@ -3026,6 +3039,19 @@ Mô phỏng nhắn tin khi {{user}} và nhân vật KHÔNG ở cùng một đị
       }
     ],
     en: [
+      {
+        id: "tips-commands",
+        name: "Notes on Tips & Commands",
+        chars: 720,
+        tokens: 230,
+        content: `【NOTES ON TIPS & COMMANDS】
+
+The first 3–4 bots Mei made over a year ago shared one common command set, but reply quality was not very stable.
+
+Mei is now writing dedicated commands for each bot so the AI can understand depth better, instead of one generic command used for every type of bot. That is why there are not many shared commands available yet.
+
+Mei plans to create 5 basic shared commands: Writing Style, Anti-OOC, Slow-burn, NSFW, and Reincarnation/Isekai. Mei will test them carefully before publishing publicly.`
+      },
       {
         id: "command",
         name: "6 Auxiliary Commands - Increase the Fun of Bots",
@@ -4272,6 +4298,14 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         "<p><strong>- Nội dung NSFW / 18+:</strong> Mei <strong>tự tay viết toàn bộ</strong>. Không phải không có AI hỗ trợ viết cảnh 18+, nhưng Mei luôn tự viết để luôn giữ đúng tính cách, giọng nói, bối cảnh, ranh giới nhân vật. Đặc biệt là Mei thích <strong>thô và trần tục</strong>. Kèm theo đó là những thể loại <em>nặng đô</em> hơn như <strong>BDSM / Loạn luân / Kink / Taboo</strong> - vốn không phải AI nào cũng có thể đáp ứng.</p>" +
         "<p>- Mei cam kết prompt có lặp từ nhưng <strong>không lặp từ bừa bãi</strong> - nhằm trải nghiệm nhập vai sâu và tốt nhất cho người dùng.</p>" +
         "</div></details>" +
+        "<details class=\"policy-fold\">" +
+        "<summary>Nghiêm cấm sao chép / chiếm dụng bot của Mei</summary>" +
+        "<div class=\"fold-body\">" +
+        "<p>Toàn bộ bot, OpenWorld, lệnh, plot và cấu trúc prompt do Mei công bố trên web / nền tảng đều là <strong>sản phẩm sáng tạo của Mei</strong>.</p>" +
+        "<p><strong>Không được:</strong> sao chép nguyên văn hoặc chỉnh sửa nhẹ rồi đăng dưới tên khác; chiếm dụng plot / backstory / hệ thống lệnh của Mei để bán, nhận commission, hoặc xây bot thương mại mà không có sự đồng ý bằng văn bản từ Mei.</p>" +
+        "<p><strong>Được:</strong> lấy cảm hứng ý tưởng chung (trope, thể loại) và tự viết lại hoàn toàn bằng công sức của bạn — đó là sáng tạo riêng, không phải bản sao.</p>" +
+        "<p>Vi phạm có thể bị yêu cầu gỡ bỏ trên nền tảng đăng tải. Nếu bạn thấy nội dung của Mei bị sao chép trái phép, vui lòng báo cho Mei qua Facebook để được hỗ trợ xử lý.</p>" +
+        "</div></details>" +
         "<p style=\"text-align:center\">Nếu bạn là chủ sở hữu và có góp ý hoặc yêu cầu gỡ nội dung, vui lòng liên hệ qua Facebook - Mei sẽ xử lý sớm nhất có thể.</p>" +
         "<p style=\"text-align:center;margin-top:14px;font-style:italic\">Cảm ơn mọi người đã cùng xây dựng một cộng đồng tôn trọng sáng tạo! 🍒</p>";
     } else {
@@ -4299,6 +4333,14 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         "<p>- Since 2023, Mei has prioritized detailed <strong>world-building</strong> (including novel-style bots for personal preference). Each character is structured clearly: Description, Past, Backstory, Highlights, Lore, Commands, Open scene. <em>(Note: 1–2 sections may be omitted for characters inside an Open World.)</em></p>" +
         "<p><strong>- NSFW / 18+ content:</strong> Mei <strong>writes all of it by hand</strong>. AI can assist with 18+ scenes, but Mei always writes them personally to keep personality, voice, setting, and boundaries accurate. Mei prefers <strong>raw and explicit</strong> tone, including heavier themes such as <strong>BDSM / Incest / Kink / Taboo</strong> - which not every AI can handle well.</p>" +
         "<p>- Mei allows some word repetition in prompts but <strong>never careless spam</strong> - for deeper, better roleplay for users.</p>" +
+        "</div></details>" +
+        "<details class=\"policy-fold\">" +
+        "<summary>Do not copy or claim Mei's bots</summary>" +
+        "<div class=\"fold-body\">" +
+        "<p>All bots, OpenWorlds, commands, plots, and prompt structures Mei publishes on this site or other platforms are <strong>Mei's original creative work</strong>.</p>" +
+        "<p><strong>Not allowed:</strong> copying them wholesale or with only light edits and posting under another name; using Mei's plots / backstories / command systems to sell bots, take commissions, or build commercial characters without Mei's written permission.</p>" +
+        "<p><strong>Allowed:</strong> taking general inspiration (tropes, genres) and writing your own work from scratch — that is your creation, not a copy.</p>" +
+        "<p>Infringement may be reported for removal on the hosting platform. If you find Mei's work copied without permission, please message Mei on Facebook so it can be addressed.</p>" +
         "</div></details>" +
         "<p style=\"text-align:center\">If you are a rights holder and have feedback or a takedown request, please contact Mei on Facebook - it will be handled as soon as possible.</p>" +
         "<p style=\"text-align:center;margin-top:14px;font-style:italic\">Thank you for helping build a community that respects creators! 🍒</p>";
@@ -4350,6 +4392,10 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       {
         q: "Mei có cho phép bẻ giới user không?",
         a: "<p>Mei<strong> không cấm</strong> nhưng <strong>không khuyến khích</strong>. Việc bẻ giới sẽ khiến AI bị confused (bối rối) và chất lượng reply bị giảm đáng kể.</p>"
+      },
+      {
+        q: "Dự định sắp tới của Mei?",
+        a: "<p><strong>→</strong> Tạo và test 5 lệnh (Văn phong, Anti-OOC, Slow-burn, NSFW, Chuyển sinh) để mọi người có thể dùng chung.</p><p><strong>→</strong> Tạo 3 OpenWorld (Tự sáng tạo / Anime / Phim / Truyện / v.v).</p><p><strong>→</strong> Xem xét xóa 3–4 Bot đầu tay của Mei và Remake phiên bản mới (hoặc gỡ hẳn nếu cần).</p>"
       }
     ] : [
       {
@@ -4391,6 +4437,10 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
       {
         q: "Does Mei allow users to break the character / jailbreak the bot?",
         a: "<p><strong>Not forbidden</strong>, but <strong>not encouraged</strong>. Breaking limits often confuses the AI and the reply quality drops a lot.</p>"
+      },
+      {
+        q: "What are Mei's upcoming plans?",
+        a: "<p><strong>→</strong> Create and test 5 shared commands (Writing Style, Anti-OOC, Slow-burn, NSFW, Reincarnation/Isekai).</p><p><strong>→</strong> Build 3 OpenWorlds (Original / Anime / Film / Novel / etc.).</p><p><strong>→</strong> Review the first 3–4 early bots — remake them or remove them if needed.</p>"
       }
     ];
 
@@ -4870,6 +4920,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>Sau khi giao dịch xong, nếu trong quá trình trải nghiệm có điểm nào chưa ưng ý, bây bi vẫn cứ thoải mái nhắn cho Mei điều chỉnh lại nhé.</li>' +
         '<li>Minh bạch: Bạn sẽ biết rõ phần nào do Mei tự tay viết và phần nào có sự hỗ trợ của AI.</li>' +
         '<li>Không chỉ là Plain Text đơn thuần, bạn hoàn toàn có thể order thêm các yêu cầu về Lệnh (Command) hoặc mã code giao diện (HTML, CSS...).</li>' +
+        '<li>Có quyền nhờ Mei chụp / gửi bản đang làm dở để biết tiến độ hoàn thành tới đâu.</li>' +
+        '<li>Được setup profile {{user}} miễn phí.</li>' +
         '</ul>' +
 
         '<h4>💲 Giá: Tùy tâm.</strong> Mei không ép giá hay quy định con số cụ thể nào cả. Thuận mua vừa bán, quyết định hoàn toàn ở các bây bi nha! 🍒</h4>' +
@@ -4881,7 +4933,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>Khi bạn dưới 18 tuổi mà yêu cầu nội dung NSFW.</li>' +
         '<li>Tất cả các thể loại OpenWorld liên quan đến <strong>Game</strong>. Mei rất sẵn lòng tìm hiểu phim, truyện, hay tiểu thuyết, nhưng Mei không có thói quen chơi Game.</li>' +
         '<li><strong>Bot dựa trên người thật (RPF):</strong> Mei từ chối tạo bot mô phỏng idol, người nổi tiếng, KOLs hoặc bất kỳ cá nhân có thật nào ngoài đời để tôn trọng quyền riêng tư.</li>' +
-        '<li><strong>OpenWorld hoặc Bot có bối cảnh Việt Nam xưa, Cổ trang Trung Quốc, Tu tiên, v.v</strong>: Mei đã đề cập trong <em>Vấn đề Bản quyền & Sử dụng AI</em> ở phía dưới. Mei dùng AI để trau chuốt văn phong, bản thân Mei hoàn toàn không có năng khiếu cũng như vốn từ Tiếng Việt rộng rãi - Mei không tự tin truyền tải đúng ý bạn.</li>' +
+        '<li><strong>OpenWorld / Bot thể loại tu tiên, Việt Nam xưa, Cổ trang:</strong> Tạm thời Mei <strong>chưa nhận</strong> vì bản thân chưa đủ kinh nghiệm và vốn từ để truyền tải đúng chất. Khi Mei đã tích lũy thêm và tự tin hơn, Mei sẽ mở nhận đơn các thể loại này.</li>' +
         '<li><strong>Nội dung máu me / giết người quá nặng:</strong> Mei không nhận các đơn tập trung vào gore cực đoan, miêu tả máu me chi tiết hoặc cốt truyện lấy việc giết người làm trọng tâm chính.</li>' +
         '</ul>' +
 
@@ -4897,7 +4949,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<ul>' +
         '<li>Bây bi không cần viết quá dài, chỉ cần gạch đầu dòng rõ các ý cốt lõi.</li>' +
         '<li>Làm vì đam mê nên không cam kết Deadline.</li>' +
-        '<li>Mei xin phép không nhận làm 100% tất cả các form Request gửi về.</li>' +
+        '<li>Mei sẽ cố gắng làm <strong>100% form Request</strong> gửi về; nội dung có thể được biến tấu nhẹ cho hợp lý và mượt hơn, không phải từ chối hẳn.</li>' +
         '<li>Bot sẽ được Mei đăng công khai để cộng đồng cùng được trải nghiệm chung.</li>' +
         '</ul>' +
         '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Mở Google Form</a>' +
@@ -4944,6 +4996,8 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>After the transaction, if something feels off while you experience the bot, feel free to message Mei for adjustments.</li>' +
         '<li>Transparency: you will clearly know which parts Mei wrote by hand and which parts had AI assistance.</li>' +
         '<li>Not only plain text - you can also order extra Commands or interface code (HTML, CSS…).</li>' +
+        '<li>You may ask Mei to share progress photos / drafts of work in progress.</li>' +
+        '<li>Free {{user}} profile setup included.</li>' +
         '</ul>' +
         '<h4>💲 Price: Pay what you want.</strong> Mei does not force a price or set a fixed number. Fair deal both ways - the decision is entirely yours! 🍒</h4>' +
         '<div class="comm-callout note"><strong>Note about ClankWorld:</strong> This platform only has Public or Private modes (no Unlisted share-via-link). You can create the bot yourself from the Commission prompt to keep it private, or ask Mei to post it publicly for everyone to enjoy.</div>' +
@@ -4956,6 +5010,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<li>All OpenWorld types related to <strong>Games</strong>. Mei is very willing to research films, novels, or literature, but Mei does not have a habit of playing games.</li>' +
         '<li><strong>Real Person Bots (RPF):</strong> Mei does not accept commissions based on real people (idols, celebrities, or real-life individuals) out of respect for personal privacy.</li>' +
         '<li><strong>Extreme gore / murder-focused content:</strong> Mei does not take orders centered on extreme gore, graphic bloodshed, or plots that treat killing as the main focus.</li>' +
+        '<li><strong>Xianxia / cultivation, historical Vietnam, or classical Chinese period settings:</strong> Temporarily not accepted — Mei does not yet have enough experience or vocabulary range. Mei will open these when more confident.</li>' +
         '</ul>' +
 
         '<h4>✅ Legit / Feedback</h4>' +
@@ -4970,7 +5025,7 @@ Simulate messaging when {{user}} and the character are NOT in the same location.
         '<ul>' +
         '<li>You don’t need to write too long - just bullet the core ideas clearly.</li>' +
         '<li>Done out of passion, so there is no Deadline commitment.</li>' +
-        '<li>Mei may not accept 100% of all Request forms submitted.</li>' +
+        '<li>Mei aims to fulfill <strong>100% of Request forms</strong>; content may be lightly adapted for coherence, rather than declined outright.</li>' +
         '<li>The bot will be posted publicly so the community can experience it together.</li>' +
         '</ul>' +
         '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Open Google Form</a>' +
