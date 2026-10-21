@@ -1,0 +1,1 @@
+Replace the referenced filenames in this folder with your bot avatar images.
