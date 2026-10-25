@@ -923,6 +923,37 @@
       box-shadow: 0 4px 0 rgba(40, 60, 80, 0.25);
     }
     .modal-btn.tpchar:hover { filter: brightness(1.05); }
+
+    .meet-kofi-wrap {
+      display: none;
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255, 245, 235, 0.95), rgba(255, 236, 220, 0.9));
+      border: 1px solid rgba(196, 120, 114, 0.22);
+      text-align: center;
+    }
+    .meet-kofi-wrap.show { display: block; }
+    .meet-kofi-text {
+      margin: 0 0 10px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    .modal-btn.kofi {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(160deg, #ff5e5b, #e74c3c);
+      color: #fff8f3 !important;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 0 rgba(140, 40, 35, 0.28), 0 8px 16px rgba(180, 50, 45, 0.18);
+    }
+    .modal-btn.kofi:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    .modal-btn.kofi:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(140, 40, 35, 0.3); }
+
     .modal-hint {
       font-size: 11px;
       color: var(--muted);
@@ -2009,6 +2040,10 @@
   <div class="modal-overlay" id="meetModal">
     <div class="modal-box">
       <button type="button" class="modal-close" id="meetClose" aria-label="Close">&times;</button>
+      <div class="meet-kofi-wrap" id="meetKofiWrap">
+        <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support my work ☕</p>
+        <a href="#" target="_blank" rel="noopener" class="modal-btn kofi" id="kofiBtn">☕ Buy me a coffee on Ko-fi</a>
+      </div>
       <div id="meetStep1">
         <div class="modal-step-label">STEP 01</div>
         <h3 class="modal-title" id="meetTitle1">Một chút support cho Mei nhé ✨</h3>
@@ -2134,6 +2169,8 @@
   "use strict";
 
   var SHOPEE_LINK = "https://s.shopee.vn/2VsUAABH4y";
+  /* EN support — gắn link Ko-fi thật vào đây khi có */
+  var KOFI_LINK = "https://ko-fi.com/nnmaaei";
   /* TpChar Step1: moi bot co field tpcharLink rieng (khac platforms Step2) */
 
         var BOT_DATA = [
@@ -3696,8 +3733,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       cmdTitle:"Commands", cmdDesc:"Pick a command to view its content.",
       comTitle:"Commision & Request", comDesc:"Commission · Request · Payment",
       readMore:"Read more", readLess:"Show less",
-      meetTitle1:"A little support for Mei ✨",
-      meetDesc1:"Tap the button below to visit Mei's Shopee link. Once opened, the next step will unlock.",
+      meetTitle1:"Meet the bot ✨",
+      meetDesc1:"Choose a platform below to chat with this character.",
       meetTitle2:"Choose your preferred platform 🍀",
       shopeeBtn:"Open Shopee ↗",
       nsfwTitle:"Adult content ahead",
@@ -4168,11 +4205,55 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     currentMeetBot = bot;
     document.getElementById("meetBotName").textContent = bot.name || bot.id;
 
-    /* Step 1 TpChar: luôn hiện (VI); không link thì disabled + label trạng thái */
-    var step1Tp = botTpcharStep1(bot);
+    var step1El = document.getElementById("meetStep1");
+    var step2El = document.getElementById("meetStep2");
+    var step1Label = step1El ? step1El.querySelector(".modal-step-label") : null;
+    var step2Label = step2El ? step2El.querySelector(".modal-step-label") : null;
     var tpcharBtn = document.getElementById("tpcharBtn");
     var tpcharHint = document.getElementById("tpcharHint");
     var meetOr = document.getElementById("meetOr");
+
+    var kofiWrap = document.getElementById("meetKofiWrap");
+    var kofiBtn = document.getElementById("kofiBtn");
+
+    /* ===== EN: Ko-fi support on top + platform links unlocked (no Shopee/steps) ===== */
+    if (lang === "en") {
+      if (step1El) step1El.style.display = "none";
+      if (step2El) step2El.style.display = "";
+      if (step2Label) step2Label.style.display = "none";
+      if (tpcharBtn) tpcharBtn.style.display = "none";
+      if (meetOr) meetOr.style.display = "none";
+      if (tpcharHint) tpcharHint.style.display = "none";
+      if (kofiWrap) kofiWrap.classList.add("show");
+      if (kofiBtn) {
+        kofiBtn.href = (typeof KOFI_LINK === "string" && KOFI_LINK && KOFI_LINK !== "#")
+          ? KOFI_LINK
+          : "#";
+        kofiBtn.onclick = function (e) {
+          if (window.playClick) window.playClick("pop");
+          if (!KOFI_LINK || KOFI_LINK === "#") {
+            e.preventDefault();
+            alert("Ko-fi link coming soon ☕");
+            return false;
+          }
+        };
+      }
+      /* auto-unlock so platform buttons are clickable */
+      if (bot && bot.id) shopeeUnlockedBots[bot.id] = true;
+      updatePlatforms();
+      meetModal.classList.add("show");
+      return;
+    }
+
+    /* ===== VI: keep Shopee step + TpChar + unlock flow (no Ko-fi) ===== */
+    if (kofiWrap) kofiWrap.classList.remove("show");
+    if (step1El) step1El.style.display = "";
+    if (step2El) step2El.style.display = "";
+    if (step1Label) step1Label.style.display = "";
+    if (step2Label) step2Label.style.display = "";
+
+    /* Step 1 TpChar: luôn hiện (VI); không link thì disabled + label trạng thái */
+    var step1Tp = botTpcharStep1(bot);
     if (tpcharBtn && step1Tp.show) {
       tpcharBtn.style.display = "";
       tpcharBtn.textContent = step1Tp.label;
@@ -4193,9 +4274,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       if (meetOr) meetOr.style.display = "";
       if (tpcharHint) {
         tpcharHint.style.display = "";
-        tpcharHint.textContent = step1Tp.enabled
-          ? "Cần có Credit - Không cần qua Shopee"
-          : "Cần có Credit - Không cần qua Shopee";
+        tpcharHint.textContent = "Cần có Credit - Không cần qua Shopee";
       }
     } else {
       if (tpcharBtn) {
@@ -4233,8 +4312,25 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   function updatePlatforms() {
     var list = document.getElementById("platformList");
     if (!currentMeetBot) { list.innerHTML = ""; return; }
-    var unlocked = !!shopeeUnlockedBots[currentMeetBot.id];
-    list.innerHTML = (currentMeetBot.platforms || []).map(function (p) {
+    /* EN: always unlocked. VI: unlocked only after Shopee click (or prior unlock). */
+    var unlocked = (lang === "en") || !!shopeeUnlockedBots[currentMeetBot.id];
+    var plats = currentMeetBot.platforms || [];
+    /* EN: hide Shopee/TpChar-style labels if any slipped into platforms (safety) */
+    if (lang === "en") {
+      plats = plats.filter(function (p) {
+        var lab = String(p.label || "").toLowerCase();
+        var url = String(p.url || "").toLowerCase();
+        if (lab.indexOf("shopee") !== -1 || url.indexOf("shopee") !== -1) return false;
+        if (lab.indexOf("tpchar") !== -1 || url.indexOf("tpchar") !== -1) return false;
+        return true;
+      });
+    }
+    if (!plats.length) {
+      list.innerHTML = '<p class="modal-desc secondary" style="margin:0">' +
+        (lang === "en" ? "Links are being updated 💦" : "Link đang được cập nhật 💦") + "</p>";
+      return;
+    }
+    list.innerHTML = plats.map(function (p) {
       if (unlocked) {
         return '<a href="' + escapeHtml(p.url) + '" target="_blank" rel="noopener" class="modal-btn unlocked">' +
           escapeHtml(p.label) + ' <span class="arrow">→</span></a>';
@@ -4454,7 +4550,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   var FB_LINK = "https://www.facebook.com/profile.php?id=61595122247639"; /* ← link FB nhắn tin của bạn */
   var FORM_LINK = "https://forms.gle/NM4Q72Fn31GYJ5oS9"; /* ← Google Form request */
   var GOOGLE_FORM_FEEDBACK = "https://forms.gle/hn1qAVd5NvgduceGA"; /* ← dán link Google Form feedback thật */
-  var PAYPAL_LINK = "https://paypal.me/thynau"; /* ← PayPal */
+  var PAYPAL_LINK = "https://ko-fi.com/nnmaaei"; /* ← PayPal */
 
   
   function renderPolicy() {
@@ -5147,8 +5243,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         '<div class="comm-block">' +
         '<h3>💳 Thanh toán &amp; Hỗ trợ / Tips</h3>' +
         '<p style="text-align:center"><strong>Việt Nam:</strong> Sacombank · 060336259420 · NGUYEN THI THUY AN</p>' +
-        '<p style="text-align:center">Bạn cũng có thể <strong>ủng hộ</strong> Mei qua QR hoặc PayPal bên dưới - Mei cảm ơn rất nhiều 💕</p>' +
-        '<p style="text-align:center;margin-top:12px"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">💙 PayPal</a></p>' +
+        '<p style="text-align:center">Bạn cũng có thể <strong>ủng hộ</strong> Mei qua QR hoặc Ko-fi bên dưới - Mei cảm ơn rất nhiều 💕</p>' +
+        '<p style="text-align:center;margin-top:12px"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
         '<div class="support-img-wrap"><img src="' + supportImg + '" alt="Support / Tips - Anna Mei"></div>' +
         '</div>' +
         '<div class="comm-thanks"><p>Mei xin cảm ơn bạn đã tin tưởng và ủng hộ 💕<br>create what lives in my head</p></div>';
@@ -5221,8 +5317,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
 
         '<div class="comm-block">' +
         '<h3>💳 Payment &amp; Support / Tips</h3>' +
-        '<p style="text-align:center">You can <strong>support</strong> Mei via PayPal below - Mei thanks you so much 💕</p>' +
-        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">💙 PayPal</a></p>' +
+        '<p style="text-align:center">You can <strong>support</strong> Mei via Ko-fi below - Mei thanks you so much 💕</p>' +
+        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
         '</div>' +
         '<div class="comm-thanks"><p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p></div>';
     }
@@ -5555,7 +5651,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       "Make sure to access the website using Safari or Chrome. If the Link still doesn't work, message Mei on Facebook 💕",
       "Tap ♡ on bots you like - it makes Mei happy~",
       "Missing plot? Mei's updating them gradually ✨",
-      "Meet Bot goes through Shopee step first…!",
+      "Tap Meet Bot to open platform links right away~",
       "If you'd like Mei to create a Bot/OpenWorld for you, please head over to the \"Commision & Request\" tab 🍒",
       "Thank you so much for visiting AnnaMei's Web~"
     ]
