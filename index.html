@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#8a7a72" />
   <title>AnnaMei's Web</title>
   <link rel="icon" type="image/png" href="assets/site-avatar.png?v=2">
+  <link rel="apple-touch-icon" href="assets/site-avatar.png?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
@@ -147,6 +148,12 @@
       font-size: 42px; border: 3px solid #fff8f3;
       animation: softPulse 3.2s ease-in-out infinite;
       box-shadow: 0 8px 24px rgba(180, 90, 85, 0.35);
+      overflow: hidden;
+      padding: 0;
+    }
+    .welcome-avatar img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      border-radius: 50%;
     }
     .welcome-title {
       font-family: var(--font-display);
@@ -1906,7 +1913,7 @@
         <span class="w-vi"><strong>⚠️ VI:</strong> Web có nội dung NSFW / 18+. Cân nhắc trước khi vào nhé.</span>
         <span class="w-en"><strong>⚠️ EN:</strong> This site may contain NSFW / 18+ content. Please consider before entering.</span>
       </div>
-<div class="welcome-avatar">🍒</div>
+<div class="welcome-avatar"><img src="assets/site-avatar.png?v=2" alt="Anna Mei"></div>
       <h1 class="welcome-title">𝓐𝓷𝓷𝓪𝓜𝓮𝓲</h1>
       <div class="welcome-sub">Mei's Bot Here</div>
       <div class="welcome-msg">
@@ -2041,7 +2048,7 @@
     <div class="modal-box">
       <button type="button" class="modal-close" id="meetClose" aria-label="Close">&times;</button>
       <div class="meet-kofi-wrap" id="meetKofiWrap">
-        <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support my work ☕</p>
+        <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support her work ☕</p>
         <a href="#" target="_blank" rel="noopener" class="modal-btn kofi" id="kofiBtn">☕ Buy me a coffee on Ko-fi</a>
       </div>
       <div id="meetStep1">
@@ -2170,7 +2177,7 @@
 
   var SHOPEE_LINK = "https://s.shopee.vn/2VsUAABH4y";
   /* EN support — gắn link Ko-fi thật vào đây khi có */
-  var KOFI_LINK = "https://ko-fi.com/nnmaaei";
+  var KOFI_LINK = "#";
   /* TpChar Step1: moi bot co field tpcharLink rieng (khac platforms Step2) */
 
         var BOT_DATA = [
@@ -4550,7 +4557,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   var FB_LINK = "https://www.facebook.com/profile.php?id=61595122247639"; /* ← link FB nhắn tin của bạn */
   var FORM_LINK = "https://forms.gle/NM4Q72Fn31GYJ5oS9"; /* ← Google Form request */
   var GOOGLE_FORM_FEEDBACK = "https://forms.gle/hn1qAVd5NvgduceGA"; /* ← dán link Google Form feedback thật */
-  var PAYPAL_LINK = "https://ko-fi.com/nnmaaei"; /* ← PayPal */
+  var PAYPAL_LINK = "https://paypal.me/thynau"; /* ← PayPal */
 
   
   function renderPolicy() {
@@ -5243,8 +5250,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         '<div class="comm-block">' +
         '<h3>💳 Thanh toán &amp; Hỗ trợ / Tips</h3>' +
         '<p style="text-align:center"><strong>Việt Nam:</strong> Sacombank · 060336259420 · NGUYEN THI THUY AN</p>' +
-        '<p style="text-align:center">Bạn cũng có thể <strong>ủng hộ</strong> Mei qua QR hoặc Ko-fi bên dưới - Mei cảm ơn rất nhiều 💕</p>' +
-        '<p style="text-align:center;margin-top:12px"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
+        '<p style="text-align:center">Bạn cũng có thể <strong>ủng hộ</strong> Mei qua QR hoặc PayPal bên dưới - Mei cảm ơn rất nhiều 💕</p>' +
+        '<p style="text-align:center;margin-top:12px"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">💙 PayPal</a></p>' +
         '<div class="support-img-wrap"><img src="' + supportImg + '" alt="Support / Tips - Anna Mei"></div>' +
         '</div>' +
         '<div class="comm-thanks"><p>Mei xin cảm ơn bạn đã tin tưởng và ủng hộ 💕<br>create what lives in my head</p></div>';
@@ -5317,8 +5324,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
 
         '<div class="comm-block">' +
         '<h3>💳 Payment &amp; Support / Tips</h3>' +
-        '<p style="text-align:center">You can <strong>support</strong> Mei via Ko-fi below - Mei thanks you so much 💕</p>' +
-        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
+        '<p style="text-align:center">You can <strong>support</strong> Mei via PayPal below - Mei thanks you so much 💕</p>' +
+        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">💙 PayPal</a></p>' +
         '</div>' +
         '<div class="comm-thanks"><p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p></div>';
     }
