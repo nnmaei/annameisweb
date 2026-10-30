@@ -2177,10 +2177,51 @@
 
   var SHOPEE_LINK = "https://s.shopee.vn/2VsUAABH4y";
   /* EN support — gắn link Ko-fi thật vào đây khi có */
-  var KOFI_LINK = "#";
+  var KOFI_LINK = "https://ko-fi.com/nnmaaei";
   /* TpChar Step1: moi bot co field tpcharLink rieng (khac platforms Step2) */
 
         var BOT_DATA = [
+    {
+      id: "tcd-vi",
+      lang: "vi",
+      name: "Tống Cảnh Du",
+      type: "Thanh Xuân Vườn Trường",
+      hook: "|| Khóc đi, mếu nữa đi, nhìn em khóc cưng chết đi được! \n\n - image credit: tensor + gpt + gemini -",
+      likes: 0,
+      coverLabel: "NEW/BOT",
+      avatar: "assets/bots/tcd.jpg",
+      rentryLink: "https://rentry.co/annamei-tcd",
+      tpcharButton: "Button",
+      tpcharLabel: "Mở TpChar (BG/Credit) ↗!đang cập nhật!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
+      tags: ["Vietnam", "BG/BL", "University","Mập mờ","Guitarist","Trêu chọc","Slowburn","Gia sư","Romance","Possessive","Modern", "NSFW/R21"],
+      platforms: [
+      { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/5f4aa5f7f80bfc1e584c89d9" },
+      { label: "TpChar (BL/Free)", url: "https://tpchar.4uai.tech/share/ae373ba5d696a02070dc81bd" },
+      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1pXxuE5LcH5YAOhzcxlDK2NbNgQY-P5PF" },
+      { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1uIM5uxoaSZUPMzYzOhWbsijBhsV6Wvmn" },
+    ]
+    },
+
+    {
+      id: "tcd-en",
+      lang: "en",
+      name: "Dylan Hayes",
+      type: "Romance",
+      hook: "|| Go on, cry. Pout some more. Watching you cry is the cutest thing ever. \n\n - image credit: tensor + gpt + gemini -",
+      likes: 0,
+      coverLabel: "NEW/BOT",
+      avatar: "assets/bots/tcd.jpg",
+      rentryLink: "https://rentry.co/annamei-hayes",
+      tags: ["US", "BG/BL", "University","Guitarist","Tutor","Slowburn","Possessive","Situationship","Romance","Modern", "NSFW/R21"],
+      platforms: [
+      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1UMkd_PC4ZrbnHoY02bMqZRUlBD3N_Yie" },
+      { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1BdxJdldUII5bcczbuCL2hL-0dgKWOw4z" },
+      { label: "Reverie (BG)", url: "https://reverie.im/characters/cmvvly0pl00dr02qj3i1wxe62" },
+      { label: "ClankWorld (BG/BL)", url: "https://www.clank.world/@c/dylanhayess" },
+      { label: "Janitor (BG)", url: "https://janitorai.com/characters/2f3846bf-74c8-4536-961a-03b2323439c8_character-dylan-hayes" },
+    ]
+    },
+
     {
       id: "kuroki-vi",
       lang: "vi",
@@ -2188,7 +2229,7 @@
       type: "Dark Romance",
       hook: "⚠️ || Chú gài tôi. Đêm đó chú đã “tha” cho tôi, tại sao lại bắt tôi vào Sở lần nữa? \n\n ✨ Ver khác: tội phạm (yandere/stalker) x user (cảnh sát)\n 👉 Lục Cảnh Thâm \n\n - image credit: gpt -",
       likes: 0,
-      coverLabel: "NEW/BOT",
+      coverLabel: "BOT",
       avatar: "assets/bots/kuroki.jpg",
       rentryLink: "https://rentry.co/annamei-kuroki-viet",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
@@ -2206,7 +2247,7 @@
       type: "Dark Romance",
       hook: "⚠️ || You set me up. You \"let me go\" that night, so why did you bring me back to the Station? \n\n ✨ Alternate ver: criminal (yandere/stalker) x user (police officer) \n 👉 Ronan Vale \n\n - image credit: gpt -",
       likes: 0,
-      coverLabel: "NEW/BOT",
+      coverLabel: "BOT",
       avatar: "assets/bots/kuroki.jpg",
       rentryLink: "https://rentry.co/annamei-kuroki-eng",
       tags: ["Japan", "BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
@@ -2741,7 +2782,7 @@
 
 Khoảng 3-4 Bot đầu Mei tạo hơn 1 năm trước và dùng chung một loại lệnh (command) nhưng hiệu quả reply có vẻ không ổn.
 
-Hiện tại Mei đang chuyển sang viết mỗi Bot dùng các lệnh riêng để AI có thể hiểu và nắm chiều sâu hơn thay vì là những Lệnh đại trà dùng cho tất cả loại Bot. Vì thế Mei không có quá nhiều Lệnh để dùng chung cho các nàng.
+Hiện tại Mei đang chuyển sang viết mỗi Bot dùng các lệnh riêng để AI có thể hiểu và nắm chiều sâu hơn. Vì thế Mei không có quá nhiều Lệnh để dùng chung cho các nàng.
 
 Nhưng sắp tới Mei cố gắng tạo 5 Lệnh cơ bản như: Văn phong, Anti-OOC, Slow-burn, NSFW, Chuyển sinh. Mei sẽ trải nghiệm và test nhiều lần để đảm bảo chất lượng trước khi Công Khai.`
       },
@@ -3222,9 +3263,9 @@ Tạo ra một biến cố, sự kiện bất ngờ hoặc bước ngoặt kịc
         tokens: 230,
         content: `【NOTES ON TIPS & COMMANDS】
 
-The first 3–4 bots Mei made over a year ago shared one common command set, but reply quality was not very stable.
+The first 3-4 bots Mei made over a year ago shared one common command set, but reply quality was not very stable.
 
-Mei is now writing dedicated commands for each bot so the AI can understand depth better, instead of one generic command used for every type of bot. That is why there are not many shared commands available yet.
+Mei is now writing dedicated commands for each bot so the AI can understand depth better. That is why there are not many shared commands available yet.
 
 Mei plans to create 5 basic shared commands: Writing Style, Anti-OOC, Slow-burn, NSFW, and Reincarnation/Isekai. Mei will test them carefully before publishing publicly.`
       },
@@ -4358,6 +4399,15 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       meta: "Messenger · Clip",
       caption: "",
       video: "legit/vi3.mp4",
+      poster: "legit/background.jpg"
+    },
+    {
+      id: "vi-4",
+      lang: "vi",
+      title: "Proof giao dịch",
+      meta: "Messenger · Clip",
+      caption: "",
+      video: "legit/vi4.mp4",
       poster: "legit/background.jpg"
     },
     {
