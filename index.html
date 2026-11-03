@@ -977,7 +977,7 @@
       line-height: 1.4;
     }
     .meet-password-gate {
-      margin: 4px 0 10px;
+      margin: 0 0 14px;
       padding: 12px 12px 10px;
       border-radius: 14px;
       border: 1px solid rgba(139, 58, 58, 0.35);
@@ -2115,6 +2115,17 @@
         <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support Mei's work ☕</p>
         <a href="#" target="_blank" rel="noopener" class="modal-btn kofi" id="kofiBtn">☕ Buy me a coffee on Ko-fi</a>
       </div>
+      <div id="meetPasswordGate" class="meet-password-gate" style="display:none">
+        <div class="modal-step-label" id="meetPassLabel">⚠️ NSFW</div>
+        <h3 class="modal-title" id="meetPassTitle">Bot này có nội dung nặng</h3>
+        <p class="modal-desc" id="meetPassDesc">Nội dung chứa NSFW / taboo / kink. Vui lòng Đọc Plot trước khi Gặp Bot.</p>
+        <div class="pass-row" style="display:none">
+          <input type="text" id="meetPassInput" class="pass-input" autocomplete="off" spellcheck="false" placeholder="Nhập mật khẩu..." />
+          <button type="button" class="modal-btn primary" id="meetPassBtn">Xác nhận</button>
+        </div>
+        <p class="pass-hint" id="meetPassHint" style="display:none"></p>
+        <p class="pass-error" id="meetPassError" style="display:none">Mật khẩu chưa đúng 💦</p>
+      </div>
       <div id="meetStep1">
         <div class="modal-step-label">STEP 01</div>
         <h3 class="modal-title" id="meetTitle1">Một chút support cho Mei nhé ✨</h3>
@@ -2126,17 +2137,6 @@
         <p class="modal-hint" id="tpcharHint" style="display:none"></p>
       </div>
       <div class="modal-divider"></div>
-      <div id="meetPasswordGate" class="meet-password-gate" style="display:none">
-        <div class="modal-step-label" id="meetPassLabel">⚠️ NSFW</div>
-        <h3 class="modal-title" id="meetPassTitle">Bot này có nội dung nặng</h3>
-        <p class="modal-desc" id="meetPassDesc">Nội dung chứa NSFW / taboo / kink. Nhập mật khẩu để xác nhận bạn đủ 18 tuổi và đồng ý xem.</p>
-        <div class="pass-row">
-          <input type="text" id="meetPassInput" class="pass-input" autocomplete="off" spellcheck="false" placeholder="Nhập mật khẩu..." />
-          <button type="button" class="modal-btn primary" id="meetPassBtn">Xác nhận</button>
-        </div>
-        <p class="pass-hint" id="meetPassHint">Mật khẩu: <strong>annamei18</strong> — nhập lại để xác nhận lần 2 (bot NSFW nặng).</p>
-        <p class="pass-error" id="meetPassError" style="display:none">Mật khẩu chưa đúng 💦</p>
-      </div>
       <div id="meetStep2">
         <div class="modal-step-label">STEP 02</div>
         <h3 class="modal-title" id="meetTitle2"></h3>
