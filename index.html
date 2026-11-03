@@ -635,6 +635,14 @@
       background: #3a3330; color: #f0e8e4; border-radius: 16px;
       box-shadow: 0 24px 60px rgba(0,0,0,0.4);
       padding: 28px 24px 24px; position: relative;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    #meetStep2 {
+      scroll-margin-top: 12px;
+    }
+    #platformList {
+      scroll-margin-top: 8px;
     }
     .modal-overlay.show .modal-box { animation: modalIn 0.35s ease; }
     .modal-close {
@@ -2242,7 +2250,7 @@
 (function () {
   "use strict";
 
-  var SHOPEE_LINK = "https://s.shopee.vn/6q1z6ib2Eo";
+  var SHOPEE_LINK = "https://s.shopee.vn/2VsUAABH4y";
   /* EN support — gắn link Ko-fi thật vào đây khi có */
   var KOFI_LINK = "https://ko-fi.com/nnmaaei";
   /* TpChar Step1: moi bot co field tpcharLink rieng (khac platforms Step2) */
@@ -4379,73 +4387,31 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       return;
     }
 
-    /* Always show NSFW notice when requirePassword is set */
+    /* Cả VI lẫn EN: chỉ hiện cảnh báo NSFW, không bắt nhập mật khẩu */
     gate.style.display = "";
-
+    if (label) label.textContent = "⚠️ NSFW";
     if (lang === "en") {
-      /* EN: warning only, no password input */
-      if (label) label.textContent = "⚠️ NSFW";
       if (title) title.textContent = "This bot has heavy content";
       if (desc) desc.textContent = "Contains heavy NSFW / Taboo / Kink. Please Read Plot before Meet Bot.";
-      if (passRow) passRow.style.display = "none";
-      if (hint) hint.style.display = "none";
-      if (err) err.style.display = "none";
-      if (btn) btn.style.display = "none";
-      if (input) {
-        input.value = "";
-        input.disabled = true;
-      }
-      gate.classList.add("is-unlocked");
-      if (bot && bot.id) passwordUnlockedBots[bot.id] = true;
     } else {
-      /* VI: full password gate */
-      if (label) label.textContent = "⚠️ NSFW";
       if (title) title.textContent = "Bot này có nội dung nặng";
       if (desc) desc.textContent = "Nội dung chứa NSFW nặng đô / Taboo / Kink. Vui lòng Đọc Plot trước khi Gặp Bot!";
-      if (hint) {
-        hint.style.display = "";
-        hint.innerHTML = 'Mật khẩu: <strong>annamei18</strong> - nhập mật khẩu để xác nhận bạn đủ 18 tuổi và tự chịu trách nhiệm khi trải nghiệm Bot';
-      }
-      if (passRow) passRow.style.display = "";
-      if (btn) {
-        btn.style.display = "";
-        btn.textContent = "Xác nhận";
-      }
-      if (input) input.placeholder = "Nhập mật khẩu...";
-
-      var already = !!(bot.id && passwordUnlockedBots[bot.id]);
-      gate.classList.toggle("is-unlocked", already);
-      if (input) {
-        input.value = already ? (bot.password || "annamei18") : "";
-        input.disabled = already;
-      }
-      if (err) err.style.display = "none";
-      if (btn) btn.style.display = already ? "none" : "";
     }
+    if (passRow) passRow.style.display = "none";
+    if (hint) hint.style.display = "none";
+    if (err) err.style.display = "none";
+    if (btn) btn.style.display = "none";
+    if (input) {
+      input.value = "";
+      input.disabled = true;
+    }
+    gate.classList.add("is-unlocked");
+    if (bot && bot.id) passwordUnlockedBots[bot.id] = true;
   }
 
   function tryUnlockPassword() {
-    if (!currentMeetBot || !currentMeetBot.requirePassword || lang !== "vi") return;
-    var input = document.getElementById("meetPassInput");
-    var err = document.getElementById("meetPassError");
-    var gate = document.getElementById("meetPasswordGate");
-    var btn = document.getElementById("meetPassBtn");
-    var expected = String(currentMeetBot.password || "annamei18").trim();
-    var typed = input ? String(input.value || "").trim() : "";
-    if (window.playClick) window.playClick("pop");
-    if (typed.toLowerCase() === expected.toLowerCase()) {
-      passwordUnlockedBots[currentMeetBot.id] = true;
-      if (err) err.style.display = "none";
-      if (gate) gate.classList.add("is-unlocked");
-      if (input) input.disabled = true;
-      if (btn) btn.style.display = "none";
-      updatePlatforms();
-    } else {
-      if (err) {
-        err.style.display = "";
-        err.textContent = lang === "en" ? "Incorrect password 💦" : "Mật khẩu chưa đúng 💦";
-      }
-    }
+    /* Không còn bắt nhập pass — giữ hàm để tránh lỗi listener cũ */
+    return;
   }
 
   function openMeetModal(bot) {
@@ -4488,8 +4454,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       /* auto-unlock Shopee for EN; NSFW notice still shown (no password) */
       if (bot && bot.id) shopeeUnlockedBots[bot.id] = true;
       setupPasswordGate(bot);
-      updatePlatforms();
+      updatePlatforms({ scroll: true });
       meetModal.classList.add("show");
+      setTimeout(function () { scrollMeetToPlatforms(true); }, 200);
       return;
     }
 
@@ -4534,8 +4501,11 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     }
 
     setupPasswordGate(bot);
-    updatePlatforms();
+    updatePlatforms({ scroll: !!shopeeUnlockedBots[bot.id] });
     meetModal.classList.add("show");
+    if (shopeeUnlockedBots[bot.id]) {
+      setTimeout(function () { scrollMeetToPlatforms(true); }, 200);
+    }
   }
   function closeMeetModal() {
     meetModal.classList.remove("show");
@@ -4554,7 +4524,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     window.playClick("pop");
     if (currentMeetBot) {
       shopeeUnlockedBots[currentMeetBot.id] = true;
-      setTimeout(updatePlatforms, 350);
+      setTimeout(function () {
+        updatePlatforms({ scroll: true });
+      }, 350);
     }
   });
 
@@ -4572,12 +4544,41 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     }
   })();
 
-  function updatePlatforms() {
+  function scrollMeetToPlatforms(force) {
+    try {
+      var modalBox = meetModal && meetModal.querySelector(".modal-box");
+      var step2 = document.getElementById("meetStep2");
+      var list = document.getElementById("platformList");
+      var target = list || step2;
+      if (!modalBox || !target) return;
+      /* Chỉ cuộn khi đã unlock (hoặc force) — giúp mobile thấy link dưới khung NSFW */
+      requestAnimationFrame(function () {
+        setTimeout(function () {
+          try {
+            var boxRect = modalBox.getBoundingClientRect();
+            var tarRect = target.getBoundingClientRect();
+            var delta = tarRect.top - boxRect.top - 12;
+            if (force || delta > 40 || modalBox.scrollHeight > modalBox.clientHeight) {
+              modalBox.scrollTo({
+                top: Math.max(0, modalBox.scrollTop + delta),
+                behavior: "smooth"
+              });
+            }
+          } catch (e2) {
+            try { target.scrollIntoView({ behavior: "smooth", block: "nearest" }); } catch (e3) {}
+          }
+        }, 80);
+      });
+    } catch (e) {}
+  }
+
+  function updatePlatforms(opts) {
+    opts = opts || {};
     var list = document.getElementById("platformList");
-    if (!currentMeetBot) { list.innerHTML = ""; return; }
-    /* EN: no Shopee + password auto-unlocked (notice only). VI: need Shopee + password if required. */
+    if (!currentMeetBot) { if (list) list.innerHTML = ""; return; }
+    /* EN: no Shopee. VI: need Shopee unlock. Password gate is notice-only for both langs. */
     var shopeeOk = (lang === "en") || !!shopeeUnlockedBots[currentMeetBot.id];
-    var passOk = (lang === "en") || !currentMeetBot.requirePassword || !!passwordUnlockedBots[currentMeetBot.id];
+    var passOk = !currentMeetBot.requirePassword || !!passwordUnlockedBots[currentMeetBot.id];
     var unlocked = shopeeOk && passOk;
     var plats = currentMeetBot.platforms || [];
     /* EN: hide Shopee/TpChar-style labels if any slipped into platforms (safety) */
@@ -4602,6 +4603,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       }
       return '<div class="modal-btn locked">' + escapeHtml(p.label) + ' <span class="arrow">→</span></div>';
     }).join("");
+    if (unlocked || opts.scroll) {
+      scrollMeetToPlatforms(!!opts.scroll || unlocked);
+    }
   }
 
   /* ===== LEGIT GALLERY (sửa video/caption tại đây) =====
