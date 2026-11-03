@@ -505,7 +505,7 @@
       z-index: 50;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
+      align-items: flexend;
       gap: 10px;
     }
     .fb-fab {
@@ -968,6 +968,62 @@
       margin: 6px 0 0;
       line-height: 1.4;
     }
+    .meet-password-gate {
+      margin: 4px 0 10px;
+      padding: 12px 12px 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(139, 58, 58, 0.35);
+      background: rgba(92, 42, 42, 0.08);
+    }
+    .meet-password-gate .modal-step-label {
+      color: var(--nsfw);
+    }
+    .pass-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin: 10px 0 6px;
+      flex-wrap: wrap;
+    }
+    .pass-input {
+      flex: 1 1 140px;
+      min-width: 120px;
+      border: 1px solid rgba(139, 58, 58, 0.35);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.85);
+      outline: none;
+    }
+    .pass-input:focus {
+      border-color: var(--nsfw);
+      box-shadow: 0 0 0 3px rgba(139, 58, 58, 0.18);
+    }
+    .pass-hint {
+      margin: 4px 0 0;
+      font-size: 11.5px;
+      line-height: 1.45;
+      color: var(--muted);
+      text-align: left;
+    }
+    .pass-hint strong {
+      color: var(--nsfw);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .pass-error {
+      margin: 6px 0 0;
+      font-size: 12px;
+      color: #8b3a3a;
+      font-weight: 500;
+    }
+    .meet-password-gate.is-unlocked {
+      border-color: rgba(100, 140, 90, 0.35);
+      background: rgba(90, 130, 80, 0.08);
+    }
+    .meet-password-gate.is-unlocked .modal-step-label { color: #4a7a45; }
 
     .mei-tip {
       display: flex;
@@ -1359,7 +1415,7 @@
       box-shadow: none;
     }
     .welcome-nsfw-warn .w-vi { display: block; margin-bottom: 4px; }
-    .welcome-nsfw-warn .w-en { display: block; opacity: 0.95; }
+    .welcome-nsfw-warn .wen { display: block; opacity: 0.95; }
     .welcome-nsfw-warn strong { color: #8b3a3a; font-weight: 600; }
     @media (max-width: 420px) {
       .welcome-nsfw-warn { font-size: 9.5px; padding: 7px 9px; margin-bottom: 12px; }
@@ -1522,7 +1578,7 @@
     .yt-text-input:focus { border-bottom-color: var(--accent); }
     .yt-compose-actions {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flexend;
       gap: 8px;
       margin-top: 10px;
     }
@@ -1661,7 +1717,7 @@
     .yt-edit-actions {
       display: flex;
       gap: 8px;
-      justify-content: flex-end;
+      justify-content: flexend;
       margin-top: 8px;
     }
 
@@ -1911,7 +1967,7 @@
     <div class="welcome-card">
       <div class="welcome-nsfw-warn" aria-label="NSFW notice">
         <span class="w-vi"><strong>⚠️ VI:</strong> Web có nội dung NSFW / 18+. Cân nhắc trước khi vào nhé.</span>
-        <span class="w-en"><strong>⚠️ EN:</strong> This site may contain NSFW / 18+ content. Please consider before entering.</span>
+        <span class="wen"><strong>⚠️ EN:</strong> This site may contain NSFW / 18+ content. Please consider before entering.</span>
       </div>
 <div class="welcome-avatar"><img src="assets/site-avatar.png?v=2" alt="Anna Mei"></div>
       <h1 class="welcome-title">🍒 𝓐𝓷𝓷𝓪 𝓜𝓮𝓲 🍒</h1>
@@ -2048,7 +2104,7 @@
     <div class="modal-box">
       <button type="button" class="modal-close" id="meetClose" aria-label="Close">&times;</button>
       <div class="meet-kofi-wrap" id="meetKofiWrap">
-        <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support her work ☕</p>
+        <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support Mei's work ☕</p>
         <a href="#" target="_blank" rel="noopener" class="modal-btn kofi" id="kofiBtn">☕ Buy me a coffee on Ko-fi</a>
       </div>
       <div id="meetStep1">
@@ -2062,6 +2118,17 @@
         <p class="modal-hint" id="tpcharHint" style="display:none"></p>
       </div>
       <div class="modal-divider"></div>
+      <div id="meetPasswordGate" class="meet-password-gate" style="display:none">
+        <div class="modal-step-label" id="meetPassLabel">⚠️ NSFW</div>
+        <h3 class="modal-title" id="meetPassTitle">Bot này có nội dung nặng</h3>
+        <p class="modal-desc" id="meetPassDesc">Nội dung chứa NSFW / taboo / kink. Nhập mật khẩu để xác nhận bạn đủ 18 tuổi và đồng ý xem.</p>
+        <div class="pass-row">
+          <input type="text" id="meetPassInput" class="pass-input" autocomplete="off" spellcheck="false" placeholder="Nhập mật khẩu..." />
+          <button type="button" class="modal-btn primary" id="meetPassBtn">Xác nhận</button>
+        </div>
+        <p class="pass-hint" id="meetPassHint">Mật khẩu: <strong>annamei18</strong> — nhập lại để xác nhận lần 2 (bot NSFW nặng).</p>
+        <p class="pass-error" id="meetPassError" style="display:none">Mật khẩu chưa đúng 💦</p>
+      </div>
       <div id="meetStep2">
         <div class="modal-step-label">STEP 02</div>
         <h3 class="modal-title" id="meetTitle2"></h3>
@@ -2182,13 +2249,54 @@
 
         var BOT_DATA = [
     {
+      id: "pgc-vi",
+      lang: "vi",
+      name: "Phạm Gia Cường",
+      type: "Anh nuôi · Ngụy côn trùng",
+      hook: "|| Em được người ta tỏ tình á. Anh hai chỉ em cách hôn đi.\n🔞 Bot có nội dung NSFW / Taboo / Kink. Vui lòng Đọc Plot trước khi Gặp Bot.\n\n - image credit: tensor + gpt -",
+      likes: 0,
+      coverLabel: "NEW/BOT",
+      avatar: "assets/bots/pgc.jpg",
+      rentryLink: "https://rentry.co/annamei-pgc",
+      requirePassword: true,
+      password: "annamei18",
+      tpcharLink: "#",
+      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !không có link!💦",
+      tags: ["Vietnam", "BG", "Ngụy côn trùng", "Anh nuôi", "Không cùng máu", "Slow-burn", "Tâm cơ", "Chiếm hữu", "Ghen", "Hiện đại", "Đại học", "User ngây thơ", "NSFW/R21"],
+      platforms: [
+        { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ufJjK2c62mQ09ByRgAg-x-ILVcDyPxq5" },
+        { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/ef44bfbc3ffd5ba3ea000fa9" }
+      ]
+    },
+
+    {
+      id: "pgcen",
+      lang: "en",
+      name: "Callum Reid",
+      type: "Stepbrother",
+      hook: "|| Someone asked me out. Teach me how to kiss, stepbrother.\n🔞 Bot contains NSFW / Taboo / Kink. Please Read Plot before Meet Bot.\n\n - image credit: tensor + gpt -",
+      likes: 0,
+      coverLabel: "NEW/BOT",
+      avatar: "assets/bots/pgc.jpg",
+      rentryLink: "https://rentry.co/annamei-callum",
+      requirePassword: true,
+      tags: ["UK", "BG", "Stepbrother", "Obsessive", "Non-Blood related", "Slow-burn", "Possessive", "Jealousy", "Modern", "University", "Naive user", "NSFW/R21"],
+      platforms: [
+        { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1J_ZV2EzoTSk19R0rdT7buN7SCJTusdw6" },
+        { label: "Reverie (BG)", url: "https://reverie.im/characters/cmw04p04f000w02k5kv8spte0" },
+        { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/callum_reid" },
+        { label: "Janitor (BG)", url: "https://janitorai.com/characters/1cc75139-1c10-456d-93a9-371a3597eaef_character-callum-reid" },
+      ]
+    },
+
+    {
       id: "tcd-vi",
       lang: "vi",
       name: "Tống Cảnh Du",
       type: "Thanh Xuân Vườn Trường",
       hook: "|| Khóc đi, mếu nữa đi, nhìn em khóc cưng chết đi được! \n\n - image credit: tensor + gpt + gemini -",
       likes: 0,
-      coverLabel: "NEW/BOT",
+      coverLabel: "BOT",
       avatar: "assets/bots/tcd.jpg",
       rentryLink: "https://rentry.co/annamei-tcd",
       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
@@ -2203,13 +2311,13 @@
     },
 
     {
-      id: "tcd-en",
+      id: "dylanen",
       lang: "en",
       name: "Dylan Hayes",
       type: "Romance",
       hook: "|| Go on, cry. Pout some more. Watching you cry is the cutest thing ever. \n\n - image credit: tensor + gpt + gemini -",
       likes: 0,
-      coverLabel: "NEW/BOT",
+      coverLabel: "BOT",
       avatar: "assets/bots/tcd.jpg",
       rentryLink: "https://rentry.co/annamei-hayes",
       tags: ["US", "BL/BG", "University","Guitarist","Tutor","Slowburn","Possessive","Situationship","Romance","Modern", "NSFW/R21"],
@@ -2241,7 +2349,7 @@
     },
 
     {
-      id: "kuroki-en",
+      id: "kurokien",
       lang: "en",
       name: "Himuro Kuroki",
       type: "Dark Romance",
@@ -2249,7 +2357,7 @@
       likes: 0,
       coverLabel: "BOT",
       avatar: "assets/bots/kuroki.jpg",
-      rentryLink: "https://rentry.co/annamei-kuroki-eng",
+      rentryLink: "https://rentry.co/annamei-kurokieng",
       tags: ["Japan", "BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1lzxpUKQJYHbdxVuof-YXOPOKrfJy5tZa" },
@@ -2279,7 +2387,7 @@
     },
 
     {
-      id: "ronan-vale-en",
+      id: "ronan-valeen",
       lang: "en",
       name: "Ronan Vale",
       type: "Dark Romance",
@@ -2317,7 +2425,7 @@
     },
 
     {
-      id: "bac-hien-en",
+      id: "bac-hienen",
       lang: "en",
       name: "Demian North & Rhys Hale",
       type: "3P / Harem",
@@ -2354,7 +2462,7 @@
     },
 
     {
-      id: "tachibana-en",
+      id: "tachibanaen",
       lang: "en",
       name: "Tachibana Kyouya",
       type: "Love potion / Romance",
@@ -2362,7 +2470,7 @@
       likes: 8,
       coverLabel: "BOT",
       avatar: "assets/bots/tachibana.jpg",
-      rentryLink: "https://rentry.co/annamei-tachibanakyouya-eng",
+      rentryLink: "https://rentry.co/annamei-tachibanakyouyaeng",
       tags: ["Love potion","Yandere","Married","Professor","Japan","University","Pregnant","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1EFZLXV0ILAC2cn6RLRa88TvPRkgh0zyC" },
@@ -2393,7 +2501,7 @@
     },
 
     {
-      id: "damian-en",
+      id: "damianen",
       lang: "en",
       name: "Damian Vance",
       type: "System / Romance",
@@ -2401,7 +2509,7 @@
       likes: 15,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
-      rentryLink: "https://rentry.co/annmei-damianvance-eng",
+      rentryLink: "https://rentry.co/annmei-damianvanceeng",
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/158eFyfftqh2An0s9yEq4jJK1D43b76lv" },
@@ -2432,7 +2540,7 @@
     },
 
     {
-      id: "yandere-rivals-en",
+      id: "yandere-rivalsen",
       lang: "en",
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
@@ -2440,7 +2548,7 @@
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
-      rentryLink: "https://rentry.co/annamei-yansim-eng",
+      rentryLink: "https://rentry.co/annamei-yansimeng",
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1TZK-dXYISDubs6yNdRIENtzFw_oji-3F" },
@@ -2488,7 +2596,7 @@
     },
 
     {
-      id: "daniel-tony-en",
+      id: "daniel-tonyen",
       lang: "en",
       name: "Daniel & Tony Kai",
       type: "Harem | 3P",
@@ -2496,7 +2604,7 @@
       likes: 11,
       coverLabel: "BOT",
       avatar: "assets/bots/daniel.jpg",
-      rentryLink: "https://rentry.co/annamei-danieltony-eng",
+      rentryLink: "https://rentry.co/annamei-danieltonyeng",
       tags: ["Ex","Bestfriend","Dad","Bartender","America","Possessive","Harem","3P","University","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1G4kHuOkqJnl6qMaMuj7aBzx2YRR01ie3" },
@@ -2525,7 +2633,7 @@
     },
 
     {
-      id: "kenshin-en",
+      id: "kenshinen",
       lang: "en",
       name: "Yamamoto Kenshin",
       type: "Dark Romance",
@@ -2533,7 +2641,7 @@
       likes: 17,
       coverLabel: "BOT",
       avatar: "assets/bots/kenshin.jpg",
-      rentryLink: "https://rentry.co/annamei-kenshin-eng",
+      rentryLink: "https://rentry.co/annamei-kenshineng",
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1G4kHuOkqJnl6qMaMuj7aBzx2YRR01ie3" },
@@ -2563,7 +2671,7 @@
     },
 
     {
-      id: "ethan-lucas-en",
+      id: "ethan-lucasen",
       lang: "en",
       name: "Ethan & Lucas Hale",
       type: "3P / Harem",
@@ -2571,7 +2679,7 @@
       likes: 14,
       coverLabel: "BOT",
       avatar: "assets/bots/ethanlucas.jpg",
-      rentryLink: "https://rentry.co/annamei-twins-eng",
+      rentryLink: "https://rentry.co/annamei-twinseng",
       tags: ["3P","Twins","Slow Burn","Childhood Friends","BL/BG","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1_2svaUS50mMZQ8SLjtlWLBQtuX4cNEpX" },
@@ -2602,7 +2710,7 @@
     },
 
     {
-      id: "sora-en",
+      id: "soraen",
       lang: "en",
       name: "Sora Daiki",
       type: "Forbidden Romance",
@@ -2610,7 +2718,7 @@
       likes: 9,
       coverLabel: "BOT",
       avatar: "assets/bots/soradaiki.jpg",
-      rentryLink: "https://rentry.co/annamei-soradaiki-eng",
+      rentryLink: "https://rentry.co/annamei-soradaikieng",
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ZTI07Ii1I6_lKK1jcIUvlQcbzXxnPygQ" },
@@ -2639,7 +2747,7 @@
     },
 
     {
-      id: "ren-en",
+      id: "renen",
       lang: "en",
       name: "Ren Elias",
       type: "Romance / Mind-Reading",
@@ -2647,7 +2755,7 @@
       likes: 13,
       coverLabel: "BOT",
       avatar: "assets/bots/renelias.jpg",
-      rentryLink: "https://rentry.co/annamei-renelias-eng",
+      rentryLink: "https://rentry.co/annamei-reneliaseng",
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1H9CveYejMHHF-CE9Pnr1Zlqv4ZjnngIJ" },
@@ -2677,7 +2785,7 @@
     },
 
     {
-      id: "darian-en",
+      id: "darianen",
       lang: "en",
       name: "Darian Kenzo",
       type: "Werewolf",
@@ -2685,7 +2793,7 @@
       likes: 10,
       coverLabel: "BOT",
       avatar: "assets/bots/dariankenzo.jpg",
-      rentryLink: "https://rentry.co/annamei-dariankenzo-eng",
+      rentryLink: "https://rentry.co/annamei-dariankenzoeng",
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1YIC04P_jkf_kOQuuM5sjMwsgu9Om6nsE" },
@@ -2714,7 +2822,7 @@
     },
 
     {
-      id: "sawado-en",
+      id: "sawadoen",
       lang: "en",
       name: "Sawado Haruki",
       type: "Angst / Romance",
@@ -2722,7 +2830,7 @@
       likes: 7,
       coverLabel: "BOT",
       avatar: "assets/bots/sawadoharuki.jpg",
-      rentryLink: "https://rentry.co/annamei-haruki-eng",
+      rentryLink: "https://rentry.co/annamei-harukieng",
       tags: ["Exes","Angst","Playboy","Second Chance"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/168a2V7iiYsYLPp5gAN5BXpUBtuafTA-s" },
@@ -2751,7 +2859,7 @@
     },
 
     {
-      id: "ryou-en",
+      id: "ryouen",
       lang: "en",
       name: "Ryou Jodul",
       type: "Romance / Two personalities",
@@ -2759,7 +2867,7 @@
       likes: 6,
       coverLabel: "BOT",
       avatar: "assets/bots/ryoujodul.jpg",
-      rentryLink: "https://rentry.co/annamei-jodul-eng",
+      rentryLink: "https://rentry.co/annamei-joduleng",
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1RbBZXxOGOKwzD_-vfa5LkGnDRQzEsDUB" },
@@ -3708,7 +3816,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
 
 ---
 
-1. This is not an open-ended roleplay simulation about everyday life, a short story, or any other form of prewritten narrative fiction. It operates as a NOVEL. You must portray every character present in the scene at all times-including the main characters ({{char}} and {{user}}), as well as any additional supporting characters and random NPCs you create to populate the world. You are responsible for establishing a broad, vividly realized setting with consistent timelines, major and minor dramatic events, and a range of ordinary and extraordinary situations. The goal is to build a realistic, logically coherent, and completely uncensored life experience. Combine natural-sounding dialogue, physical actions, and the inner thoughts (*like this*) of the character you are embodying. The world should feel lived-in, with a sense of consequences and continuity. 
+1. This is not an openended roleplay simulation about everyday life, a short story, or any other form of prewritten narrative fiction. It operates as a NOVEL. You must portray every character present in the scene at all times-including the main characters ({{char}} and {{user}}), as well as any additional supporting characters and random NPCs you create to populate the world. You are responsible for establishing a broad, vividly realized setting with consistent timelines, major and minor dramatic events, and a range of ordinary and extraordinary situations. The goal is to build a realistic, logically coherent, and completely uncensored life experience. Combine natural-sounding dialogue, physical actions, and the inner thoughts (*like this*) of the character you are embodying. The world should feel lived-in, with a sense of consequences and continuity. 
 
 2. Avoid all forms of repetition from previous replies-do not reuse phrases, actions, emotional beats, or conversation topics. Move the plot forward by allowing every character-you, {{user}}, all supporting characters, and every NPC-to express themselves through distinct, individual actions, emotions, and dialogue that feel authentic to their established personalities. Use simple, direct language; do not use ornate, elaborate, or poetic prose. When the narrative naturally reaches a lull, or when a significant amount of time passes without any notable events, use “time skips” to jump to an entirely new event, situation, or day. A time skip should be clearly indicated and should reset the scene to a fresh, dynamic moment without dragging through irrelevant filler.
 
@@ -3809,6 +3917,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   var deepLinkBotId = null;
   var deepLinkTabId = null;
   var shopeeUnlockedBots = {};
+  var passwordUnlockedBots = {};
 
   var FAV_KEY = "mei_favorites";
   /* Global like counts from Firebase (fallback = bot.likes in BOT_DATA) */
@@ -4249,6 +4358,96 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   }
 
 
+  function setupPasswordGate(bot) {
+    var gate = document.getElementById("meetPasswordGate");
+    var input = document.getElementById("meetPassInput");
+    var err = document.getElementById("meetPassError");
+    var title = document.getElementById("meetPassTitle");
+    var desc = document.getElementById("meetPassDesc");
+    var hint = document.getElementById("meetPassHint");
+    var btn = document.getElementById("meetPassBtn");
+    var passRow = gate ? gate.querySelector(".pass-row") : null;
+    var label = document.getElementById("meetPassLabel");
+    if (!gate) return;
+
+    var needs = !!(bot && bot.requirePassword);
+    if (!needs) {
+      gate.style.display = "none";
+      gate.classList.remove("is-unlocked");
+      if (input) input.value = "";
+      if (err) err.style.display = "none";
+      return;
+    }
+
+    /* Always show NSFW notice when requirePassword is set */
+    gate.style.display = "";
+
+    if (lang === "en") {
+      /* EN: warning only, no password input */
+      if (label) label.textContent = "⚠️ NSFW";
+      if (title) title.textContent = "This bot has heavy content";
+      if (desc) desc.textContent = "Contains heavy NSFW / Taboo / Kink. Please Read Plot before Meet Bot.";
+      if (passRow) passRow.style.display = "none";
+      if (hint) hint.style.display = "none";
+      if (err) err.style.display = "none";
+      if (btn) btn.style.display = "none";
+      if (input) {
+        input.value = "";
+        input.disabled = true;
+      }
+      gate.classList.add("is-unlocked");
+      if (bot && bot.id) passwordUnlockedBots[bot.id] = true;
+    } else {
+      /* VI: full password gate */
+      if (label) label.textContent = "⚠️ NSFW";
+      if (title) title.textContent = "Bot này có nội dung nặng";
+      if (desc) desc.textContent = "Nội dung chứa NSFW nặng đô / Taboo / Kink. Vui lòng Đọc Plot trước khi Gặp Bot!";
+      if (hint) {
+        hint.style.display = "";
+        hint.innerHTML = 'Mật khẩu: <strong>annamei18</strong> - nhập mật khẩu để xác nhận bạn đủ 18 tuổi và tự chịu trách nhiệm khi trải nghiệm Bot';
+      }
+      if (passRow) passRow.style.display = "";
+      if (btn) {
+        btn.style.display = "";
+        btn.textContent = "Xác nhận";
+      }
+      if (input) input.placeholder = "Nhập mật khẩu...";
+
+      var already = !!(bot.id && passwordUnlockedBots[bot.id]);
+      gate.classList.toggle("is-unlocked", already);
+      if (input) {
+        input.value = already ? (bot.password || "annamei18") : "";
+        input.disabled = already;
+      }
+      if (err) err.style.display = "none";
+      if (btn) btn.style.display = already ? "none" : "";
+    }
+  }
+
+  function tryUnlockPassword() {
+    if (!currentMeetBot || !currentMeetBot.requirePassword || lang !== "vi") return;
+    var input = document.getElementById("meetPassInput");
+    var err = document.getElementById("meetPassError");
+    var gate = document.getElementById("meetPasswordGate");
+    var btn = document.getElementById("meetPassBtn");
+    var expected = String(currentMeetBot.password || "annamei18").trim();
+    var typed = input ? String(input.value || "").trim() : "";
+    if (window.playClick) window.playClick("pop");
+    if (typed.toLowerCase() === expected.toLowerCase()) {
+      passwordUnlockedBots[currentMeetBot.id] = true;
+      if (err) err.style.display = "none";
+      if (gate) gate.classList.add("is-unlocked");
+      if (input) input.disabled = true;
+      if (btn) btn.style.display = "none";
+      updatePlatforms();
+    } else {
+      if (err) {
+        err.style.display = "";
+        err.textContent = lang === "en" ? "Incorrect password 💦" : "Mật khẩu chưa đúng 💦";
+      }
+    }
+  }
+
   function openMeetModal(bot) {
     currentMeetBot = bot;
     document.getElementById("meetBotName").textContent = bot.name || bot.id;
@@ -4286,8 +4485,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           }
         };
       }
-      /* auto-unlock so platform buttons are clickable */
+      /* auto-unlock Shopee for EN; NSFW notice still shown (no password) */
       if (bot && bot.id) shopeeUnlockedBots[bot.id] = true;
+      setupPasswordGate(bot);
       updatePlatforms();
       meetModal.classList.add("show");
       return;
@@ -4333,6 +4533,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       if (tpcharHint) tpcharHint.style.display = "none";
     }
 
+    setupPasswordGate(bot);
     updatePlatforms();
     meetModal.classList.add("show");
   }
@@ -4357,11 +4558,27 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     }
   });
 
+  (function setupPassListeners() {
+    var btn = document.getElementById("meetPassBtn");
+    var input = document.getElementById("meetPassInput");
+    if (btn) btn.addEventListener("click", tryUnlockPassword);
+    if (input) {
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          tryUnlockPassword();
+        }
+      });
+    }
+  })();
+
   function updatePlatforms() {
     var list = document.getElementById("platformList");
     if (!currentMeetBot) { list.innerHTML = ""; return; }
-    /* EN: always unlocked. VI: unlocked only after Shopee click (or prior unlock). */
-    var unlocked = (lang === "en") || !!shopeeUnlockedBots[currentMeetBot.id];
+    /* EN: no Shopee + password auto-unlocked (notice only). VI: need Shopee + password if required. */
+    var shopeeOk = (lang === "en") || !!shopeeUnlockedBots[currentMeetBot.id];
+    var passOk = (lang === "en") || !currentMeetBot.requirePassword || !!passwordUnlockedBots[currentMeetBot.id];
+    var unlocked = shopeeOk && passOk;
     var plats = currentMeetBot.platforms || [];
     /* EN: hide Shopee/TpChar-style labels if any slipped into platforms (safety) */
     if (lang === "en") {
@@ -5528,14 +5745,14 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     var bot = BOT_DATA.find(function (b) { return b.id === id; });
     if (!bot) return;
 
-    /* Nếu bot không khớp ngôn ngữ đang chọn: thử bản đối ứng (-vi <-> -en).
+    /* Nếu bot không khớp ngôn ngữ đang chọn: thử bản đối ứng (-vi <-> en).
        Không có bản đối ứng → chỉ toast, KHÔNG ép hiện card ngôn ngữ khác. */
     var targetId = id;
     var target = bot;
     if (bot.lang !== "both" && bot.lang !== lang) {
       var altId = null;
-      if (/-vi$/.test(id)) altId = id.replace(/-vi$/, "-en");
-      else if (/-en$/.test(id)) altId = id.replace(/-en$/, "-vi");
+      if (/-vi$/.test(id)) altId = id.replace(/-vi$/, "en");
+      else if (/en$/.test(id)) altId = id.replace(/en$/, "-vi");
       var alt = altId ? BOT_DATA.find(function (b) { return b.id === altId; }) : null;
       if (alt && (alt.lang === "both" || alt.lang === lang)) {
         targetId = alt.id;
