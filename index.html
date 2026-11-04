@@ -2899,7 +2899,7 @@
       password: "annamei18",
       tags: ["Vietnam", "BG", "Ngụy côn trùng", "Anh nuôi", "Không cùng máu", "Slow-burn", "Tâm cơ", "Chiếm hữu", "Ghen", "Hiện đại", "Đại học", "User ngây thơ", "NSFW/R21"],
       platforms: [
-        { label: "TpChar (BG/Credit) - đang cập nhật", noLink: true },
+        { label: "TpChar (BG/Credit) - !đang cập nhật!", noLink: true },
         { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/ef44bfbc3ffd5ba3ea000fa9" },
         { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ufJjK2c62mQ09ByRgAg-x-ILVcDyPxq5" },
       ]
@@ -3106,7 +3106,7 @@
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1EFZLXV0ILAC2cn6RLRa88TvPRkgh0zyC" },
       { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmv138upu000506jrz5w1fiiw" },
-      { label: "ClankWorld (BG) - đang cập nhật", noLink: true },
+      { label: "ClankWorld (BG) - !no link!", noLink: true },
       { label: "Janitor (BG)", url: "https://janitorai.com/characters/45329c9c-bebb-4dac-994f-6ef282b009bd_character-tachibana-kyouya" }
     ]
     },
@@ -5166,9 +5166,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     var unlocked = shopeeOk && passOk;
     var plats = (currentMeetBot.platforms || []).slice();
     /* VI: TpChar (Credit) nằm ở Step 2, đầu danh sách. Dùng tpcharLink / tpcharLabel của từng bot */
-    if (lang === "vi") {
+    if (lang === "vi" && currentMeetBot && currentMeetBot.tpcharLink) {
       var tp = botTpcharStep1(currentMeetBot);
-      if (tp.show) {
+      if (tp.show && tp.enabled) {
         var tpLabel = String(tp.label || "").replace(/^Mở\s+/, "").replace(/\s*↗\s*/, " ").replace(/\s+/g, " ").trim();
         plats.unshift({ label: tpLabel, url: tp.url, tpcharCredit: true, noLink: !tp.enabled });
       }
