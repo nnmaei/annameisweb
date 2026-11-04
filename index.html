@@ -537,11 +537,17 @@
       z-index: 50;
       display: flex;
       flex-direction: column;
-      align-items: flexend;
+      align-items: flex-end; /* quan trọng: FB + music luôn neo góc phải */
+      justify-content: flex-end;
       gap: 10px;
+      max-width: calc(100vw - 24px);
+      pointer-events: none; /* click chỉ vào con */
     }
+    .float-dock > * { pointer-events: auto; }
     .fb-fab {
       width: 48px; height: 48px;
+      flex: 0 0 48px;
+      align-self: flex-end;
       border-radius: 50%;
       background: #1877f2;
       color: #fff;
@@ -551,6 +557,7 @@
       transition: transform 0.15s ease;
       font-size: 22px;
       border: 2px solid rgba(255,255,255,0.35);
+      margin: 0;
     }
     .fb-fab:hover { transform: scale(1.08); }
     .music-box {
@@ -562,6 +569,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      align-self: flex-end;
+      margin: 0;
       background: transparent;
       border: none;
       border-radius: 50%;
@@ -572,10 +581,12 @@
       pointer-events: none;
       transition: opacity 0.45s ease 0.2s, transform 0.45s ease 0.2s, width 0.35s ease, height 0.35s ease, padding 0.35s ease, border-radius 0.35s ease, background 0.3s;
       overflow: hidden;
+      box-sizing: border-box;
     }
     .music-box.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
     .music-box.expanded {
-      width: min(300px, calc(100vw - 24px));
+      width: min(300px, calc(100vw - 32px));
+      max-width: calc(100vw - 32px);
       height: auto;
       padding: 10px 12px;
       border-radius: 16px;
@@ -585,6 +596,7 @@
       backdrop-filter: blur(14px);
       gap: 10px;
       justify-content: flex-start;
+      align-self: flex-end;
     }
     .music-disc {
       width: 56px; height: 56px; flex: 0 0 56px;
@@ -648,8 +660,11 @@
     }
     .music-time { font-size: 10px; color: var(--muted); flex-shrink: 0; }
     @media (max-width: 640px) {
-      .float-dock { right: 8px; bottom: 8px; }
-      .music-box.expanded { width: calc(100vw - 16px); max-width: none; }
+      .float-dock { right: 8px; bottom: 8px; max-width: calc(100vw - 16px); }
+      .music-box.expanded {
+        width: min(320px, calc(100vw - 16px));
+        max-width: calc(100vw - 16px);
+      }
       .music-time { display: none; }
     }
 
@@ -2651,7 +2666,22 @@
     <a class="fb-fab" href="https://www.facebook.com/nnm.aaei/" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.41 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.49h-2.79V24C19.62 23.1 24 18.1 24 12.07"/></svg>
     </a>
-    
+    <section class="music-box" id="musicBox">
+      <button type="button" class="music-disc" id="musicDisc" aria-label="Music">♪</button>
+      <div class="music-panel" id="musicPanel">
+        <button id="musicButton" class="music-button" type="button" aria-label="Play">▷</button>
+        <div class="music-panel-info">
+          <div class="music-label">♫ NOW PLAYING</div>
+          <div class="music-title">Pure Imagination | Wonka | Piano Cover</div>
+          <div class="music-artist">- johnpianoman -</div>
+          <input id="musicProgress" class="music-progress" type="range" min="0" max="100" value="0" step="0.1" />
+        </div>
+        <div id="musicTime" class="music-time">0:00</div>
+        <button type="button" class="music-close" id="musicClose" aria-label="Close">✕</button>
+      </div>
+    </section>
+  </div>
+
   <div id="legitModal" aria-hidden="true">
     <div class="legit-modal-box" role="dialog" aria-modal="true" aria-labelledby="legitTitle">
       <button type="button" class="modal-close" id="legitClose" aria-label="Close">&times;</button>
@@ -2667,22 +2697,6 @@
       <div class="legit-grid two-col" id="legitGrid"></div>
       <p class="legit-footer-note" id="legitFoot"></p>
     </div>
-  </div>
-
-  <section class="music-box" id="musicBox">
-      <button type="button" class="music-disc" id="musicDisc" aria-label="Music">♪</button>
-      <div class="music-panel" id="musicPanel">
-        <button id="musicButton" class="music-button" type="button" aria-label="Play">▷</button>
-        <div class="music-panel-info">
-          <div class="music-label">♫ NOW PLAYING</div>
-          <div class="music-title">Pure Imagination | Wonka | Piano Cover</div>
-          <div class="music-artist">- johnpianoman -</div>
-          <input id="musicProgress" class="music-progress" type="range" min="0" max="100" value="0" step="0.1" />
-        </div>
-        <div id="musicTime" class="music-time">0:00</div>
-        <button type="button" class="music-close" id="musicClose" aria-label="Close">✕</button>
-      </div>
-    </section>
   </div>
 
   <div class="modal-overlay" id="meetModal">
