@@ -731,6 +731,7 @@
     .modal-btn.locked {
       opacity: 0.4; pointer-events: none; cursor: not-allowed; background: #524a46;
     }
+    .modal-btn.is-disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
     .modal-btn .arrow { margin-left: 4px; }
     .modal-divider { height: 1px; background: rgba(240,232,228,0.1); margin: 20px 0; }
     .modal-bot-name {
@@ -879,6 +880,43 @@
       border: 1px solid var(--line);
       box-shadow: 0 3px 0 rgba(80, 45, 40, 0.1);
     }
+
+    /* Commission tabs */
+    .comm-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 12px; }
+    .comm-tab {
+      font: inherit; font-size: 13px; font-weight: 600; cursor: pointer;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(255,255,255,0.75); color: var(--ink);
+      border: 1px solid var(--line);
+      box-shadow: 0 3px 0 rgba(80, 45, 40, 0.1);
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .comm-tab:hover { transform: translateY(-1px); }
+    .comm-tab:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(80, 45, 40, 0.1); }
+    .comm-tab.active {
+      background: linear-gradient(160deg, #c47872, #a85a56);
+      color: #fff8f3; border-color: transparent;
+      box-shadow: 0 3px 0 rgba(120, 55, 50, 0.25);
+    }
+    .comm-tab-panel { display: none; }
+    .comm-tab-panel.active { display: block; }
+    .comm-tab-panel > h4:first-child { margin-top: 4px; }
+    .comm-legit { margin-top: 8px; padding-top: 4px; border-top: 1px dashed var(--line); }
+    .comm-callout ul { margin: 6px 0 0; }
+    .comm-callout li ul { margin: 4px 0 6px; }
+    body.theme-dark .comm-tab {
+      background: #2a2422 !important; color: #faf4f0 !important;
+      border-color: rgba(255, 230, 220, 0.2) !important;
+    }
+    body.theme-dark .comm-tab.active {
+      background: linear-gradient(160deg, #c47872, #a85a56) !important;
+      color: #fff8f3 !important; border-color: transparent !important;
+    }
+    body.theme-dark .comm-callout.warn li,
+    body.theme-dark .comm-callout.warn strong { color: #ffe4e4 !important; }
+    body.theme-dark .comm-callout.promise,
+    body.theme-dark .comm-legit { border-color: rgba(255, 230, 220, 0.18) !important; }
+
     .comm-thanks {
       text-align: center; margin-top: 28px; padding: 20px;
       background: rgba(255, 248, 243, 0.55);
@@ -2562,7 +2600,7 @@
     <div class="welcome-card">
       <div class="welcome-avatar"><img src="assets/site-avatar.png?v=2" alt="Anna Mei"></div>
       <h1 class="welcome-title">🍒 𝓐𝓷𝓷𝓪 𝓜𝓮𝓲 🍒</h1>
-      <div class="welcome-sub">Mei's Bot Here</div>
+      <div class="welcome-sub">Mei's Bots Here</div>
       <div class="welcome-msg">
         <span class="line"><span class="flag">🇻🇳</span> Xin chào! Anna Mei nè~ Chào mừng bây bi đến với Kho Character của Mei. Chọn ngôn ngữ trước khi gặp các chồng nhé!</span>
         <span class="line"><span class="flag">🇬🇧</span> Hi sweeties! Anna Mei here~ Welcome to Mei's Character Archive. Please choose a language to begin!</span>
@@ -2859,12 +2897,11 @@
       rentryLink: "https://rentry.co/annamei-pgc",
       requirePassword: true,
       password: "annamei18",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !không có link!💦",
       tags: ["Vietnam", "BG", "Ngụy côn trùng", "Anh nuôi", "Không cùng máu", "Slow-burn", "Tâm cơ", "Chiếm hữu", "Ghen", "Hiện đại", "Đại học", "User ngây thơ", "NSFW/R21"],
       platforms: [
+        { label: "TpChar (BG/Credit) - đang cập nhật", noLink: true },
+        { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/ef44bfbc3ffd5ba3ea000fa9" },
         { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ufJjK2c62mQ09ByRgAg-x-ILVcDyPxq5" },
-        { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/ef44bfbc3ffd5ba3ea000fa9" }
       ]
     },
 
@@ -2898,10 +2935,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/tcd.jpg",
       rentryLink: "https://rentry.co/annamei-tcd",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Vietnam", "BL/BG", "University","Mập mờ","Guitarist","Trêu chọc","Slowburn","Gia sư","Romance","Possessive","Modern", "NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/5f4aa5f7f80bfc1e584c89d9" },
       { label: "TpChar (BL/Free)", url: "https://tpchar.4uai.tech/share/ae373ba5d696a02070dc81bd" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1pXxuE5LcH5YAOhzcxlDK2NbNgQY-P5PF" },
@@ -2939,10 +2975,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/kuroki.jpg",
       rentryLink: "https://rentry.co/annamei-kuroki-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Japan", "BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1Oz-8vn1MEESmDc0sSkPEIL1yty3FnfIZ" }
     ]
     },
@@ -2976,10 +3011,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/lct.jpg",
       rentryLink: "https://rentry.co/annamei-lct-viet",
-       tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Vietnam", "BL/BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1lzxpUKQJYHbdxVuof-YXOPOKrfJy5tZa" },
       { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1A4c7bN29LgbisMVNUEn50l7uRmBwCBaE" }
     ]
@@ -3015,10 +3049,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/báhien.jpg",
       rentryLink: "https://rentry.co/annamei-bacvahien",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Vietnam", "BG", "FWB","Fuckboy","Good boy","Slowburn","University","Dark romance","3P","Harem", "NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1Gj_YXb8yy3PIZLV63wZklIiPRJ7-I71V" },
     ]
     },
@@ -3052,10 +3085,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/tachibana.jpg",
       rentryLink: "https://rentry.co/annamei-tachibanakyouya",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Love potion","Yandere","Married","Professor","Japan","University","Pregnant","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1HW50nELWv6rOv3fzq7Qd92Ceom3fWJGO" }
     ]
     },
@@ -3074,7 +3106,7 @@
       platforms: [
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1EFZLXV0ILAC2cn6RLRa88TvPRkgh0zyC" },
       { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmv138upu000506jrz5w1fiiw" },
-      { label: "ClankWorld (BG) -  !No Link!" },
+      { label: "ClankWorld (BG) - đang cập nhật", noLink: true },
       { label: "Janitor (BG)", url: "https://janitorai.com/characters/45329c9c-bebb-4dac-994f-6ef282b009bd_character-tachibana-kyouya" }
     ]
     },
@@ -3089,10 +3121,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
       rentryLink: "https://rentry.co/annamei-damienvance-viet",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/ad7f0259794900cfa95e432c" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1zpY_MPs8JZ6IAMISE7xXRkJcIHjvUD-6" },
       { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1I1SRtySWaDMmQAWEAzu2Eo8iF_tnoFf2" }
@@ -3124,15 +3155,14 @@
       lang: "vi",
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
-      hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn – trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.\n\n- artist: Koumi-Senpai \n - source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
+      hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn - trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.\n\n- artist: Koumi-Senpai \n - source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
       likes: 22,
       coverLabel: "OPEN WORLD",
       avatar: "assets/bots/test1.jpg",
       rentryLink: "https://rentry.co/annamei-yansim-viet",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar ↗ - !Đang cập nhật!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/2fe0ec6b717399ed1a602296" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1dzwESiYUo5mCvyGsM52V4ODLChRGZbXt" },
       { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/15vI2mIYHRKfuJOMoOK9nh7fUytCxoGd4" }
     ]
@@ -3167,8 +3197,6 @@
       coverLabel: "BOT",
       avatar: "assets/bots/haizz.jpg",
       rentryLink: "https://rentry.co/annamei-lehoangminh",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Boyfriend","Vietnam","Artist","Lovesick","Greenflag","Modern"],
       platforms: [
       { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/64840aa1276b2675562ffd00" },
@@ -3186,10 +3214,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/daniel.jpg",
       rentryLink: "https://rentry.co/annamei-danieltony-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Ex","Bestfriend","Dad","Bartender","America","Possessive","Harem","3P","University","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1hyE2JS3ZbAEgRKL5JUhfLim0Ikhxl3Qu" }
     ]
     },
@@ -3223,10 +3250,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/kenshin.jpg",
       rentryLink: "https://rentry.co/annamei-kenshin-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1KUDPP21fLHTatc2XM87q3xrBmoiXrFY6" }
     ]
     },
@@ -3260,10 +3286,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/ethanlucas.jpg",
       rentryLink: "https://rentry.co/annamei-twins-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["3P","Twins","Slow Burn","Childhood Friends","BL/BG","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1H66kbbtjsAu0jMILK_TdZN90l__8sTY0" },
       { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1NHUECbRBBZu_q9sPUCmEnrBggMUzvKDe" }
     ]
@@ -3299,8 +3324,6 @@
       coverLabel: "BOT",
       avatar: "assets/bots/soradaiki.jpg",
       rentryLink: "https://rentry.co/annamei-soradaiki-viet",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
       platforms: [
       { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/0c06815c78672b093df18d5c" },
@@ -3337,10 +3360,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/renelias.jpg",
       rentryLink: "https://rentry.co/annmei-renelias-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/1z-6d-CI2rVpnK8Ob0gV8Z2zspmDq5GA6" }
     ]
     },
@@ -3374,8 +3396,6 @@
       coverLabel: "BOT",
       avatar: "assets/bots/dariankenzo.jpg",
       rentryLink: "https://rentry.co/annamei-dariankenzo-viet",
-      tpcharLink: "#",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗ - !Không có Link!💦",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
       platforms: [
       { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/17e463aa248cc2645fcacbfc" },
@@ -3412,10 +3432,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/sawadoharuki.jpg",
       rentryLink: "https://rentry.co/annamei-haruki-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Exes","Angst","Playboy","Second Chance"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1bwosoq0bess8PwLsJTLbys_qRl03mYx7" }
     ]
     },
@@ -3449,10 +3468,9 @@
       coverLabel: "BOT",
       avatar: "assets/bots/ryoujodul.jpg",
       rentryLink: "https://rentry.co/annmei-jodul-viet",
-      tpcharLink: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6",
-      tpcharLabel: "Mở TpChar (BG/Credit) ↗",  /* tên nút Step1 riêng từng bot - sửa tự do */
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
       platforms: [
+      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
       { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/15Szqjs-JYkxBvXcblhQzy2W42PQMjieh" }
     ]
     },
@@ -4442,7 +4460,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
 
 14. You must have a strong sense of time and create a lifestyle appropriate to the timeframe. Absolutely no eating breakfast at 10:00 PM!
 
-15. Each reply must average more than 2,000–3,000 characters.`
+15. Each reply must average more than 2,000-3,000 characters.`
       }
     ]
   };
@@ -5058,38 +5076,13 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     if (step1Label) step1Label.style.display = "";
     if (step2Label) step2Label.style.display = "";
 
-    /* Step 1 TpChar: luôn hiện (VI); không link thì disabled + label trạng thái */
-    var step1Tp = botTpcharStep1(bot);
-    if (tpcharBtn && step1Tp.show) {
-      tpcharBtn.style.display = "";
-      tpcharBtn.textContent = step1Tp.label;
-      tpcharBtn.classList.toggle("is-disabled", !step1Tp.enabled);
-      if (step1Tp.enabled) {
-        tpcharBtn.href = step1Tp.url;
-        tpcharBtn.removeAttribute("aria-disabled");
-        tpcharBtn.onclick = null;
-      } else {
-        tpcharBtn.href = "javascript:void(0)";
-        tpcharBtn.setAttribute("aria-disabled", "true");
-        tpcharBtn.onclick = function (e) {
-          e.preventDefault();
-          if (window.playClick) window.playClick("soft");
-          return false;
-        };
-      }
-      if (meetOr) meetOr.style.display = "";
-      if (tpcharHint) {
-        tpcharHint.style.display = "";
-        tpcharHint.textContent = "Cần có Credit - Không cần qua Shopee";
-      }
-    } else {
-      if (tpcharBtn) {
-        tpcharBtn.style.display = "none";
-        tpcharBtn.classList.remove("is-disabled");
-      }
-      if (meetOr) meetOr.style.display = "none";
-      if (tpcharHint) tpcharHint.style.display = "none";
+    /* TpChar (Credit) đã được dời xuống Step 2 (platformList) - Step 1 chỉ còn Shopee */
+    if (tpcharBtn) {
+      tpcharBtn.style.display = "none";
+      tpcharBtn.classList.remove("is-disabled");
     }
+    if (meetOr) meetOr.style.display = "none";
+    if (tpcharHint) tpcharHint.style.display = "none";
 
     setupPasswordGate(bot);
     updatePlatforms({ scroll: !!shopeeUnlockedBots[bot.id] });
@@ -5171,7 +5164,15 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     var shopeeOk = (lang === "en") || !!shopeeUnlockedBots[currentMeetBot.id];
     var passOk = !currentMeetBot.requirePassword || !!passwordUnlockedBots[currentMeetBot.id];
     var unlocked = shopeeOk && passOk;
-    var plats = currentMeetBot.platforms || [];
+    var plats = (currentMeetBot.platforms || []).slice();
+    /* VI: TpChar (Credit) nằm ở Step 2, đầu danh sách. Dùng tpcharLink / tpcharLabel của từng bot */
+    if (lang === "vi") {
+      var tp = botTpcharStep1(currentMeetBot);
+      if (tp.show) {
+        var tpLabel = String(tp.label || "").replace(/^Mở\s+/, "").replace(/\s*↗\s*/, " ").replace(/\s+/g, " ").trim();
+        plats.unshift({ label: tpLabel, url: tp.url, tpcharCredit: true, noLink: !tp.enabled });
+      }
+    }
     /* EN: hide Shopee/TpChar-style labels if any slipped into platforms (safety) */
     if (lang === "en") {
       plats = plats.filter(function (p) {
@@ -5188,6 +5189,10 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       return;
     }
     list.innerHTML = plats.map(function (p) {
+      if (p.noLink || !p.url) {
+        /* TpChar Credit chưa có link: cùng màu hồng với các link khác, chỉ mờ đi + không bấm được */
+        return '<div class="modal-btn ' + (unlocked ? 'unlocked is-disabled' : 'locked') + '">' + escapeHtml(p.label) + '</div>';
+      }
       if (unlocked) {
         return '<a href="' + escapeHtml(p.url) + '" target="_blank" rel="noopener" class="modal-btn unlocked">' +
           escapeHtml(p.label) + ' <span class="arrow">→</span></a>';
@@ -5493,7 +5498,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         "<summary>How Mei uses AI (ChatGPT &amp; Gemini)</summary>" +
         "<div class=\"fold-body\">" +
         "<p>- Mei only uses <strong>ChatGPT</strong> and <strong>Gemini</strong> <em>after the backstory is complete</em> - mainly to <strong>polish wording and writing style</strong>, not to let AI write the entire bot.</p>" +
-        "<p>- Since 2023, Mei has prioritized detailed <strong>world-building</strong> (including novel-style bots for personal preference). Each character is structured clearly: Description, Past, Backstory, Highlights, Lore, Commands, Open scene. <em>(Note: 1–2 sections may be omitted for characters inside an Open World.)</em></p>" +
+        "<p>- Since 2023, Mei has prioritized detailed <strong>world-building</strong> (including novel-style bots for personal preference). Each character is structured clearly: Description, Past, Backstory, Highlights, Lore, Commands, Open scene. <em>(Note: 1-2 sections may be omitted for characters inside an Open World.)</em></p>" +
         "<p><strong>- NSFW / 18+ content:</strong> Mei <strong>writes all of it by hand</strong>. AI can assist with 18+ scenes, but Mei always writes them personally to keep personality, voice, setting, and boundaries accurate. Mei prefers <strong>raw and explicit</strong> tone, including heavier themes such as <strong>BDSM / Incest / Kink / Taboo</strong> - which not every AI can handle well.</p>" +
         "<p>- Mei allows some word repetition in prompts but <strong>never careless spam</strong> - for deeper, better roleplay for users.</p>" +
         "</div></details>" +
@@ -5558,7 +5563,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       },
       {
         q: "Dự định sắp tới của Mei?",
-        a: "<p><strong>→</strong> Tạo và test 5 lệnh (Văn phong, Anti-OOC, Slow-burn, NSFW, Chuyển sinh) để mọi người có thể dùng chung.</p><p><strong>→</strong> Tạo 3 OpenWorld (Tự sáng tạo / Anime / Phim / Truyện / v.v).</p><p><strong>→</strong> Xem xét xóa 3–4 Bot đầu tay của Mei và Remake phiên bản mới (hoặc gỡ hẳn nếu cần).</p>"
+        a: "<p><strong>→</strong> Tạo và test 5 lệnh (Văn phong, Anti-OOC, Slow-burn, NSFW, Chuyển sinh) để mọi người có thể dùng chung.</p><p><strong>→</strong> Tạo 3 OpenWorld (Tự sáng tạo / Anime / Phim / Truyện / v.v).</p><p><strong>→</strong> Xem xét xóa 3-4 Bot đầu tay của Mei và Remake phiên bản mới (hoặc gỡ hẳn nếu cần).</p>"
       }
     ] : [
       {
@@ -5599,7 +5604,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       },
       {
         q: "What are Mei's upcoming plans?",
-        a: "<p><strong>→</strong> Create and test 5 shared commands (Writing Style, Anti-OOC, Slow-burn, NSFW, Reincarnation/Isekai).</p><p><strong>→</strong> Build 3 OpenWorlds (Original / Anime / Film / Novel / etc.).</p><p><strong>→</strong> Review the first 3–4 early bots - remake them or remove them if needed.</p>"
+        a: "<p><strong>→</strong> Create and test 5 shared commands (Writing Style, Anti-OOC, Slow-burn, NSFW, Reincarnation/Isekai).</p><p><strong>→</strong> Build 3 OpenWorlds (Original / Anime / Film / Novel / etc.).</p><p><strong>→</strong> Review the first 3-4 early bots - remake them or remove them if needed.</p>"
       }
     ];
 
@@ -6042,163 +6047,251 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     renderYtList(vi);
   }
 
+  function commTabs(tabs) {
+    var nav = '<div class="comm-tabs" role="tablist">' + tabs.map(function (t, i) {
+      return '<button type="button" class="comm-tab' + (i === 0 ? ' active' : '') + '" role="tab" data-comm-tab="' + i + '">' + t.title + '</button>';
+    }).join('') + '</div>';
+    var panels = tabs.map(function (t, i) {
+      return '<div class="comm-tab-panel' + (i === 0 ? ' active' : '') + '" role="tabpanel" data-comm-panel="' + i + '">' + t.body + '</div>';
+    }).join('');
+    return nav + panels;
+  }
+
   function renderComm() {
     var el = document.getElementById("commPage");
     if (!el) return;
     var supportImg = "assets/support-tips.png";
-    if (lang === "vi") {
-      el.innerHTML =
-        '<div class="comm-block">' +
+    var vi = (lang === "vi");
+
+    var head, tabs, legit, request, payment, thanks;
+
+    if (vi) {
+      head =
         '<h3>💼 Commission (Bot / OpenWorld / NSFW)</h3>' +
-        '<p>Mei nhận làm commission trên <strong>GGAI</strong>, <strong>Reverie</strong>, <strong>ClankWorld</strong> và <strong>Janitor AI</strong>. Nếu bạn muốn Mei làm ở nền tảng khác? Được hết! Mei hoàn toàn có thể làm Prompt phù hợp với lượng Token của nền tảng bạn muốn. Chỉ có điều là Mei không đăng Bot hay hoạt động chính thức ở đó.</p>' +
-        '<p>Mei nhận hầu hết thể loại: <strong>BG / BL / GL / NP</strong>… các chủ đề <strong>Tâm lý / Kinh dị / Trinh thám</strong>… cũng như các tag nặng hơn như <strong>Kink / Taboo / BDSM / Loạn luân / Ấm dâu / Thô tục</strong>…</p>' +
-        '<div class="comm-callout warn"><strong>⚠️ Lưu ý 18+:</strong> Bằng việc đặt Commission NSFW, bạn cam kết mình đã đủ 18 tuổi và tự chịu trách nhiệm khi trải nghiệm nội dung người lớn.</div>' +
-        '<p>Bạn kể plot càng chi tiết, Mei build càng kỹ bấy nhiêu, đồng thời sẽ giúp bạn mở rộng các tình tiết sao cho thật Logic và cuốn hút.</p>' +
-
-        '<h4>⏱️ Thời gian hoàn thành</h4>' +
         '<ul>' +
-        '<li><strong>Thời gian hoàn thành (Bot lẻ):</strong> khoảng <strong>3-5 ngày</strong>, trễ nhất <strong>7 ngày</strong> tùy mức độ phức tạp - Đây là thời gian cố định Mei luôn tuân thủ!</li>' +
-        '<li><strong>Đối với Bot từ tác phẩm Mei đã biết:</strong> dao động <strong>khoảng 7-14 ngày</strong> tùy mức độ phức tạp - Không hơn 2 tuần, Mei chỉ cần cày lại và tập trung 100% vào nhân vật nắm rõ hơn.</li>' +
-        '<li><strong>Đối với Bot từ tác phẩm Mei chưa từng biết/đọc/xem qua:</strong> khoảng <strong>7–14 ngày</strong>, trễ nhất là <strong>1 tháng.</strong> Đặc biệt là các tác phẩm chuyển thể từ truyện thành phim thì Mei càng phải dành thời gian để tìm hiểu kỹ hơn, không những về Bot mà còn về World Building của Bot.</li>' +
+        '<li>Mei nhận làm commission trên <strong>GGAI</strong>, <strong>Reverie</strong>, <strong>ClankWorld</strong> và <strong>Janitor AI</strong>.</li>' +
+        '<li>Nếu bạn muốn Mei làm ở nền tảng khác? Được hết! Mei hoàn toàn có thể làm Prompt phù hợp với lượng giới hạn Token của nền tảng bạn muốn. Chỉ là Mei không hoạt động chính thức ở đó.</li>' +
         '</ul>' +
-
-        '<h4>🌍 OpenWorld</h4>' +
+        '<div class="comm-callout warn"><strong>⚠️ Lưu ý:</strong>' +
         '<ul>' +
-        '<li><strong>Ý tưởng hoàn toàn của bạn:</strong> Mei luôn sẵn sàng nhận. Ý tưởng của bạn càng dồi dào, world-building càng vững chắc. Muốn Mei chủ động gợi ý những ý tưởng mới hoặc tạo thêm plot ẩn? Được luôn nha! Cứ nói cho Mei biết ✨</li>' +
-        '<li><strong>Đối với tác phẩm Mei đã biết:</strong> Tùy thể loại mà Mei sẽ cần chút thời gian đọc lại/cày lại để build cho thật chắc tay.</li>' +
-        '<li><strong>Đối với tác phẩm Mei chưa từng biết/đọc/xem qua:</strong> Mei sẽ cân nhắc độ dài và độ phức tạp trước khi nhận lời. Nếu nhận, Mei sẽ dành thời gian nghiên cứu kỹ lưỡng và chắc chắn sẽ trả hàng đúng hẹn.</li>' +
-        '</ul>' +
-        '<p><strong>Thời gian hoàn thành OpenWorld:</strong> khoảng <strong>7–14 ngày cho đến 1 tháng</strong>, trễ nhất <strong>2 tháng</strong> tùy thuộc vào tác phẩm Mei đã xem/đọc qua hay chưa và Mei cũng cần đào sâu Plot &amp; Lore - Mei sẽ báo rõ khi nhận đơn.</p>' +
-
-        '<h4>✨ Quyền lợi khi đặt Commission</h4>' +
+        '<li>Bằng việc đặt Commission NSFW, Mei không có trách nhiệm kiểm tra tuổi của bạn. Bạn cam kết mình đã đủ 18 tuổi và tự chịu trách nhiệm khi trải nghiệm nội dung người lớn.</li>' +
+        '<li>Đối với OpenWorld / Bot từ tác phẩm có thật:' +
         '<ul>' +
-        '<li>Bot / OpenWorld đúng tính cách &amp; setting bạn mô tả.</li>' +
-        '<li>Xem trước bản phác thảo; chỉnh sửa nhiều lần đến khi bạn ưng rồi mới chốt.</li>' +
-        '<li>Đổi ý phút chót về Plot? Mei vẫn hỗ trợ chỉnh lại.</li>' +
-        '<li>Link Bot được gửi riêng, bảo mật thông tin của bạn.</li>' +
-        '<li>Sau khi giao dịch xong, nếu trong quá trình trải nghiệm có điểm nào chưa ưng ý, bây bi vẫn cứ thoải mái nhắn cho Mei điều chỉnh lại nhé.</li>' +
-        '<li>Minh bạch: Bạn sẽ biết rõ phần nào do Mei tự tay viết và phần nào có sự hỗ trợ của AI.</li>' +
-        '<li>Không chỉ là Plain Text đơn thuần, bạn hoàn toàn có thể order thêm các yêu cầu về Lệnh (Command) hoặc mã code giao diện (HTML, CSS...).</li>' +
-        '<li>Có quyền nhờ Mei chụp / gửi bản đang làm dở để biết tiến độ hoàn thành tới đâu.</li>' +
-        '<li>Được setup profile user miễn phí.</li>' +
-        '</ul>' +
+        '<li>Mei xin phép chỉ nhận đơn những tác phẩm Mei đã biết.</li>' +
+        '<li>Những tác phẩm Mei chưa biết bạn có thể đưa vào “Request”, Mei sẽ dành thời gian ra nghiên cứu.</li>' +
+        '</ul></li>' +
+        '<li>Mei không nhận đơn nếu biết bản thân không thể đáp ứng nhu cầu hoặc không hoàn thành đúng hạn. Mei cam kết không bao giờ <strong>đổ lỗi hoàn cảnh</strong> hay <strong>dây dưa Deadline</strong> sau khi đã nhận đơn. Bạn sẽ luôn nhận được đơn trước hoặc đúng hạn mà Mei đã hứa.</li>' +
+        '</ul></div>';
 
-        '<h4>💲 Giá: Tùy tâm.</strong> Mei không ép giá hay quy định con số cụ thể nào cả. Thuận mua vừa bán, quyết định hoàn toàn ở các bây bi nha! 🍒</h4>' +
-        
-        '<div class="comm-callout promise">Mei không nhận đơn nếu biết bản thân không thể đáp ứng nhu cầu hoặc không hoàn thành đúng hạn. Mei cam kết không bao giờ <strong>đổ lỗi hoàn cảnh</strong> hay <strong>dây dưa Deadline</strong> sau khi đã nhận Bot. Bạn sẽ luôn nhận được Bot trước hoặc đúng hạn mà Mei đã hứa.</div>' +
+      tabs = [
+        { title: '🍒 Bot &amp; OpenWorld', body:
+          '<h4>🤖 Bot</h4>' +
+          '<ul>' +
+          '<li>Mei nhận hầu hết thể loại: <strong>BG / BL / GL / NP</strong>… các chủ đề <strong>Tâm lý / Kinh dị / Trinh thám</strong>… cũng như các tag nặng hơn như <strong>Kink / Taboo / BDSM / Incest / NTR / Thô tục</strong>…</li>' +
+          '<li>Bạn kể plot càng chi tiết, Mei build càng kỹ bấy nhiêu, đồng thời sẽ giúp bạn mở rộng các tình tiết sao cho thật Logic và cuốn hút.</li>' +
+          '</ul>' +
+          '<h4>🌍 OpenWorld</h4>' +
+          '<ul>' +
+          '<li>Ý tưởng của bạn càng dồi dào, world-building càng vững chắc. Muốn Mei chủ động gợi ý những ý tưởng mới hoặc tạo thêm plot ẩn? Được luôn nha! Cứ nói cho Mei biết ✨</li>' +
+          '</ul>' +
+          '<h4>⏱️ Thời gian hoàn thành</h4>' +
+          '<ul>' +
+          '<li><strong>Bot lẻ:</strong> khoảng <strong>3-5 ngày</strong>, trễ nhất <strong>7 ngày</strong> tùy mức độ phức tạp - Đây là thời gian cố định Mei luôn tuân thủ!</li>' +
+          '<li><strong>OpenWorld:</strong> khoảng <strong>7-14 ngày</strong>, trễ nhất <strong>1 tháng</strong> tùy thuộc sự chi tiết của Plot &amp; Lore - Mei sẽ báo rõ khi nhận đơn.</li>' +
+          '</ul>' },
+        { title: '✨ Quyền lợi', body:
+          '<h4>✨ Quyền lợi khi đặt Commission</h4>' +
+          '<ul>' +
+          '<li>Bot / OpenWorld đúng tính cách &amp; setting bạn mô tả.</li>' +
+          '<li>Xem trước bản phác thảo. Trả đơn đúng hạn đã đặt ra.</li>' +
+          '<li>Chỉnh sửa nhiều lần đến khi ưng.</li>' +
+          '<li>Đổi ý phút chót về Plot? Mei vẫn hỗ trợ chỉnh lại.</li>' +
+          '<li>Link Bot được gửi riêng, bảo mật thông tin của bạn.</li>' +
+          '<li>Bot đã hoàn chỉnh thì mới gửi mã chuyển khoản, không trả trước.</li>' +
+          '<li>Sau khi giao dịch xong, nếu trong quá trình trải nghiệm có điểm nào chưa ưng ý, bạn cứ thoải mái nhắn Mei điều chỉnh lại nhé.</li>' +
+          '<li>Minh bạch: Biết rõ phần nào do Mei tự tay viết và phần nào có sự hỗ trợ của AI.</li>' +
+          '<li>Không chỉ là Plain Text đơn thuần, có thể order thêm các yêu cầu về mã code giao diện (HTML, CSS...)</li>' +
+          '<li>Có quyền nhờ Mei chụp / gửi bản đang làm dở để biết tiến độ hoàn thành tới đâu.</li>' +
+          '<li>Được setup profile user miễn phí.</li>' +
+          '</ul>' },
+        { title: '💲 Giá', body:
+          '<h4>💲 Giá (Tính theo lượng Tokens)</h4>' +
+          '<p>Nếu bạn không nêu yêu cầu cụ thể hoặc để Mei tự sáng tạo, Mei sẽ viết đầy đủ các mục: <strong>Profile, Past, Highlights, Backstory, Lore (World building, Facts, NPC), Commands, Open scene.</strong></p>' +
+          '<p><strong>Bot:</strong></p>' +
+          '<ul>' +
+          '<li>Dưới 20.000 tokens: <strong>50-100K VND</strong></li>' +
+          '<li>20.000 - 50.000 tokens: <strong>100-200K VND</strong></li>' +
+          '<li>Trên 50.000 tokens: <strong>200K trở lên</strong> tùy mức độ phức tạp.</li>' +
+          '</ul>' +
+          '<p><strong>OpenWorld:</strong></p>' +
+          '<ul>' +
+          '<li>Lượng tokens vừa đủ, nhỏ, chỉ có Lore, không có NPC: <strong>100-150K</strong></li>' +
+          '<li>Bản đầy đủ theo yêu cầu: <strong>200K trở lên</strong> tùy mức độ phức tạp.</li>' +
+          '</ul>' },
+        { title: '🚫 Không nhận', body:
+          '<h4>🚫 Mei xin phép KHÔNG NHẬN</h4>' +
+          '<ul>' +
+          '<li>Khi bạn dưới 18 tuổi mà yêu cầu nội dung NSFW.</li>' +
+          '<li><strong>Bot dựa trên người thật (RPF):</strong> Mei từ chối tạo bot mô phỏng idol, người nổi tiếng, KOLs hoặc bất kỳ cá nhân có thật nào ngoài đời.</li>' +
+          '<li>OpenWorld / Bot:' +
+          '<ul>' +
+          '<li>Đến từ những tác phẩm có thật mà Mei không biết.</li>' +
+          '<li>Thể loại <strong>Game</strong> và <strong>Tu tiên</strong>: Mei chưa đủ kinh nghiệm và vốn từ để truyền tải đúng chất. Khi Mei đã tự tin hơn Mei sẽ mở nhận đơn.</li>' +
+          '</ul></li>' +
+          '<li><strong>Nội dung máu me / giết người quá nặng.</strong></li>' +
+          '</ul>' }
+      ];
 
-        '<h4>🚫 Mei xin phép KHÔNG NHẬN</h4>' +
-        '<ul>' +
-        '<li>Khi bạn dưới 18 tuổi mà yêu cầu nội dung NSFW.</li>' +
-        '<li>Tất cả các thể loại OpenWorld liên quan đến <strong>Game</strong>. Mei rất sẵn lòng tìm hiểu phim, truyện, hay tiểu thuyết, nhưng Mei không có thói quen chơi Game.</li>' +
-        '<li><strong>Bot dựa trên người thật (RPF):</strong> Mei từ chối tạo bot mô phỏng idol, người nổi tiếng, KOLs hoặc bất kỳ cá nhân có thật nào ngoài đời để tôn trọng quyền riêng tư.</li>' +
-        '<li><strong>OpenWorld / Bot thể loại Tu tiên, Việt Nam xưa, Cổ trang:</strong> Tạm thời Mei <strong>chưa nhận</strong> vì bản thân chưa đủ kinh nghiệm và vốn từ để truyền tải đúng chất. Khi Mei đã tích lũy thêm và tự tin hơn, Mei sẽ mở nhận đơn các thể loại này.</li>' +
-        '<li><strong>Nội dung máu me / giết người quá nặng:</strong> Mei không nhận các đơn tập trung vào gore cực đoan, miêu tả máu me chi tiết hoặc cốt truyện lấy việc giết người làm trọng tâm chính.</li>' +
-        '</ul>' +
-
+      legit =
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Ảnh / video khách đặt comm &amp; chuyển khoản xem tại nút <strong>✅ Legit</strong> bên dưới. <em>(Luôn cập nhật thêm)</em></p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Nhắn Facebook để trao đổi</a> ' +
-        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
-        '</div>' +
+        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>';
 
-        '<div class="comm-block">' +
+      request =
         '<h3>📝 Request</h3>' +
-        '<p>Đây là nơi bạn gửi gắm những ý tưởng nhẹ nhàng, yêu cầu làm các mẫu bot cơ bản, hoặc đề xuất chỉnh sửa một vài chi tiết nhỏ từ bot cũ. Mei sẽ đọc, chọn lọc và thực hiện dựa trên khả năng cũng như cảm hứng của bản thân nha! ☘️</p>' +
+        '<p>Đây là nơi bạn gửi gắm những ý tưởng nhẹ nhàng, yêu cầu làm các mẫu Bot / OpenWorld cơ bản, hoặc đề xuất chỉnh sửa một vài chi tiết nhỏ từ bot cũ! ☘️</p>' +
         '<ul>' +
-        '<li>Bây bi không cần viết quá dài, chỉ cần gạch đầu dòng rõ các ý cốt lõi.</li>' +
+        '<li>Không cần viết quá dài, chỉ cần gạch đầu dòng rõ các ý cốt lõi.</li>' +
         '<li>Làm vì đam mê nên không cam kết Deadline.</li>' +
-        '<li>Mei sẽ cố gắng làm <strong>100% form Request</strong> gửi về; nội dung có thể được biến tấu nhẹ cho hợp lý và mượt hơn, không phải từ chối hẳn.</li>' +
+        '<li>Mei sẽ cố gắng làm <strong>100% form Request</strong> gửi về.</li>' +
         '<li>Bot sẽ được Mei đăng công khai để cộng đồng cùng được trải nghiệm chung.</li>' +
         '</ul>' +
-        '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Mở Google Form</a>' +
-        '</div>' +
+        '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Mở Google Form</a>';
 
-        '<div class="comm-block">' +
+      payment =
         '<h3>💳 Thanh toán &amp; Hỗ trợ / Tips</h3>' +
         '<p style="text-align:center"><strong>Việt Nam:</strong> Sacombank · 060336259420 · NGUYEN THI THUY AN</p>' +
         '<p style="text-align:center">Bạn cũng có thể <strong>ủng hộ</strong> Mei qua QR hoặc Ko-fi bên dưới - Mei cảm ơn rất nhiều 💕</p>' +
         '<p style="text-align:center;margin-top:12px"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
-        '<div class="support-img-wrap"><img src="' + supportImg + '" alt="Support / Tips - Anna Mei"></div>' +
-        '</div>' +
-        '<div class="comm-thanks"><p>Mei xin cảm ơn bạn đã tin tưởng và ủng hộ 💕<br>create what lives in my head</p></div>';
+        '<div class="support-img-wrap"><img src="' + supportImg + '" alt="Support / Tips - Anna Mei"></div>';
+
+      thanks = '<p>Mei xin cảm ơn bạn đã tin tưởng và ủng hộ 💕<br>create what lives in my head</p>';
     } else {
-      el.innerHTML =
-        '<div class="comm-block">' +
+      head =
         '<h3>💼 Commission (Bot / OpenWorld / NSFW)</h3>' +
-        '<p>Mei takes commissions on <strong>GGAI</strong>, <strong>Reverie</strong>, <strong>ClankWorld</strong>, and <strong>Janitor AI</strong>. Would you like to use Mei on a different platform? No problem! Mei can easily tailor prompts to fit the token limits of your preferred platform. Just keep in mind that Mei does not officially host bots or maintain an official presence there.</p>' +
-        '<p>Mei accepts most genres: <strong>BG / BL / GL / NP</strong>… themes like <strong>Psychological / Horror / Detective</strong>… as well as heavier tags like <strong>Kink / Taboo / BDSM / Incest / Dirty talk</strong>…</p>' +
-        '<div class="comm-callout warn"><strong>⚠️ 18+ note:</strong> By ordering NSFW content, you confirm that you are legally 18 years of age or older. Mei is not responsible for any false age declarations.</div>' +
-        '<p>The more detailed the plot you share, the more carefully Mei builds - and Mei will also help expand the details so they stay logical and engaging.</p>' +
-
-        '<h4>⏱️ Turnaround time</h4>' +
         '<ul>' +
-        '<li><strong>Turnaround (single bot):</strong> about <strong>3–5 days</strong>, at latest <strong>7 days</strong> depending on complexity - this is a fixed timeframe Mei always follows!</li>' +
-        '<li><strong>Bot from a work Mei already knows:</strong> about <strong>7–14 days</strong> depending on complexity - no more than 2 weeks; Mei mainly needs to re-study and focus 100% on knowing the character better.</li>' +
-        '<li><strong>Bot from a work Mei has never known / read / watched:</strong> about <strong>7–14 days</strong>, at latest <strong>1 month.</strong> Especially for works adapted from novel to film, Mei needs extra time to research carefully - not only the bot but also the world-building around it.</li>' +
+        '<li>Mei takes commissions on <strong>GGAI</strong>, <strong>Reverie</strong>, <strong>ClankWorld</strong>, and <strong>Janitor AI</strong>.</li>' +
+        '<li>Would you like Mei to work on a different platform? Absolutely! Mei can tailor the prompt to fit the token limits of whichever platform you prefer. Mei just isn’t officially active there.</li>' +
         '</ul>' +
-
-        '<h4>🌍 OpenWorld</h4>' +
+        '<div class="comm-callout warn"><strong>⚠️ Notes:</strong>' +
         '<ul>' +
-        '<li><strong>Ideas that are entirely yours:</strong> Mei is always ready to take them. The richer your ideas, the stronger the world-building. Want Mei to actively suggest new ideas or add hidden plots? Of course! Just tell Mei ✨</li>' +
-        '<li><strong>Works Mei already knows:</strong> Depending on the genre, Mei may need a bit of time to re-read / re-play so the build is truly solid.</li>' +
-        '<li><strong>Works Mei has never known / read / watched:</strong> Mei will consider the length and complexity before accepting. If accepted, Mei will take time to research thoroughly and will definitely deliver on time.</li>' +
-        '</ul>' +
-        '<p><strong>OpenWorld turnaround:</strong> about <strong>7–14 days up to 1 month</strong>, at latest <strong>2 months</strong>, depending on whether Mei has already seen/read the work and how deep the plot &amp; lore need to go - Mei will confirm clearly when accepting the order.</p>' +
-
-        '<h4>✨ Benefits when commissioning</h4>' +
+        '<li>By ordering NSFW content, you confirm that you are 18 or older. Mei is not responsible for verifying your age, and you take full responsibility for experiencing adult content.</li>' +
+        '<li>For OpenWorld / Bots from existing works:' +
         '<ul>' +
-        '<li>Bot / OpenWorld matches the personality &amp; setting you describe.</li>' +
-        '<li>Preview the draft; revise as many times as needed until you’re happy before finalizing.</li>' +
-        '<li>Changed your mind about the plot at the last minute? Mei will still help adjust it.</li>' +
-        '<li>Bot link is sent privately; your information is kept confidential.</li>' +
-        '<li>After the transaction, if something feels off while you experience the bot, feel free to message Mei for adjustments.</li>' +
-        '<li>Transparency: you will clearly know which parts Mei wrote by hand and which parts had AI assistance.</li>' +
-        '<li>Not only plain text - you can also order extra Commands or interface code (HTML, CSS…).</li>' +
-        '<li>You may ask Mei to share progress photos / drafts of work in progress.</li>' +
-        '<li>Free user profile setup included.</li>' +
-        '</ul>' +
-        '<h4>💲 Price:</h4>' +
-        '<ul>' +
-        '<li>♡ Public bot commission: from $10</li>' +
-        '<li>♡ Private bot (only for you): from $25</li>' +
-        '</ul>' +
+        '<li>Mei only accepts orders for works that Mei already knows.</li>' +
+        '<li>For works Mei doesn’t know yet, you can submit them through “Request” and Mei will take the time to research them.</li>' +
+        '</ul></li>' +
+        '<li>Mei won’t accept an order if Mei knows the request can’t be met or the deadline can’t be kept. Mei promises never to <strong>blame circumstances</strong> or <strong>drag out the Deadline</strong> after accepting an order. You will always receive your order on time or earlier than promised.</li>' +
+        '</ul></div>';
 
-        '<div class="comm-callout promise">Mei will not accept an order if Mei knows the request cannot be met or the deadline cannot be kept. Mei promises never to <strong>blame circumstances</strong> or <strong>drag out the Deadline</strong> after accepting a Bot. You will always receive the Bot on time or early, as Mei promised.</div>' +
+      tabs = [
+        { title: '🍒 Bot &amp; OpenWorld', body:
+          '<h4>🤖 Bot</h4>' +
+          '<ul>' +
+          '<li>Mei accepts most genres: <strong>BG / BL / GL / NP</strong>… themes like <strong>Psychological / Horror / Detective</strong>… as well as heavier tags like <strong>Kink / Taboo / BDSM / Incest / NTR / Dirty talk</strong>…</li>' +
+          '<li>The more detailed your plot, the more carefully Mei builds - and Mei will also help expand the details so they stay logical and engaging.</li>' +
+          '</ul>' +
+          '<h4>🌍 OpenWorld</h4>' +
+          '<ul>' +
+          '<li>The richer your ideas, the stronger the world-building. Want Mei to suggest new ideas or add hidden plots? Of course! Just tell Mei ✨</li>' +
+          '</ul>' +
+          '<h4>⏱️ Turnaround time</h4>' +
+          '<ul>' +
+          '<li><strong>Single bot:</strong> about <strong>3-5 days</strong>, at latest <strong>7 days</strong> depending on complexity - this is a fixed timeframe Mei always follows!</li>' +
+          '<li><strong>OpenWorld:</strong> about <strong>7-14 days</strong>, at latest <strong>1 month</strong> depending on how detailed the Plot &amp; Lore are - Mei will confirm clearly when accepting the order.</li>' +
+          '</ul>' },
+        { title: '✨ Benefits', body:
+          '<h4>✨ Benefits when commissioning</h4>' +
+          '<ul>' +
+          '<li>Bot / OpenWorld matches the personality &amp; setting you describe.</li>' +
+          '<li>Preview the draft. Delivered on time, as promised.</li>' +
+          '<li>Unlimited revisions until you’re happy.</li>' +
+          '<li>Changed your mind about the plot at the last minute? Mei will still help adjust it.</li>' +
+          '<li>Your bot link is sent to you directly and your personal information stays confidential.</li>' +
+          '<li>Payment details are only sent once the bot is complete - no upfront payment.</li>' +
+          '<li>After the transaction, if anything feels off while you experience the bot, feel free to message Mei for adjustments.</li>' +
+          '<li>Transparency: you’ll know exactly which parts Mei wrote by hand and which parts had AI assistance.</li>' +
+          '<li>Not just plain text - you can also order interface code (HTML, CSS…).</li>' +
+          '<li>You may ask Mei to share a screenshot / draft of work in progress to see how far along it is.</li>' +
+          '<li>Free user profile setup.</li>' +
+          '</ul>' },
+        { title: '💲 Price', body:
+          '<h4>💲 Price (based on token count)</h4>' +
+          '<p>If you don’t give specific requirements or leave it to Mei’s creativity, Mei will write every section: <strong>Profile, Past, Highlights, Backstory, Lore (World building, Facts, NPC), Commands, Open scene.</strong></p>' +
+          '<p><strong>Bot:</strong></p>' +
+          '<ul>' +
+          '<li>Under 20,000 tokens: <strong>$2-4</strong></li>' +
+          '<li>20,000 - 50,000 tokens: <strong>$4-8</strong></li>' +
+          '<li>Over 50,000 tokens: <strong>from $8</strong> depending on complexity.</li>' +
+          '</ul>' +
+          '<p><strong>OpenWorld:</strong></p>' +
+          '<ul>' +
+          '<li>Small, compact build with Lore only, no NPCs: <strong>$4-6</strong></li>' +
+          '<li>Full version as requested: <strong>from $8</strong> depending on complexity.</li>' +
+          '</ul>' +
+          '<h4>🔒 Public vs Private</h4>' +
+          '<ul>' +
+          '<li><strong>Public:</strong> The prices above apply as-is.</li>' +
+          '<li><strong>Private (only for you):</strong><strong>+$2</strong> fee on top of the price above.</li>' +
+          '</ul>' },
+        { title: '🚫 Not accepted', body:
+          '<h4>🚫 Mei does NOT take</h4>' +
+          '<ul>' +
+          '<li>When you are under 18 and request NSFW content.</li>' +
+          '<li><strong>Real Person Bots (RPF):</strong> Mei declines to create bots imitating idols, celebrities, KOLs, or any real-life individual.</li>' +
+          '<li>OpenWorld / Bot:' +
+          '<ul>' +
+          '<li>From existing works that Mei doesn’t know.</li>' +
+          '<li><strong>Game</strong></li>' +
+          '</ul></li>' +
+          '<li><strong>Extreme gore / murder-heavy content.</strong></li>' +
+          '</ul>' }
+      ];
 
-        '<h4>🚫 Mei does NOT take</h4>' +
-        '<ul>' +
-        '<li>When you are under 18 and request NSFW content.</li>' +
-        '<li>All OpenWorld types related to <strong>Games</strong>. Mei is very willing to research films, novels, or literature, but Mei does not have a habit of playing games.</li>' +
-        '<li><strong>Real Person Bots (RPF):</strong> Mei does not accept commissions based on real people (idols, celebrities, or real-life individuals) out of respect for personal privacy.</li>' +
-        '<li><strong>Extreme gore / murder-focused content:</strong> Mei does not take orders centered on extreme gore, graphic bloodshed, or plots that treat killing as the main focus.</li>' +
-        '</ul>' +
-
+      legit =
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Client commission photos / videos &amp; transfer proofs can be viewed at the <strong>✅ Legit</strong> button below. <em>(Always being updated)</em></p>' +
         '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Message on Facebook</a> ' +
-        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>' +
-        '</div>' +
+        '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>';
 
-        '<div class="comm-block">' +
+      request =
         '<h3>📝 Request</h3>' +
-        '<p>This is where you can share lighter ideas, ask for basic sample bots, or suggest small tweaks to an older bot. Mei will read, filter, and work on them based on personal capacity and inspiration! ☘️</p>' +
+        '<p>This is where you can share lighter ideas, ask for basic Bot / OpenWorld samples, or suggest small tweaks to an older bot! ☘️</p>' +
         '<ul>' +
-        '<li>You don’t need to write too long - just bullet the core ideas clearly.</li>' +
+        '<li>No need to write too much - just bullet the core ideas clearly.</li>' +
         '<li>Done out of passion, so there is no Deadline commitment.</li>' +
-        '<li>Mei aims to fulfill <strong>100% of Request forms</strong>; content may be lightly adapted for coherence, rather than declined outright.</li>' +
-        '<li>The bot will be posted publicly so the community can experience it together.</li>' +
+        '<li>Mei will do her best to fulfill <strong>100% of Request forms</strong> submitted.</li>' +
+        '<li>The bot will be posted publicly so the whole community can enjoy it together.</li>' +
         '</ul>' +
-        '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Open Google Form</a>' +
-        '</div>' +
+        '<a class="comm-link secondary" href="' + FORM_LINK + '" target="_blank" rel="noopener">📋 Open Google Form</a>';
 
-        '<div class="comm-block">' +
+      payment =
         '<h3>💳 Payment &amp; Support / Tips</h3>' +
         '<p style="text-align:center">You can <strong>support</strong> Mei via Ko-fi below - Mei thanks you so much 💕</p>' +
-        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>' +
-        '</div>' +
-        '<div class="comm-thanks"><p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p></div>';
+        '<p style="text-align:center"><a class="comm-link secondary" href="' + PAYPAL_LINK + '" target="_blank" rel="noopener">☕ Ko-fi</a></p>';
+
+      thanks = '<p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p>';
     }
+
+    el.innerHTML =
+      '<div class="comm-block">' + head + commTabs(tabs) + '<div class="comm-legit">' + legit + '</div></div>' +
+      '<div class="comm-block">' + request + '</div>' +
+      '<div class="comm-block">' + payment + '</div>' +
+      '<div class="comm-thanks">' + thanks + '</div>';
+
+    var tabBtns = el.querySelectorAll(".comm-tab");
+    var tabPanels = el.querySelectorAll(".comm-tab-panel");
+    tabBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var idx = btn.getAttribute("data-comm-tab");
+        if (window.playClick) window.playClick("soft");
+        tabBtns.forEach(function (b) { b.classList.toggle("active", b === btn); });
+        tabPanels.forEach(function (pn) {
+          pn.classList.toggle("active", pn.getAttribute("data-comm-panel") === idx);
+        });
+      });
+    });
   }
 
   function renderCommands() {
