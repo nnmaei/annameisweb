@@ -451,6 +451,38 @@
     }
     .btn-share:hover { background: #fff; transform: translateY(-2px); }
     .btn-share:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(80,45,40,0.12); }
+    .btn-chat.remake {
+      background: linear-gradient(160deg, #8a7a72, #6b5f58);
+      box-shadow: 0 4px 0 rgba(60, 50, 45, 0.28), 0 8px 14px rgba(60, 50, 45, 0.12);
+    }
+    .card-remake-note {
+      margin: 0 0 8px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      line-height: 1.45;
+      font-weight: 600;
+      color: #6b3a2e;
+      background: rgba(196, 120, 114, 0.14);
+      border: 1px solid rgba(196, 120, 114, 0.28);
+    }
+    body.theme-dark .card-remake-note {
+      color: #f5ebe6;
+      background: rgba(224, 163, 156, 0.16);
+      border-color: rgba(224, 163, 156, 0.3);
+    }
+    .meet-remake-notice {
+      text-align: center;
+      padding: 8px 4px 4px;
+    }
+    .meet-remake-notice .modal-step-label {
+      color: var(--accent);
+      letter-spacing: 2px;
+    }
+    .cover-label.remake-label {
+      background: rgba(140, 70, 60, 0.75);
+      letter-spacing: 1px;
+    }
 
     .share-hint {
       margin-top: 8px; font-size: 10.5px; color: var(--muted); line-height: 1.4;
@@ -534,7 +566,7 @@
       position: fixed;
       right: 16px;
       bottom: 16px;
-      z-index: 50;
+      z-index: 120;
       display: flex;
       flex-direction: column;
       align-items: flex-end; /* quan trọng: FB + music luôn neo góc phải */
@@ -650,6 +682,19 @@
     .music-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 500; }
     .music-title { font-size: 12px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
     .music-artist { font-size: 10px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .music-source {
+      display: block;
+      margin-top: 2px;
+      font-size: 9.5px;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+    .music-source:hover { text-decoration: underline; }
+    body.theme-dark .music-source { color: #f0c2bc; }
     .music-progress {
       width: 100%; height: 3px; margin-top: 6px; appearance: none; -webkit-appearance: none;
       background: rgba(46,43,41,0.12); border-radius: 10px; cursor: pointer;
@@ -1451,7 +1496,7 @@
     }
     .theme-fab {
       position: fixed;
-      z-index: 90;
+      z-index: 80;
       left: 14px;
       bottom: 18px;
       display: flex;
@@ -2712,6 +2757,7 @@
           <div class="music-label">♫ NOW PLAYING</div>
           <div class="music-title">Pure Imagination | Wonka | Piano Cover</div>
           <div class="music-artist">- johnpianoman -</div>
+          <a class="music-source" href="https://youtu.be/mLxMng9GFGc" target="_blank" rel="noopener" title="YouTube source">🎬 Source </a>
           <input id="musicProgress" class="music-progress" type="range" min="0" max="100" value="0" step="0.1" />
         </div>
         <div id="musicTime" class="music-time">0:00</div>
@@ -2740,6 +2786,12 @@
   <div class="modal-overlay" id="meetModal">
     <div class="modal-box">
       <button type="button" class="modal-close" id="meetClose" aria-label="Close">&times;</button>
+      <div id="meetRemakeNotice" class="meet-remake-notice" style="display:none">
+        <div class="modal-step-label">REMAKE</div>
+        <h3 class="modal-title" id="meetRemakeTitle">Bot đang được Remake</h3>
+        <p class="modal-desc" id="meetRemakeDesc"></p>
+        <p class="modal-bot-name" id="meetRemakeBotName"></p>
+      </div>
       <div class="meet-kofi-wrap" id="meetKofiWrap">
         <p class="meet-kofi-text" id="meetKofiText">If you enjoy Mei's bots, you can support Mei's work ☕</p>
         <a href="#" target="_blank" rel="noopener" class="modal-btn kofi" id="kofiBtn">☕ Buy me a coffee on Ko-fi</a>
@@ -2879,10 +2931,24 @@
 (function () {
   "use strict";
 
-  var SHOPEE_LINK = "https://s.shopee.vn/8fTeOS4G3P";
+  /* Shopee KHÔNG còn mặc định toàn site.
+     Mỗi bot VI muốn qua Shopee thì gắn riêng:
+       shopeeLink: "https://s.shopee.vn/...."
+     Bot không có shopeeLink → bỏ Step 1, mở thẳng link nền tảng.
+     Nên bỏ Shopee với bot/OW dựa trên tác phẩm có sẵn nếu không muốn thương mại hóa IP. */
+  var SHOPEE_LINK = ""; /* để trống — không dùng làm fallback mặc định */
   /* EN support — gắn link Ko-fi thật vào đây khi có */
   var KOFI_LINK = "https://ko-fi.com/nnmaaei";
   /* TpChar Step1: moi bot co field tpcharLink rieng (khac platforms Step2) */
+
+  function getShopeeLink(bot) {
+    if (!bot) return "";
+    var u = bot.shopeeLink || bot.shopee || "";
+    if (typeof u !== "string") return "";
+    u = u.trim();
+    if (!u || u === "#") return "";
+    return u;
+  }
 
         var BOT_DATA = [
     {
@@ -2893,6 +2959,7 @@
       hook: "|| Em được người ta tỏ tình á. Anh hai chỉ em cách hôn đi.\n🔞 Bot có nội dung NSFW / Taboo / Kink. Vui lòng Đọc Plot trước khi Gặp Bot.\n\n - image credit: tensor + gpt -",
       likes: 0,
       coverLabel: "NEW/BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/pgc.jpg",
       rentryLink: "https://rentry.co/annamei-pgc",
       requirePassword: true,
@@ -2933,6 +3000,7 @@
       hook: "|| Khóc đi, mếu nữa đi, nhìn em khóc cưng chết đi được! \n\n - image credit: tensor + gpt + gemini -",
       likes: 0,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/tcd.jpg",
       rentryLink: "https://rentry.co/annamei-tcd",
       tags: ["Vietnam", "BL/BG", "University","Mập mờ","Guitarist","Trêu chọc","Slowburn","Gia sư","Romance","Possessive","Modern", "NSFW/R21"],
@@ -2970,9 +3038,10 @@
       lang: "vi",
       name: "Himuro Kuroki",
       type: "Dark Romance",
-      hook: "⚠️ || Chú gài tôi. Đêm đó chú đã “tha” cho tôi, tại sao lại bắt tôi vào Sở lần nữa? \n\n ✨ Ver khác: tội phạm (yandere/stalker) x user (cảnh sát)\n 👉 Lục Cảnh Thâm \n\n - image credit: gpt -",
+      hook: "⚠️ || Chú gài tôi. Đêm đó chú đã “tha” cho tôi, tại sao lại bắt tôi vào Sở lần nữa? \n\n ✨ Ver khác: tội phạm (yandere/stalker) x user (cảnh sát)\n ╰┈➤ Lục Cảnh Thâm \n\n - image credit: gpt -",
       likes: 0,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/kuroki.jpg",
       rentryLink: "https://rentry.co/annamei-kuroki-viet",
       tags: ["Japan", "BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
@@ -2987,7 +3056,7 @@
       lang: "en",
       name: "Himuro Kuroki",
       type: "Dark Romance",
-      hook: "⚠️ || You set me up. You \"let me go\" that night, so why did you bring me back to the Station? \n\n ✨ Alternate ver: criminal (yandere/stalker) x user (police officer) \n 👉 Ronan Vale \n\n - image credit: gpt -",
+      hook: "⚠️ || You set me up. You \"let me go\" that night, so why did you bring me back to the Station? \n\n ✨ Alternate ver: criminal (yandere/stalker) x user (police officer) \n ╰┈➤ Ronan Vale \n\n - image credit: gpt -",
       likes: 0,
       coverLabel: "BOT",
       avatar: "assets/bots/kuroki.jpg",
@@ -3006,9 +3075,10 @@
       lang: "vi",
       name: "Lục Cảnh Thâm",
       type: "Dark Romance",
-      hook: "|| Đồng chí ơi, tay em “sạch” cỡ nào mà lại còng tay anh? \n\n ✨ Ver khác: cảnh sát (yandere/stalker) x user (tội phạm)\n 👉 Himuro Kuroki",
+      hook: "|| Đồng chí ơi, tay em “sạch” cỡ nào mà lại còng tay anh? \n\n ✨ Ver khác: cảnh sát (yandere/stalker) x user (tội phạm)\n ╰┈➤ Himuro Kuroki",
       likes: 2,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/lct.jpg",
       rentryLink: "https://rentry.co/annamei-lct-viet",
       tags: ["Vietnam", "BL/BG", "Police","Criminal","Red Flag","Slowburn","Yandere","Dark romance","Stalker","Modern", "NSFW/R21"],
@@ -3024,7 +3094,7 @@
       lang: "en",
       name: "Ronan Vale",
       type: "Dark Romance",
-      hook: "|| Officer, how “clean” are those hands of yours to be handcuffing me? \n\n ✨ Alternate ver: police officer (yandere/stalker) x user (criminal) \n 👉 Himuro Kuroki",
+      hook: "|| Officer, how “clean” are those hands of yours to be handcuffing me? \n\n ✨ Alternate ver: police officer (yandere/stalker) x user (criminal) \n ╰┈➤ Himuro Kuroki",
       likes: 1,
       coverLabel: "BOT",
       avatar: "assets/bots/lct.jpg",
@@ -3047,6 +3117,7 @@
       hook: "|| Kẻ dùng Thân Xác và Ảnh nude để trói buộc. Kẻ dùng sự Dịu dàng và Khao khát ngầm để thao túng.",
       likes: 12,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/báhien.jpg",
       rentryLink: "https://rentry.co/annamei-bacvahien",
       tags: ["Vietnam", "BG", "FWB","Fuckboy","Good boy","Slowburn","University","Dark romance","3P","Harem", "NSFW/R21"],
@@ -3083,6 +3154,7 @@
       hook: "|| Giáo sư vì “quá yêu” nên đã chuốc thuốc - Ép tôi cưới hắn vì dính bầu.",
       likes: 8,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/tachibana.jpg",
       rentryLink: "https://rentry.co/annamei-tachibanakyouya",
       tags: ["Love potion","Yandere","Married","Professor","Japan","University","Pregnant","NSFW/R21"],
@@ -3119,6 +3191,7 @@
       hook: "|| Kiếp trước kẻ bắt nạt dồn tôi đến chết. Kiếp này Hệ Thống ép tôi cua gã để sống. \n\n - image credit: tensor + gpt -",
       likes: 15,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/damianvance.jpg",
       rentryLink: "https://rentry.co/annamei-damienvance-viet",
       tags: ["System","Second Life","Bully","BL/BG","CEO","America"],
@@ -3156,15 +3229,12 @@
       type: "OpenWorld / Harem",
       hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn - trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.\n\n- artist: Koumi-Senpai \n - source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
       likes: 22,
-      coverLabel: "OPEN WORLD",
-      avatar: "assets/bots/test1.jpg",
-      rentryLink: "https://rentry.co/annamei-yansim-viet",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
-      platforms: [
-      { label: "TpChar (BG/Free)", url: "https://tpchar.4uai.tech/share/2fe0ec6b717399ed1a602296" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1dzwESiYUo5mCvyGsM52V4ODLChRGZbXt" },
-      { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/15vI2mIYHRKfuJOMoOK9nh7fUytCxoGd4" }
-    ]
+      platforms: []
     },
 
     {
@@ -3174,16 +3244,12 @@
       type: "OpenWorld / Harem",
       hook: "|| 10 Male Rivals become Possessive over you - while Taro Yamada (Senpai) becomes their bloody target.\n\n - artist: Koumi-Senpai -\n- source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
       likes: 22,
-      coverLabel: "OPEN WORLD",
-      avatar: "assets/bots/test1.jpg",
-      rentryLink: "https://rentry.co/annamei-yansimeng",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["OpenWorld","Possessive","Yandere","BL/BG","Highschool","NSFW/R21"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1TZK-dXYISDubs6yNdRIENtzFw_oji-3F" },
-      { label: "GGAI (BL)", url: "https://aistudio.google.com/prompts/1rFrKW2pBthss0MmfcfV3NSuEJQ0E7ytx" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmutrsjrw000n05m7ncj3is8v" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     },
 
     {
@@ -3194,6 +3260,7 @@
       hook: "|| Anh đã luôn tìm em qua hàng nghìn kiếp rồi. Lần này… em đừng trốn anh nữa, được không? \n\n ✦ ─── Request for An Lynn ─── ✦  \n\n - image credit: tensor + gpt -",
       likes: 19,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/haizz.jpg",
       rentryLink: "https://rentry.co/annamei-lehoangminh",
       tags: ["Boyfriend","Vietnam","Artist","Lovesick","Greenflag","Modern"],
@@ -3211,6 +3278,7 @@
       hook: "|| Gã người yêu Cũ là Bố của Thằng bạn thân… nhưng bạn chưa bao giờ hay biết!?",
       likes: 11,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/daniel.jpg",
       rentryLink: "https://rentry.co/annamei-danieltony-viet",
       tags: ["Ex","Bestfriend","Dad","Bartender","America","Possessive","Harem","3P","University","NSFW/R21"],
@@ -3246,14 +3314,12 @@
       type: "Dark Romance",
       hook: "⚡|| Em là vợ Vampire bé nhỏ của anh… và anh sẽ không dừng lại cho đến khi thấy bụng em to lên vì máu và tinh dịch của anh.  \n\n - image credit: tensor + gpt -",
       likes: 17,
-      coverLabel: "BOT",
-      avatar: "assets/bots/kenshin.jpg",
-      rentryLink: "https://rentry.co/annamei-kenshin-viet",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
-      platforms: [
-      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1KUDPP21fLHTatc2XM87q3xrBmoiXrFY6" }
-    ]
+      platforms: []
     },
 
     {
@@ -3263,16 +3329,12 @@
       type: "Dark Romance",
       hook: "⚡|| You are my little Vampire wife... and I won't stop until I see your belly swollen with my blood and semen.  \n\n - image credit: tensor + gpt -",
       likes: 17,
-      coverLabel: "BOT",
-      avatar: "assets/bots/kenshin.jpg",
-      rentryLink: "https://rentry.co/annamei-kenshineng",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Dark Romance","Vampire","Married","Obsessive","NSFW/R21","Modern","Japan","CEO"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1G4kHuOkqJnl6qMaMuj7aBzx2YRR01ie3" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmukj5ukr00060agml1qwwzhq" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/yamamoto_kenshin" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     },
 
     {
@@ -3283,6 +3345,7 @@
       hook: "‼️|| Bạn vô tình bắt gặp 1 trong 2 anh em sinh đôi đang Thủ Dâm đằng sau cánh cửa.",
       likes: 14,
       coverLabel: "BOT",
+      shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/ethanlucas.jpg",
       rentryLink: "https://rentry.co/annamei-twins-viet",
       tags: ["3P","Twins","Slow Burn","Childhood Friends","BL/BG","NSFW/R21"],
@@ -3320,14 +3383,12 @@
       type: "Forbidden Romance",
       hook: "🖊|| Người thầy giáo luôn yêu bạn điên cuồng… Hóa ra đã có Vợ từ lâu?  \n\n - image credit: tensor + gpt -",
       likes: 9,
-      coverLabel: "BOT",
-      avatar: "assets/bots/soradaiki.jpg",
-      rentryLink: "https://rentry.co/annamei-soradaiki-viet",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
-      platforms: [
-      { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/0c06815c78672b093df18d5c" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/15WW25U9SutcZlDM0moGxOGGNRmvkB1L9" }
-    ]
+      platforms: []
     },
 
     {
@@ -3337,16 +3398,12 @@
       type: "Forbidden Romance",
       hook: "🖊|| The teacher who always loved you so madly... Turns out have been Married all along?  \n\n - image credit: tensor + gpt -",
       likes: 9,
-      coverLabel: "BOT",
-      avatar: "assets/bots/soradaiki.jpg",
-      rentryLink: "https://rentry.co/annamei-soradaikieng",
+      coverLabel: "FIX",
+      status: "fix",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Affair","Forbidden Love","Professor","Drama","NSFW/R21"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1ZTI07Ii1I6_lKK1jcIUvlQcbzXxnPygQ" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmudp9oa9000q0agmlukpexdj" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/soradaiki" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     },
 
     {
@@ -3356,14 +3413,12 @@
       type: "Romance / Mind-Reading",
       hook: "⁉️|| Làm sao để 'đá' gã bạn trai HotBoy đầy chiếm hữu - người có khả năng đọc được suy nghĩ của bạn?  \n\n - image credit: tensor -",
       likes: 13,
-      coverLabel: "BOT",
-      avatar: "assets/bots/renelias.jpg",
-      rentryLink: "https://rentry.co/annmei-renelias-viet",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
-      platforms: [
-      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/1z-6d-CI2rVpnK8Ob0gV8Z2zspmDq5GA6" }
-    ]
+      platforms: []
     },
 
     {
@@ -3373,16 +3428,12 @@
       type: "Romance / Mind-Reading",
       hook: "⁉️|| How do you 'dump' a possessive HotBoy boyfriend - who can read your mind? \n\n - image credit: tensor -",
       likes: 13,
-      coverLabel: "BOT",
-      avatar: "assets/bots/renelias.jpg",
-      rentryLink: "https://rentry.co/annamei-reneliaseng",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Possessive","Boyfriend","Control","University","NSFW/R21"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1H9CveYejMHHF-CE9Pnr1Zlqv4ZjnngIJ" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmuavk11e003q0agm9x95xh09" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/ren_elias" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     },
 
     {
@@ -3392,14 +3443,12 @@
       type: "Werewolf",
       hook: "🐺|| Gã người sói nói anh ấy là chồng bạn. Nhưng tại sao bạn lại chẳng nhớ gì?  \n\n - image credit: gpt -",
       likes: 10,
-      coverLabel: "BOT",
-      avatar: "assets/bots/dariankenzo.jpg",
-      rentryLink: "https://rentry.co/annamei-dariankenzo-viet",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
-      platforms: [
-      { label: "TPChar (BG/Free)", url: "https://tpchar.4uai.tech/share/17e463aa248cc2645fcacbfc" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/1VWi95tVFcVoAZL9g6X1cPfTC3IdoGfR5" }
-    ]
+      platforms: []
     },
 
     {
@@ -3410,15 +3459,12 @@
       hook: "🐺|| The wolf says he is your husband. But why do you remember nothing? \n\n - image credit: gpt -",
       likes: 10,
       coverLabel: "BOT",
-      avatar: "assets/bots/dariankenzo.jpg",
-      rentryLink: "https://rentry.co/annamei-dariankenzoeng",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Werewolf","Amnesia","Mystery","Dark Romance","NSFW/R21"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1YIC04P_jkf_kOQuuM5sjMwsgu9Om6nsE" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmu9h0ubp000m0agm0rxnh32c" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/darian_kenzo" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: [ ]
     },
 
     {
@@ -3428,14 +3474,12 @@
       type: "Angst / Romance",
       hook: "💻|| Gã người yêu cũ đào hoa từng đá bạn... giờ lại muốn quay về. \n\n - image credit: tensor -",
       likes: 7,
-      coverLabel: "BOT",
-      avatar: "assets/bots/sawadoharuki.jpg",
-      rentryLink: "https://rentry.co/annamei-haruki-viet",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Exes","Angst","Playboy","Second Chance"],
-      platforms: [
-      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1bwosoq0bess8PwLsJTLbys_qRl03mYx7" }
-    ]
+      platforms: []
     },
 
     {
@@ -3445,16 +3489,12 @@
       type: "Angst / Romance",
       hook: "💻|| Your playboy ex who dumped you... now wants to come back.  \n\n - image credit: tensor -",
       likes: 7,
-      coverLabel: "BOT",
-      avatar: "assets/bots/sawadoharuki.jpg",
-      rentryLink: "https://rentry.co/annamei-harukieng",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Exes","Angst","Playboy","Second Chance"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/168a2V7iiYsYLPp5gAN5BXpUBtuafTA-s" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmu8evoag003e0agmoavfv28t" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/sawado_haruki" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     },
 
     {
@@ -3464,14 +3504,12 @@
       type: "Romance / Two personalities",
       hook: "☆|| Người chồng sĩ quan cảnh sát hoàn hảo của bạn có hai khuôn mặt - nhưng bạn chỉ biết một? \n\n - image credit: tensor -",
       likes: 6,
-      coverLabel: "BOT",
-      avatar: "assets/bots/ryoujodul.jpg",
-      rentryLink: "https://rentry.co/annmei-jodul-viet",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix.png",
+      rentryLink: "#",
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
-      platforms: [
-      { label: "TpChar (BG/Credit)", url: "https://tpchar.4uai.tech/creator/cmu5zymp901nei59fwdmc22a6" },
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/app/prompts/15Szqjs-JYkxBvXcblhQzy2W42PQMjieh" }
-    ]
+      platforms: []
     },
 
     {
@@ -3481,18 +3519,13 @@
       type: "Romance / Two personalities",
       hook: "☆|| Your perfect police officer husband has two faces - but you only know one?  \n\n - image credit: tensor -",
       likes: 6,
-      coverLabel: "BOT",
-      avatar: "assets/bots/ryoujodul.jpg",
-      rentryLink: "https://rentry.co/annamei-joduleng",
+      coverLabel: "REMAKE",
+      status: "remake",
+      avatar: "assets/bots/fix1.png",
+      rentryLink: "#",
       tags: ["Drama","Dark","Puppy","Police","NSFW/R21"],
-      platforms: [
-      { label: "GGAI (BG)", url: "https://aistudio.google.com/prompts/1RbBZXxOGOKwzD_-vfa5LkGnDRQzEsDUB" },
-      { label: "Reverie (BG)", url: "https://reverie.im/app/characters/cmu7yv13q000s0bgm97g1yg6r" },
-      { label: "ClankWorld (BG)", url: "https://www.clank.world/@c/ryou_jodul" },
-      { label: "Janitor (BG) -> !updating!💦", url: "#" }
-    ]
+      platforms: []
     }
-
   ];
 
   var COMMANDS = {
@@ -4491,7 +4524,15 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       langMismatchTitle:"Chưa có bản ngôn ngữ này",
       langMismatchDesc:"Bot trong link bạn mở không có phiên bản cho ngôn ngữ vừa chọn. Bạn có thể quay lại chọn ngôn ngữ khác, hoặc tiếp tục xem danh sách bot của ngôn ngữ hiện tại.",
       langMismatchBack:"← Chọn lại ngôn ngữ",
-      langMismatchContinue:"Tiếp tục xem web"
+      langMismatchContinue:"Tiếp tục xem web",
+      remakeChat:"🔧 Remake",
+      remakeTitle:"Bot đang được Remake",
+      remakeDesc:"Mei đang viết lại bot này. Link tạm khóa - sẽ mở lại khi bản Remake xong 💕",
+      remakeCardNote:"🔧 Đang Remake - link bot tạm khóa",
+      fixChat:"🛠️ Fix",
+      fixTitle:"Bot đang được Fix",
+      fixDesc:"Mei đang sửa bot này. Link tạm khóa - sẽ mở lại khi Fix xong 💕",
+      fixCardNote:"🛠️ Đang Fix - link bot tạm khóa"
     },
     en: {
       search:"Search characters...", empty:"No matching character found ♡",
@@ -4515,6 +4556,14 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       shareCopied:"Bot link copied! ✨",
       copyBtn:"📋 Copy", copied:"Copied!",
       charsLabel:"chars", tokensLabel:"tokens",
+      remakeChat:"🔧 Remake",
+      remakeTitle:"This bot is being Remade",
+      remakeDesc:"Mei is rewriting this bot. Links are temporarily locked - bot will return when the Remake is ready 💕",
+      remakeCardNote:"🔧 Remake in progress - bot links locked",
+      fixChat:"🛠️ Fix",
+      fixTitle:"This bot is being Fixed",
+      fixDesc:"Mei is fixing this bot. Links are temporarily locked - bot will return when the Fix is ready 💕",
+      fixCardNote:"🛠️ Fix in progress - bot links locked",
       botLangMismatch:"This bot is not available in the language you selected💦",
       langMismatchTitle:"Not available in this language",
       langMismatchDesc:"The bot from your link does not have a version for the language you just chose. You can go back and pick another language, or continue browsing bots in the current language.",
@@ -4950,7 +4999,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
 
   var meetModal = document.getElementById("meetModal");
   var shopeeBtn = document.getElementById("shopeeBtn");
-  shopeeBtn.href = SHOPEE_LINK;
+  if (shopeeBtn) shopeeBtn.href = "#";
 
   
   
@@ -5022,6 +5071,34 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     return;
   }
 
+  /* status: "remake" | "fix"  (remaking:true vẫn được hiểu là remake) */
+  function getBotLockKind(bot) {
+    if (!bot) return null;
+    var s = String(bot.status || "").toLowerCase();
+    if (s === "fix" || s === "remake") return s;
+    if (bot.remaking) return "remake";
+    return null;
+  }
+  function lockKindCopy(kind, t, bot) {
+    t = t || {};
+    if (kind === "fix") {
+      return {
+        badge: "FIX",
+        chat: t.fixChat || "🛠️ Fix",
+        title: t.fixTitle || "Fix",
+        desc: (bot && bot.remakeNote) || t.fixDesc || "",
+        cardNote: (bot && bot.remakeNote) || t.fixCardNote || ""
+      };
+    }
+    return {
+      badge: "REMAKE",
+      chat: t.remakeChat || "🔧 Remake",
+      title: t.remakeTitle || "Remake",
+      desc: (bot && bot.remakeNote) || t.remakeDesc || "",
+      cardNote: (bot && bot.remakeNote) || t.remakeCardNote || ""
+    };
+  }
+
   function openMeetModal(bot) {
     currentMeetBot = bot;
     document.getElementById("meetBotName").textContent = bot.name || bot.id;
@@ -5033,9 +5110,42 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     var tpcharBtn = document.getElementById("tpcharBtn");
     var tpcharHint = document.getElementById("tpcharHint");
     var meetOr = document.getElementById("meetOr");
+    var remakeEl = document.getElementById("meetRemakeNotice");
+    var passGate = document.getElementById("meetPasswordGate");
+    var divider = meetModal ? meetModal.querySelector(".modal-divider") : null;
 
     var kofiWrap = document.getElementById("meetKofiWrap");
     var kofiBtn = document.getElementById("kofiBtn");
+    var t = I18N[lang] || I18N.vi;
+
+    /* ===== REMAKE / FIX: only notice, no links ===== */
+    var lockKind = getBotLockKind(bot);
+    if (lockKind) {
+      if (remakeEl) {
+        remakeEl.style.display = "";
+        var rt = document.getElementById("meetRemakeTitle");
+        var rd = document.getElementById("meetRemakeDesc");
+        var rn = document.getElementById("meetRemakeBotName");
+        var stepLbl = remakeEl.querySelector(".modal-step-label");
+        var copy = lockKindCopy(lockKind, t, bot);
+        if (stepLbl) stepLbl.textContent = copy.badge;
+        if (rt) rt.textContent = copy.title;
+        if (rd) rd.textContent = copy.desc;
+        if (rn) rn.textContent = bot.name || bot.id;
+      }
+      if (step1El) step1El.style.display = "none";
+      if (step2El) step2El.style.display = "none";
+      if (passGate) passGate.style.display = "none";
+      if (kofiWrap) kofiWrap.classList.remove("show");
+      if (divider) divider.style.display = "none";
+      if (tpcharBtn) tpcharBtn.style.display = "none";
+      if (meetOr) meetOr.style.display = "none";
+      if (tpcharHint) tpcharHint.style.display = "none";
+      meetModal.classList.add("show");
+      return;
+    }
+    if (remakeEl) remakeEl.style.display = "none";
+    if (divider) divider.style.display = "";
 
     /* ===== EN: Ko-fi support on top + platform links unlocked (no Shopee/steps) ===== */
     if (lang === "en") {
@@ -5068,11 +5178,9 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       return;
     }
 
-    /* ===== VI: keep Shopee step + TpChar + unlock flow (no Ko-fi) ===== */
+    /* ===== VI: Shopee theo từng bot (shopeeLink) — không còn link mặc định ===== */
     if (kofiWrap) kofiWrap.classList.remove("show");
-    if (step1El) step1El.style.display = "";
     if (step2El) step2El.style.display = "";
-    if (step1Label) step1Label.style.display = "";
     if (step2Label) step2Label.style.display = "";
 
     /* TpChar (Credit) đã được dời xuống Step 2 (platformList) - Step 1 chỉ còn Shopee */
@@ -5082,6 +5190,26 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     }
     if (meetOr) meetOr.style.display = "none";
     if (tpcharHint) tpcharHint.style.display = "none";
+
+    var botShopee = getShopeeLink(bot);
+    if (botShopee) {
+      if (step1El) step1El.style.display = "";
+      if (step1Label) step1Label.style.display = "";
+      if (divider) divider.style.display = "";
+      if (shopeeBtn) {
+        shopeeBtn.href = botShopee;
+        shopeeBtn.style.display = "";
+      }
+    } else {
+      /* Không có Shopee riêng → bỏ Step 1, mở thẳng platform */
+      if (step1El) step1El.style.display = "none";
+      if (divider) divider.style.display = "none";
+      if (bot && bot.id) shopeeUnlockedBots[bot.id] = true;
+      if (shopeeBtn) {
+        shopeeBtn.href = "#";
+        shopeeBtn.style.display = "none";
+      }
+    }
 
     setupPasswordGate(bot);
     updatePlatforms({ scroll: !!shopeeUnlockedBots[bot.id] });
@@ -5444,9 +5572,12 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       bodyEl.innerHTML =
         "<p style=\"text-align:center\">Mei luôn tôn trọng bản quyền hình ảnh, ý tưởng và công sức sáng tạo. Đối với các dự án bot của mình, Mei cam kết:</p>" +
         "<details class=\"policy-fold\">" +
-        "<summary>Bot OCs (Nhân vật gốc do Mei tự tạo)</summary>" +
-        "<div class=\"fold-body\">Chỉ sử dụng ảnh do AI tạo ra hoặc các hình ảnh minh họa đại trà / ảnh aesthetic tự do (không vi phạm quyền hình ảnh cá nhân) - Mei tuyệt đối không sao chép ý tưởng, thiết kế hay art của artist khác khi chưa được phép.</div>" +
-        "</details>" +
+        "<summary>Hình ảnh &amp; Bot OCs (nhân vật gốc do Mei tự tạo)</summary>" +
+        "<div class=\"fold-body\">" +
+        "<p>Với bot OC, Mei chỉ dùng ảnh do <strong>AI tạo</strong> hoặc ảnh aesthetic không nhận diện được cá nhân (tay, chân, dáng người, trang phục…) / ảnh minh họa không định danh - tuyệt đối không sao chép ý tưởng, thiết kế hay art của artist khác khi chưa được phép.</p>" +
+        "<p>Mei <strong>không dùng ảnh người thật lộ mặt</strong> để quảng bá / minh họa bot có nội dung NSFW hoặc nhạy cảm. Việc gắn khuôn mặt thật với nội dung 18+ là ranh giới Mei không vượt qua.</p>" +
+        "<p><strong>Ngoại lệ hẹp:</strong> khi bot dựa trên <strong>nhân vật đã tồn tại trong tác phẩm công khai</strong> (phim, truyện…), Mei có thể dùng ảnh liên quan đến nhân vật đó trong phạm vi cho phép và ghi nguồn khi cần. Ngoại lệ này <strong>không áp dụng</strong> cho ảnh đời thường của người thật ngoài đời.</p>" +
+        "</div></details>" +
         "<details class=\"policy-fold\">" +
         "<summary>Bot / Open World dựa trên tác phẩm có sẵn</summary>" +
         "<div class=\"fold-body\">Mei có thể thay đổi (phạm vi nhỏ) nhưng không mất đi cái gốc bản chất của tác phẩm. Luôn ghi nguồn đầy đủ và chỉ tạo khi nằm trong phạm vi cho phép hoặc đã có sự đồng ý rõ ràng từ chủ sở hữu - Mei tuyệt đối không thương mại hóa (phi lợi nhuận) dưới bất kỳ hình thức nào.</div>" +
@@ -5461,7 +5592,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         "<summary>Cách Mei dùng AI (ChatGPT &amp; Gemini)</summary>" +
         "<div class=\"fold-body\">" +
         "<p>- Mei chỉ dùng <strong>ChatGPT</strong> và <strong>Gemini</strong> <em>sau khi đã hoàn thành Backstory</em> - chủ yếu để <strong>trau chuốt từ ngữ và văn phong</strong>, giúp câu chữ mượt hơn, không phải để AI “viết hộ” toàn bộ bot.</p>" +
-        "<p>- Từ 2023, Mei đã ưu tiên <strong>world-building chi tiết</strong> (từng phát triển bot theo phong cách tiểu thuyết / Novel vì đó là nhu cầu cá nhân của Mei). Mỗi nhân vật được phân chia rõ ràng: Mô tả, Quá khứ, Backstory, Highlights, Lore, Lệnh, Open scene. <em>(Lưu ý: Sẽ bỏ bớt 1-2 mục khi Bot là nhân vật trong Open World)</em></p>" +
+        "<p>- Từ 2023, Mei đã ưu tiên <strong>world-building chi tiết</strong> (từng phát triển bot theo phong cách tiểu thuyết (Novel) vì đó là nhu cầu cá nhân của Mei). Mỗi Bot được phân chia rõ ràng: Mô tả, Quá khứ, Highlights, Backstory, Lore, Lệnh, Open scene. <em>(Lưu ý: Sẽ bỏ bớt 1-2 mục khi Bot là nhân vật trong Open World).</em> Đây là khung Prompt của riêng Mei tự tạo qua nhiều kinh nghiệm tự đúc kết cho bản thân. Cam kết không tham khảo từ AI hay Creator nào khác.</p>" +
         "<p><strong>- Nội dung NSFW / 18+:</strong> Mei <strong>tự tay viết toàn bộ</strong>. Không phải không có AI hỗ trợ viết cảnh 18+, nhưng Mei luôn tự viết để luôn giữ đúng tính cách, giọng nói, bối cảnh, ranh giới nhân vật. Đặc biệt là Mei thích <strong>thô và trần tục</strong>. Kèm theo đó là những thể loại <em>nặng đô</em> hơn như <strong>BDSM / Loạn luân / Kink / Taboo</strong> - vốn không phải AI nào cũng có thể đáp ứng.</p>" +
         "<p>- Mei cam kết prompt có lặp từ nhưng <strong>không lặp từ bừa bãi</strong> - nhằm trải nghiệm nhập vai sâu và tốt nhất cho người dùng.</p>" +
         "</div></details>" +
@@ -5470,6 +5601,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         "<div class=\"fold-body\">" +
         "<p>Toàn bộ bot, OpenWorld, lệnh, plot và cấu trúc prompt do Mei công bố trên web / nền tảng đều là <strong>sản phẩm sáng tạo của Mei</strong>.</p>" +
         "<p><strong>Không được:</strong> sao chép nguyên văn hoặc chỉnh sửa nhẹ rồi đăng dưới tên khác; chiếm dụng plot / backstory / hệ thống lệnh của Mei để bán, nhận commission, hoặc xây bot thương mại mà không có sự đồng ý bằng văn bản từ Mei.</p>" +
+        "<p><strong>Phần không công khai vẫn thuộc về Mei:</strong> mọi thông tin, đoạn lệnh, cấu trúc prompt hay nội dung mà Mei <em>không chủ động chia sẻ công khai</em> (kể cả khi vô tình hiện trong giao diện một nền tảng) vẫn là tài sản sáng tạo của Mei. <strong>Không được</strong> sao chép, lưu trữ để dùng riêng, hay tự ý mang sang nền tảng / bot khác.</p>" +
         "<p><strong>Được:</strong> lấy cảm hứng ý tưởng chung (trope, thể loại) và tự viết lại hoàn toàn bằng công sức của bạn - đó là sáng tạo riêng, không phải bản sao.</p>" +
         "<p>Vi phạm có thể bị yêu cầu gỡ bỏ trên nền tảng đăng tải. Nếu bạn thấy nội dung của Mei bị sao chép trái phép, vui lòng báo cho Mei qua Facebook để được hỗ trợ xử lý.</p>" +
         "</div></details>" +
@@ -5480,9 +5612,12 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       bodyEl.innerHTML =
         "<p style=\"text-align:center\">Mei always respects image rights, ideas, and creative work. For bot projects, Mei commits to:</p>" +
         "<details class=\"policy-fold\">" +
-        "<summary>OC bots (original characters by Mei)</summary>" +
-        "<div class=\"fold-body\">Only AI-generated images or generic / aesthetic illustrations (with no personal likeness rights violated) are used - Mei never copies another artist’s ideas, designs, or art without permission.</div>" +
-        "</details>" +
+        "<summary>Images &amp; OC bots (original characters by Mei)</summary>" +
+        "<div class=\"fold-body\">" +
+        "<p>For OC bots, Mei only uses <strong>AI-generated</strong> images or non-identifying aesthetic / illustration images (hands, legs, body silhouette, outfit, etc.) - and never copies another artist’s ideas, designs, or art without permission.</p>" +
+        "<p>Mei <strong>does not use real people’s face photos</strong> to promote or illustrate bots with NSFW or sensitive content. Linking a real identifiable face to 18+ material is a line Mei does not cross.</p>" +
+        "<p><strong>Narrow exception:</strong> when a bot is based on a <strong>public fictional character</strong> from an existing work (film, novel, etc.), Mei may use related imagery within permitted bounds and credit the source when needed. This exception <strong>does not apply</strong> to everyday photos of real private people.</p>" +
+        "</div></details>" +
         "<details class=\"policy-fold\">" +
         "<summary>Bots / Open Worlds based on existing works</summary>" +
         "<div class=\"fold-body\">Mei may make small changes but never loses the core nature of the original work. Full credit is always given; content is only created within allowed use or with clear consent from the rights holder - Mei never commercializes it for profit in any form.</div>" +
@@ -5497,7 +5632,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         "<summary>How Mei uses AI (ChatGPT &amp; Gemini)</summary>" +
         "<div class=\"fold-body\">" +
         "<p>- Mei only uses <strong>ChatGPT</strong> and <strong>Gemini</strong> <em>after the backstory is complete</em> - mainly to <strong>polish wording and writing style</strong>, not to let AI write the entire bot.</p>" +
-        "<p>- Since 2023, Mei has prioritized detailed <strong>world-building</strong> (including novel-style bots for personal preference). Each character is structured clearly: Description, Past, Backstory, Highlights, Lore, Commands, Open scene. <em>(Note: 1-2 sections may be omitted for characters inside an Open World.)</em></p>" +
+        "<p>- Since 2023, Mei has prioritized detailed <strong>world-building</strong> (including novel-style bots for personal preference). Each bot is structured clearly: Description, Past, Highlights, Backstory, Lore, Commands, Open scene. <em>(Note: 1-2 sections may be omitted for characters inside an Open World.)</em> This prompt framework was built by Mei from personal experience over time. Mei does not copy prompt systems from AI tools or other creators.</p>" +
         "<p><strong>- NSFW / 18+ content:</strong> Mei <strong>writes all of it by hand</strong>. AI can assist with 18+ scenes, but Mei always writes them personally to keep personality, voice, setting, and boundaries accurate. Mei prefers <strong>raw and explicit</strong> tone, including heavier themes such as <strong>BDSM / Incest / Kink / Taboo</strong> - which not every AI can handle well.</p>" +
         "<p>- Mei allows some word repetition in prompts but <strong>never careless spam</strong> - for deeper, better roleplay for users.</p>" +
         "</div></details>" +
@@ -5506,6 +5641,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         "<div class=\"fold-body\">" +
         "<p>All bots, OpenWorlds, commands, plots, and prompt structures Mei publishes on this site or other platforms are <strong>Mei's original creative work</strong>.</p>" +
         "<p><strong>Not allowed:</strong> copying them wholesale or with only light edits and posting under another name; using Mei's plots / backstories / command systems to sell bots, take commissions, or build commercial characters without Mei's written permission.</p>" +
+        "<p><strong>Non-public material still belongs to Mei:</strong> any information, command blocks, prompt structure, or content Mei does <em>not</em> intentionally share in public (including text that may appear inside a platform UI) remains Mei's creative property. <strong>Do not</strong> copy it, keep it for private reuse, or move it to another platform / bot.</p>" +
         "<p><strong>Allowed:</strong> taking general inspiration (tropes, genres) and writing your own work from scratch - that is your creation, not a copy.</p>" +
         "<p>Infringement may be reported for removal on the hosting platform. If you find Mei's work copied without permission, please message Mei on Facebook so it can be addressed.</p>" +
         "</div></details>" +
@@ -5638,13 +5774,16 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       '<div class="yt-list" id="ytCommentList"></div>' +
       "</div>" +
       '<div class="fb-form" style="text-align:center;margin-top:20px">' +
-      "<h3 style=\"text-align:center\">" + (vi ? "Gửi góp ý qua Google Form" : "Send feedback via Google Form") + "</h3>" +
+      "<h3 style=\"text-align:center\">" + (vi ? "Gửi góp ý cho Mei" : "Send feedback to Mei") + "</h3>" +
       '<p class="fb-form-note" style="text-align:center">' + (vi
-        ? ""
-        : "") + "</p>" +
-      '<a class="comm-link" href="' + GOOGLE_FORM_FEEDBACK + '" target="_blank" rel="noopener" onclick="playClick(\'pop\')" style="margin-top:8px">' +
-      (vi ? "📋 Mở Google Form góp ý" : "📋 Open feedback Google Form") + "</a>" +
-      "</div>";
+        ? "Có thể gửi qua Google Form hoặc nhắn trực tiếp Facebook nhé 💕"
+        : "You can use the Google Form or message Mei on Facebook 💕") + "</p>" +
+      '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:8px">' +
+      '<a class="comm-link" href="' + GOOGLE_FORM_FEEDBACK + '" target="_blank" rel="noopener" onclick="playClick(\'pop\')">' +
+      (vi ? "📋 Google Form" : "📋 Google Form") + "</a>" +
+      '<a class="comm-link secondary" href="' + FB_LINK + '" target="_blank" rel="noopener" onclick="playClick(\'pop\')">' +
+      (vi ? "💬 Facebook" : "💬 Facebook") + "</a>" +
+      "</div></div>";
 
     setupYtComments(vi);
   }
@@ -6088,6 +6227,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           '<h4>⏱️ Thời gian hoàn thành</h4>' +
           '<ul>' +
           '<li><strong>Bot lẻ:</strong> khoảng <strong>3-5 ngày</strong>, trễ nhất <strong>7 ngày</strong> tùy mức độ phức tạp - Đây là thời gian cố định Mei luôn tuân thủ!</li>' +
+          '<li><strong>Bot từ tác phẩm có thật:</strong> khoảng <strong>7-14 ngày</strong>, không hơn <strong>2 tuần</strong> vì Mei cần dành vài ngày để cày lại và nghiên cứu sâu hơn trước khi tạo Bot.</li>' +
           '<li><strong>OpenWorld:</strong> khoảng <strong>7-14 ngày</strong>, trễ nhất <strong>1 tháng</strong> tùy thuộc sự chi tiết của Plot &amp; Lore - Mei sẽ báo rõ khi nhận đơn.</li>' +
           '</ul>' },
         { title: '✨ Quyền lợi', body:
@@ -6116,7 +6256,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           '</ul>' +
           '<p><strong>OpenWorld:</strong></p>' +
           '<ul>' +
-          '<li>Lượng tokens vừa đủ, nhỏ, chỉ có Lore, 1-2 NPC: <strong>100-180K</strong></li>' +
+          '<li>Lượng tokens vừa đủ, nhỏ. Phần Lore được viết đầy đủ, nhưng chỉ có 1-2 NPC, lệnh ở mức cơ bản, thế giới quan mở rộng được 50% mong muốn: <strong>100-180K</strong></li>' +
           '<li>Bản đầy đủ theo yêu cầu: <strong>180K VND trở lên</strong> tùy mức độ phức tạp.</li>' +
           '</ul>' },
         { title: '🚫 Không nhận', body:
@@ -6190,6 +6330,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           '<h4>⏱️ Turnaround time</h4>' +
           '<ul>' +
           '<li><strong>Single bot:</strong> about <strong>3-5 days</strong>, at latest <strong>7 days</strong> depending on complexity - this is a fixed timeframe Mei always follows!</li>' +
+          '<li><strong>Bots based on existing works:</strong> about <strong>7-14 days</strong>, no more than <strong>2 weeks</strong>, because Mei needs a few days to re-study and research before building.</li>' +
           '<li><strong>OpenWorld:</strong> about <strong>7-14 days</strong>, at latest <strong>1 month</strong> depending on how detailed the Plot &amp; Lore are - Mei will confirm clearly when accepting the order.</li>' +
           '</ul>' },
         { title: '✨ Benefits', body:
@@ -6218,7 +6359,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           '</ul>' +
           '<p><strong>OpenWorld:</strong></p>' +
           '<ul>' +
-          '<li>Small, compact build with Lore only, 1-2 NPCs: <strong>$4-7</strong></li>' +
+          '<li>Compact token count: full Lore, only 1-2 NPCs, basic commands, world expanded to about 50% of the ideal scope: <strong>$4-7</strong></li>' +
           '<li>Full version as requested: <strong>from $7</strong> depending on complexity.</li>' +
           '</ul>' +
           '<h4>🔒 Public vs Private</h4>' +
@@ -6234,7 +6375,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
           '<li>OpenWorld / Bot:' +
           '<ul>' +
           '<li>From existing works that Mei doesn’t know.</li>' +
-          '<li><strong>Game</strong></li>' +
+          '<li><strong>Game</strong> genres: Mei does not yet have enough experience or vocabulary to carry the tone properly. Orders will open when Mei is more confident.</li>' +
           '</ul></li>' +
           '<li><strong>Extreme gore / murder-heavy content.</strong></li>' +
           '</ul>' }
@@ -6474,14 +6615,23 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     }
 
     grid.innerHTML = filtered.map(function (bot) {
-      var hasPlot = bot.rentryLink && bot.rentryLink !== "#";
+      var lockKind = getBotLockKind(bot);
+      var isLocked = !!lockKind;
+      var lockCopy = isLocked ? lockKindCopy(lockKind, t, bot) : null;
+      var hasPlot = !isLocked && bot.rentryLink && bot.rentryLink !== "#";
       var liked = isFav(bot.id);
       var likeCount = displayLikes(bot);
       var orderedTags = sortTags(normalizeBotTags(bot.tags.slice()));
       var plotHref = hasPlot ? escapeHtml(bot.rentryLink) : "javascript:void(0)";
+      var plotMissingMsg = isLocked ? (lockCopy.desc || t.plotMissing) : t.plotMissing;
       var plotAttr = hasPlot
         ? 'onclick="playClick(\'soft\')"'
-        : 'onclick="playClick(\'soft\');alert(' + JSON.stringify(t.plotMissing) + ');return false;"';
+        : 'onclick="playClick(\'soft\');alert(' + JSON.stringify(plotMissingMsg) + ');return false;"';
+      var chatLabel = isLocked ? (lockCopy.chat || t.chat) : t.chat;
+      var labelCls = "cover-label" + (isLocked ? " remake-label" : "");
+      var remakeNoteHtml = isLocked
+        ? '<p class="card-remake-note">' + escapeHtml(lockCopy.cardNote || "") + "</p>"
+        : "";
 
       var tagsHtml = orderedTags.map(function (tag) {
         var cls = "tag";
@@ -6494,7 +6644,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         '<article class="card" data-id="' + escapeHtml(bot.id) + '" id="bot-' + escapeHtml(bot.id) + '">' +
         '<div class="cover">' +
         (bot.avatar ? '<img src="' + escapeHtml(bot.avatar) + '" alt="" loading="lazy">' : "") +
-        '<div class="cover-label">' + escapeHtml(bot.coverLabel || "CHARACTER") + "</div>" +
+        '<div class="' + labelCls + '">' + escapeHtml(bot.coverLabel || (isLocked ? (lockCopy.badge || "LOCK") : "CHARACTER")) + "</div>" +
         '<button type="button" class="heart-btn' + (liked ? " liked" : "") + '" data-fav="' + escapeHtml(bot.id) + '" aria-label="Favorite">' +
         "<span>" + (liked ? "❤️" : "🤍") + "</span>" +
         '<span class="heart-num">' + likeCount + "</span>" +
@@ -6506,10 +6656,11 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         (String(bot.hook || "").length > 120
           ? '<button type="button" class="read-more" data-expand="' + escapeHtml(bot.id) + '">' + t.readMore + "</button>"
           : "") +
+        remakeNoteHtml +
         '<div class="tags">' + tagsHtml + "</div>" +
         '<div class="btn-group">' +
         '<a href="' + plotHref + '" target="_blank" class="btn-action btn-plot" ' + plotAttr + ">" + t.plot + "</a>" +
-        '<button type="button" class="btn-action btn-chat" data-meet="' + escapeHtml(bot.id) + '">' + t.chat + "</button>" +
+        '<button type="button" class="btn-action btn-chat' + (isLocked ? " remake" : "") + '" data-meet="' + escapeHtml(bot.id) + '">' + chatLabel + "</button>" +
         '<button type="button" class="btn-action btn-share" data-share="' + escapeHtml(bot.id) + '" title="Share">🔗</button>' +
         "</div></div></article>"
       );
