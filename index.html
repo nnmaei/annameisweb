@@ -774,7 +774,28 @@
     }
     .modal-btn.unlocked:hover { background: linear-gradient(160deg, #d48a84, #b86a64); }
     .modal-btn.locked {
-      opacity: 0.4; pointer-events: none; cursor: not-allowed; background: #524a46;
+      position: relative;
+      pointer-events: none;
+      cursor: not-allowed;
+      background: #524a46;
+      color: rgba(240, 232, 228, 0.55);
+      opacity: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .modal-btn.locked .lock-ico {
+      display: inline-flex;
+      width: 14px;
+      height: 14px;
+      flex: 0 0 14px;
+      opacity: 0.85;
+    }
+    .modal-btn.locked .lock-ico svg {
+      width: 14px;
+      height: 14px;
+      display: block;
     }
     .modal-btn.is-disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
     .modal-btn .arrow { margin-left: 4px; }
@@ -892,6 +913,92 @@
     .comm-page > .comm-intro {
       text-align: center; color: var(--muted); font-size: 14px; margin: 0 0 24px; line-height: 1.6;
     }
+    /* Commission brief builder */
+    .brief-builder {
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px;
+      margin: 0 0 22px; padding: 18px;
+      border: 1px solid var(--line); border-radius: 18px;
+      background: var(--bg-card); box-shadow: var(--shadow);
+    }
+    @media (max-width: 800px) { .brief-builder { grid-template-columns: 1fr; } }
+    .brief-builder h3 {
+      grid-column: 1 / -1;
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-style: italic;
+      font-weight: 700;
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+    .brief-sub {
+      grid-column: 1 / -1; margin: 0 0 8px; font-size: 12.5px; color: var(--muted); line-height: 1.5;
+    }
+    .brief-form { display: flex; flex-direction: column; gap: 12px; }
+    .brief-label { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+    .brief-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+    .brief-pill {
+      border: 1px solid var(--line); background: var(--bg-input); color: var(--ink);
+      padding: 8px 12px; border-radius: 999px; font-size: 12px; cursor: pointer;
+      font-family: var(--font-body); transition: 0.15s;
+    }
+    .brief-pill:hover { border-color: var(--accent); }
+    .brief-pill.active {
+      background: linear-gradient(160deg, #c47872, #a85a56); color: #fff8f3; border-color: transparent;
+    }
+    .brief-checks { display: flex; flex-wrap: wrap; gap: 10px 14px; font-size: 12.5px; color: var(--ink); }
+    .brief-checks label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .brief-textarea {
+      width: 100%; min-height: 88px; resize: vertical; padding: 10px 12px;
+      border: 1px solid var(--line); border-radius: 12px; background: var(--bg-input);
+      color: var(--ink); font-family: var(--font-body); font-size: 13px; line-height: 1.5;
+    }
+    .brief-textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196,120,114,0.18); }
+    .brief-side {
+      border: 1px solid var(--line); border-radius: 14px; padding: 14px;
+      background: rgba(196,120,114,0.08); display: flex; flex-direction: column; gap: 10px;
+    }
+    body.theme-dark .brief-side { background: rgba(224,163,156,0.08); }
+    .brief-price {
+      font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--accent);
+      line-height: 1.15;
+    }
+    .brief-meta { font-size: 12px; color: var(--muted); line-height: 1.55; }
+    .brief-preview {
+      flex: 1; font-size: 12px; line-height: 1.55; color: var(--ink);
+      white-space: pre-wrap; background: var(--bg-input); border-radius: 10px;
+      padding: 10px; border: 1px solid var(--line); max-height: 220px; overflow: auto;
+    }
+    .brief-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .brief-actions .btn-action { flex: 1 1 120px; text-align: center; }
+
+    /* Compact toolbar utilities */
+    .toolbar-utils {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    }
+    .util-seg {
+      display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
+      overflow: hidden; background: var(--bg-input);
+    }
+    .util-btn {
+      border: none; background: transparent; color: var(--muted);
+      padding: 7px 11px; font-size: 11.5px; font-family: var(--font-body);
+      cursor: pointer; font-weight: 500;
+    }
+    .util-btn.active {
+      background: linear-gradient(160deg, #c47872, #a85a56); color: #fff8f3;
+    }
+    .util-btn:hover:not(.active) { color: var(--ink); }
+    .util-check {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11.5px; color: var(--muted); padding: 0 4px; white-space: nowrap;
+    }
+    .util-check input { accent-color: var(--accent); }
+
     .comm-block {
       background: rgba(255, 248, 243, 0.82);
       border: 1px solid var(--line);
@@ -901,8 +1008,8 @@
       box-shadow: var(--shadow);
     }
     .comm-block h3 {
-      font-family: var(--font-display); font-size: 22px; font-style: italic;
-      font-weight: 600; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-size: 28px; font-style: italic;
+      font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; gap: 8px;
     }
     .comm-block ul {
       margin: 0; padding-left: 18px; color: #4f4542; font-size: 13.5px; line-height: 1.75;
@@ -1751,8 +1858,9 @@
       color: #1a1614 !important;
     }
     body.theme-dark .modal-btn.locked {
-      opacity: 0.75;
-      color: #cfc0b8 !important;
+      opacity: 1;
+      color: rgba(240, 232, 228, 0.55) !important;
+      background: #524a46;
     }
     body.theme-dark .cmd-card,
     body.theme-dark .comm-block {
@@ -2691,8 +2799,15 @@
     <div class="page-panel active" id="page-bots">
       <section class="toolbar">
         <div class="toolbar-top">
-          <input id="search" class="search" type="search" placeholder="Tìm nhân vật..." aria-label="Search">
-          <div id="count" class="count"></div>
+          <input id="search" class="search" type="search" placeholder="Tìm tên nhân vật, trope, bối cảnh..." aria-label="Search">
+          <div class="toolbar-utils" id="toolbarUtils">
+            <div class="util-seg" role="group" aria-label="Language">
+              <button type="button" class="util-btn" data-util-lang="vi" id="utilLangVi">VI</button>
+              <button type="button" class="util-btn" data-util-lang="en" id="utilLangEn">EN</button>
+            </div>
+            <label class="util-check"><input type="checkbox" id="effectToggleToolbar" /> Giảm effect</label>
+            <div id="count" class="count"></div>
+          </div>
         </div>
         <div class="filters-wrap">
           <div id="filters" class="filters"></div>
@@ -2835,6 +2950,17 @@
       <p class="modal-desc secondary" id="nsfwDescEn"></p>
       <button type="button" class="modal-btn primary" id="nsfwYes"></button>
       <button type="button" class="modal-btn secondary" id="nsfwNo"></button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="canonCheckModal">
+    <div class="modal-box">
+      <div class="modal-step-label" id="canonCheckLabel">📚</div>
+      <h3 class="modal-title" id="canonCheckTitle">Từ tác phẩm có sẵn</h3>
+      <p class="modal-desc" id="canonCheckDesc">Loại này cần Mei check trước xem đã biết / đã nghiên cứu tác phẩm đó chưa, rồi mới báo giá và nhận đơn.</p>
+      <p class="modal-desc secondary" id="canonCheckDesc2">Hãy nhắn Mei trên Facebook để trao đổi nhé.</p>
+      <a class="modal-btn primary" id="canonCheckYes" href="https://www.facebook.com/nnm.aaei/" target="_blank" rel="noopener">Liên hệ Mei</a>
+      <button type="button" class="modal-btn secondary" id="canonCheckNo">Hủy</button>
     </div>
   </div>
 
@@ -4933,6 +5059,32 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   document.getElementById("btnVi").addEventListener("click", function () { enterSite("vi"); });
   document.getElementById("btnEn").addEventListener("click", function () { enterSite("en"); });
 
+  function syncUtilLangButtons() {
+    var viB = document.getElementById("utilLangVi");
+    var enB = document.getElementById("utilLangEn");
+    if (viB) viB.classList.toggle("active", lang === "vi");
+    if (enB) enB.classList.toggle("active", lang === "en");
+  }
+  var utilVi = document.getElementById("utilLangVi");
+  var utilEn = document.getElementById("utilLangEn");
+  if (utilVi) utilVi.addEventListener("click", function () {
+    if (lang === "vi") return;
+    if (window.playClick) window.playClick("soft");
+    applyLang("vi");
+    syncUtilLangButtons();
+  });
+  if (utilEn) utilEn.addEventListener("click", function () {
+    if (lang === "en") return;
+    if (window.playClick) window.playClick("soft");
+    applyLang("en");
+    syncUtilLangButtons();
+  });
+  var _applyLang = applyLang;
+  applyLang = function (l) {
+    _applyLang(l);
+    syncUtilLangButtons();
+  };
+
   document.getElementById("pageNav").addEventListener("click", function (e) {
     var btn = e.target.closest("[data-page]");
     if (!btn) return;
@@ -5320,16 +5472,20 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         (lang === "en" ? "Links are being updated 💦" : "Link đang được cập nhật 💦") + "</p>";
       return;
     }
+    var lockIco = '<span class="lock-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16" r="1.2" fill="currentColor"/></svg></span>';
     list.innerHTML = plats.map(function (p) {
       if (p.noLink || !p.url) {
         /* TpChar Credit chưa có link: cùng màu hồng với các link khác, chỉ mờ đi + không bấm được */
-        return '<div class="modal-btn ' + (unlocked ? 'unlocked is-disabled' : 'locked') + '">' + escapeHtml(p.label) + '</div>';
+        if (unlocked) {
+          return '<div class="modal-btn unlocked is-disabled">' + escapeHtml(p.label) + '</div>';
+        }
+        return '<div class="modal-btn locked">' + lockIco + '<span>' + escapeHtml(p.label) + '</span></div>';
       }
       if (unlocked) {
         return '<a href="' + escapeHtml(p.url) + '" target="_blank" rel="noopener" class="modal-btn unlocked">' +
           escapeHtml(p.label) + ' <span class="arrow">→</span></a>';
       }
-      return '<div class="modal-btn locked">' + escapeHtml(p.label) + ' <span class="arrow">→</span></div>';
+      return '<div class="modal-btn locked">' + lockIco + '<span>' + escapeHtml(p.label) + '</span></div>';
     }).join("");
     if (unlocked || opts.scroll) {
       scrollMeetToPlatforms(!!opts.scroll || unlocked);
@@ -6282,11 +6438,10 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       legit =
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Ảnh / video khách đặt comm &amp; chuyển khoản xem tại nút <strong>✅ Legit</strong> bên dưới. <em>(Luôn cập nhật thêm)</em></p>' +
-        '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Nhắn Facebook để trao đổi</a> ' +
         '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>';
 
       request =
-        '<h3>📝 Request</h3>' +
+        '<h3>📝 Request (Miễn phí)</h3>' +
         '<p>Đây là nơi bạn gửi gắm những ý tưởng nhẹ nhàng, yêu cầu làm các mẫu Bot / OpenWorld cơ bản, hoặc đề xuất chỉnh sửa một vài chi tiết nhỏ từ bot cũ! ☘️</p>' +
         '<ul>' +
         '<li>Không cần viết quá dài, chỉ cần gạch đầu dòng rõ các ý cốt lõi.</li>' +
@@ -6390,11 +6545,10 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       legit =
         '<h4>✅ Legit / Feedback</h4>' +
         '<p>Client commission photos / videos &amp; transfer proofs can be viewed at the <strong>✅ Legit</strong> button below. <em>(Always being updated)</em></p>' +
-        '<a class="comm-link" href="' + FB_LINK + '" target="_blank" rel="noopener">💬 Message on Facebook</a> ' +
         '<a class="comm-link secondary" href="#" data-open-legit="1" role="button">✅ Legit</a>';
 
       request =
-        '<h3>📝 Request</h3>' +
+        '<h3>📝 Request (Free)</h3>' +
         '<p>This is where you can share lighter ideas, ask for basic Bot / OpenWorld samples, or suggest small tweaks to an older bot! ☘️</p>' +
         '<ul>' +
         '<li>No need to write too much - just bullet the core ideas clearly.</li>' +
@@ -6412,8 +6566,10 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       thanks = '<p>Mei sincerely thanks you for trusting and supporting 💕<br>create what lives in my head</p>';
     }
 
+    var brief = buildBriefBuilderHtml(vi);
     el.innerHTML =
       '<div class="comm-block">' + head + commTabs(tabs) + '<div class="comm-legit">' + legit + '</div></div>' +
+      brief +
       '<div class="comm-block">' + request + '</div>' +
       '<div class="comm-block">' + payment + '</div>' +
       '<div class="comm-thanks">' + thanks + '</div>';
@@ -6430,6 +6586,371 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         });
       });
     });
+    bindBriefBuilder(vi);
+  }
+
+  function buildBriefBuilderHtml(vi) {
+    var extraFields =
+      '<div id="briefExtraWrap" style="display:none;flex-direction:column;gap:10px">' +
+      '<div id="briefHtmlExtra" style="display:none"><div class="brief-label">' +
+      (vi ? 'Chi tiết code giao diện bạn muốn' : 'UI code details you want') +
+      '</div><textarea class="brief-textarea" id="briefHtmlNote" placeholder="' +
+      (vi ? 'VD: card nhân vật, màu chủ đạo, layout mobile...' : 'e.g. character card, main colors, mobile layout...') +
+      '"></textarea></div>' +
+      '<div id="briefPlatExtra" style="display:none"><div class="brief-label">' +
+      (vi ? 'Nền tảng khác (ghi rõ tên)' : 'Other platform (name it)') +
+      '</div><input class="brief-textarea" id="briefPlatNote" style="min-height:42px" placeholder="' +
+      (vi ? 'VD: SillyTavern, Discord bot...' : 'e.g. SillyTavern, Discord bot...') +
+      '" /></div></div>';
+
+    if (vi) {
+      return (
+        '<div class="brief-builder" id="briefBuilder">' +
+        '<h3>💰 Ước tính giá &amp; Soạn Brief gửi Mei</h3>' +
+        '<p class="brief-sub">Chọn cấu hình bên dưới để xem mức giá tham khảo / hướng liên hệ, thời gian và tạo tin nhắn gửi Facebook.</p>' +
+        '<div class="brief-form">' +
+        '<div><div class="brief-label">1. Loại dự án</div><div class="brief-pills" data-brief="type">' +
+        '<button type="button" class="brief-pill active" data-v="oc">Bot lẻ (OC)</button>' +
+        '<button type="button" class="brief-pill" data-v="ow">OpenWorld</button>' +
+        '<button type="button" class="brief-pill" data-v="canon">Từ tác phẩm có sẵn</button>' +
+        '</div></div>' +
+        '<div><div class="brief-label">2. Độ sâu Token</div><div class="brief-pills" data-brief="token">' +
+        '<button type="button" class="brief-pill active" data-v="s">&lt; 20K</button>' +
+        '<button type="button" class="brief-pill" data-v="m">20K–50K</button>' +
+        '<button type="button" class="brief-pill" data-v="l">50K+</button>' +
+        '<button type="button" class="brief-pill" data-v="free">Tự do</button>' +
+        '</div></div>' +
+        '<div><div class="brief-label">3. Nền tảng chính</div><div class="brief-pills" data-brief="plat">' +
+        '<button type="button" class="brief-pill active" data-v="GGAI">GGAI</button>' +
+        '<button type="button" class="brief-pill" data-v="Reverie">Reverie</button>' +
+        '<button type="button" class="brief-pill" data-v="ClankWorld">ClankWorld</button>' +
+        '<button type="button" class="brief-pill" data-v="Janitor AI">Janitor AI</button>' +
+        '<button type="button" class="brief-pill" data-v="Khác">Khác</button>' +
+        '</div></div>' +
+        '<div class="brief-checks">' +
+        '<label><input type="checkbox" id="briefHtml" /> Kèm code giao diện HTML/CSS</label>' +
+        '<label><input type="checkbox" id="briefNsfw" checked /> Có yếu tố NSFW (Xác nhận 18+)</label>' +
+        '</div>' +
+        extraFields +
+        '<div><div class="brief-label">4. Tóm tắt ý tưởng / Plot của bạn</div>' +
+        '<textarea class="brief-textarea" id="briefPlot" placeholder="VD: Tổng tài chiếm hữu + thư ký ngây thơ, slow-burn hiện đại..."></textarea></div>' +
+        '</div>' +
+        '<div class="brief-side">' +
+        '<div><div class="brief-label">Ước tính / Hướng xử lý</div><div class="brief-price" id="briefPrice">50.000 – 100.000 VND</div>' +
+        '<div class="brief-meta" id="briefTime">Thời gian trả đơn: 3 – 5 ngày (trễ nhất 7 ngày)</div></div>' +
+        '<div class="brief-preview" id="briefPreview"></div>' +
+        '<div class="brief-actions">' +
+        '<button type="button" class="btn-action btn-chat" id="briefCopy">📋 Sao chép Brief</button>' +
+        '<a class="btn-action btn-plot" id="briefFb" href="https://www.facebook.com/nnm.aaei/" target="_blank" rel="noopener">Nhắn Facebook Mei ↗</a>' +
+        '</div></div></div>'
+      );
+    }
+    return (
+      '<div class="brief-builder" id="briefBuilder">' +
+      '<h3>💰 Price estimate &amp; Brief for Mei</h3>' +
+      '<p class="brief-sub">Pick options below for a reference price / next step, turnaround, and a ready Facebook message.</p>' +
+      '<div class="brief-form">' +
+      '<div><div class="brief-label">1. Project type</div><div class="brief-pills" data-brief="type">' +
+      '<button type="button" class="brief-pill active" data-v="oc">Single bot (OC)</button>' +
+      '<button type="button" class="brief-pill" data-v="ow">OpenWorld</button>' +
+      '<button type="button" class="brief-pill" data-v="canon">Based on existing work</button>' +
+      '</div></div>' +
+      '<div><div class="brief-label">2. Token depth</div><div class="brief-pills" data-brief="token">' +
+      '<button type="button" class="brief-pill active" data-v="s">&lt; 20K</button>' +
+      '<button type="button" class="brief-pill" data-v="m">20K–50K</button>' +
+      '<button type="button" class="brief-pill" data-v="l">50K+</button>' +
+      '<button type="button" class="brief-pill" data-v="free">Flexible</button>' +
+      '</div></div>' +
+      '<div><div class="brief-label">3. Main platform</div><div class="brief-pills" data-brief="plat">' +
+      '<button type="button" class="brief-pill active" data-v="GGAI">GGAI</button>' +
+      '<button type="button" class="brief-pill" data-v="Reverie">Reverie</button>' +
+      '<button type="button" class="brief-pill" data-v="ClankWorld">ClankWorld</button>' +
+      '<button type="button" class="brief-pill" data-v="Janitor AI">Janitor AI</button>' +
+      '<button type="button" class="brief-pill" data-v="Other">Other</button>' +
+      '</div></div>' +
+      '<div class="brief-checks">' +
+      '<label><input type="checkbox" id="briefPrivate" /> Private bot</label>' +
+      '<label><input type="checkbox" id="briefHtml" /> Include HTML/CSS UI code</label>' +
+      '<label><input type="checkbox" id="briefNsfw" checked /> NSFW elements (18+ confirmed)</label>' +
+      '</div>' +
+      extraFields +
+      '<div><div class="brief-label">4. Your idea / plot summary</div>' +
+      '<textarea class="brief-textarea" id="briefPlot" placeholder="e.g. Possessive CEO + naive secretary, modern slow-burn..."></textarea></div>' +
+      '</div>' +
+      '<div class="brief-side">' +
+      '<div><div class="brief-label">Estimate / Next step</div><div class="brief-price" id="briefPrice">$2 – $4</div>' +
+      '<div class="brief-meta" id="briefTime">Turnaround: 3 – 5 days (max 7)</div></div>' +
+      '<div class="brief-preview" id="briefPreview"></div>' +
+      '<div class="brief-actions">' +
+      '<button type="button" class="btn-action btn-chat" id="briefCopy">📋 Copy Brief</button>' +
+      '<a class="btn-action btn-plot" id="briefFb" href="https://www.facebook.com/nnm.aaei/" target="_blank" rel="noopener">Message Mei on Facebook ↗</a>' +
+      '</div></div></div>'
+    );
+  }
+
+  function bindBriefBuilder(vi) {
+    var root = document.getElementById("briefBuilder");
+    if (!root) return;
+    var state = { type: "oc", token: "s", plat: "GGAI" };
+
+    function selected(group) {
+      var btn = root.querySelector('[data-brief="' + group + '"] .brief-pill.active');
+      return btn ? btn.getAttribute("data-v") : null;
+    }
+
+    function syncExtraFields() {
+      var htmlOn = !!(document.getElementById("briefHtml") || {}).checked;
+      var plat = selected("plat") || "GGAI";
+      var otherOn = (plat === "Khác" || plat === "Other");
+      var wrap = document.getElementById("briefExtraWrap");
+      var htmlBox = document.getElementById("briefHtmlExtra");
+      var platBox = document.getElementById("briefPlatExtra");
+      if (wrap) wrap.style.display = (htmlOn || otherOn) ? "flex" : "none";
+      if (htmlBox) htmlBox.style.display = htmlOn ? "block" : "none";
+      if (platBox) platBox.style.display = otherOn ? "block" : "none";
+    }
+
+    function refresh() {
+      state.type = selected("type") || "oc";
+      state.token = selected("token") || "s";
+      state.plat = selected("plat") || "GGAI";
+      syncExtraFields();
+
+      var privEl = document.getElementById("briefPrivate");
+      var priv = privEl ? !!privEl.checked : false;
+      var html = !!(document.getElementById("briefHtml") || {}).checked;
+      var nsfw = !!(document.getElementById("briefNsfw") || {}).checked;
+      var plot = (document.getElementById("briefPlot") || {}).value || "";
+      var htmlNote = (document.getElementById("briefHtmlNote") || {}).value || "";
+      var platNote = (document.getElementById("briefPlatNote") || {}).value || "";
+      var platDisplay = state.plat;
+      if ((state.plat === "Khác" || state.plat === "Other") && platNote.trim()) {
+        platDisplay = state.plat + " — " + platNote.trim();
+      }
+
+      var price = "", time = "", typeLabel = "", tokenLabel = "";
+      var isCanon = state.type === "canon";
+
+      var isFreeToken = state.token === "free";
+
+      if (isCanon) {
+        typeLabel = vi ? "Bot từ tác phẩm có sẵn" : "Bot based on existing work";
+        price = vi
+          ? "Liên hệ Mei để check"
+          : "Contact Mei to check";
+        time = vi
+          ? "Mei cần xem đã biết / đã nghiên cứu tác phẩm này chưa trước khi báo giá và nhận đơn."
+          : "Mei needs to check whether this work is already known/researched before quoting or accepting.";
+        tokenLabel = isFreeToken ? (vi ? "Tự do" : "Flexible")
+          : (state.token === "s" ? "< 20K" : (state.token === "m" ? "20K–50K" : "50K+"));
+      } else if (isFreeToken) {
+        typeLabel = state.type === "ow" ? "OpenWorld" : (vi ? "Bot lẻ (OC)" : "Single bot (OC)");
+        tokenLabel = vi ? "Tự do" : "Flexible";
+        price = vi ? "Không báo giá theo token" : "No token-based price";
+        time = vi
+          ? "Mei viết tự do theo plot, không ràng buộc độ dài / số token. Giá sẽ trao đổi riêng nếu cần."
+          : "Mei writes freely based on the plot — no length/token requirement. Price discussed separately if needed.";
+      } else if (state.type === "ow") {
+        typeLabel = "OpenWorld";
+        /* Match commission price list: compact 100-180K / $4-7 ; full 180K+ / from $7 */
+        if (state.token === "s" || state.token === "m") {
+          price = vi ? "100.000 – 180.000 VND" : "$4 – $7";
+          time = vi ? "7 – 14 ngày (tối đa 1 tháng tùy lore)" : "7 – 14 days (up to 1 month depending on lore)";
+          tokenLabel = state.token === "s" ? "< 20K" : "20K–50K";
+        } else {
+          price = vi ? "180.000 VND trở lên" : "from $7";
+          time = vi ? "14 ngày – 1 tháng tùy lore" : "14 days – 1 month depending on lore";
+          tokenLabel = "50K+";
+        }
+      } else {
+        typeLabel = vi ? "Bot lẻ (OC)" : "Single bot (OC)";
+        /* Match commission: <20K 50-100K/$2-4 ; 20-50K 100-180K/$4-7 ; 50K+ 180K+/from $7 */
+        if (state.token === "s") {
+          price = vi ? "50.000 – 100.000 VND" : "$2 – $4";
+          time = vi ? "3 – 5 ngày (trễ nhất 7 ngày)" : "3 – 5 days (max 7)";
+          tokenLabel = "< 20K";
+        } else if (state.token === "m") {
+          price = vi ? "100.000 – 180.000 VND" : "$4 – $7";
+          time = vi ? "3 – 5 ngày (trễ nhất 7 ngày)" : "3 – 5 days (max 7)";
+          tokenLabel = "20K–50K";
+        } else {
+          price = vi ? "180.000 VND trở lên" : "from $7";
+          time = vi ? "5 – 7 ngày" : "5 – 7 days";
+          tokenLabel = "50K+";
+        }
+      }
+      if (html && !isCanon && !isFreeToken) {
+        price += vi ? " (+ code UI thỏa thuận thêm)" : " (+ UI code by agreement)";
+      }
+      if (!vi && priv && !isCanon && !isFreeToken) {
+        price += " (+$2 Private)";
+      }
+
+      document.getElementById("briefPrice").textContent = price;
+      document.getElementById("briefTime").textContent = (isCanon || isFreeToken)
+        ? time
+        : ((vi ? "Thời gian trả đơn: " : "Turnaround: ") + time);
+
+      var lines;
+      if (vi) {
+        lines = [
+          "【 ĐƠN COMMISSION GỬI ANNA MEI 】",
+          "• Loại: " + typeLabel,
+          "• Quy mô: " + tokenLabel + " tokens",
+          "• Nền tảng: " + platDisplay,
+          "• Yếu tố thêm: " + [
+            nsfw ? "NSFW/18+ (Xác nhận đủ 18)" : "SFW",
+            html ? "Kèm HTML/CSS" : null
+          ].filter(Boolean).join(" · ")
+        ];
+        if (html && htmlNote.trim()) lines.push("• Chi tiết UI: " + htmlNote.trim());
+        if (isCanon) {
+          lines.push("• Giá: Chưa chốt — vui lòng liên hệ Mei để check tác phẩm đã biết/nghiên cứu chưa trước khi báo giá.");
+          lines.push("• Ghi chú thời gian: " + time);
+        } else if (isFreeToken) {
+          lines.push("• Độ sâu token: Tự do (không ràng buộc độ dài)");
+          lines.push("• Giá: Không báo giá theo token — trao đổi riêng nếu cần.");
+          lines.push("• Ghi chú: " + time);
+        } else {
+          lines.push("• Ước tính tham khảo: " + price);
+          lines.push("• Thời gian dự kiến: " + time);
+        }
+        lines.push("• Ý tưởng / Plot: " + (plot.trim() || "(Chưa điền plot chi tiết)"));
+      } else {
+        lines = [
+          "【 COMMISSION REQUEST FOR ANNA MEI 】",
+          "• Type: " + typeLabel,
+          "• Scale: " + tokenLabel + " tokens",
+          "• Platform: " + platDisplay,
+          "• Mode: " + (priv ? "Private" : "Public / as agreed"),
+          "• Extra: " + [
+            nsfw ? "NSFW/18+ (18+ confirmed)" : "SFW",
+            html ? "Include HTML/CSS" : null
+          ].filter(Boolean).join(" · ")
+        ];
+        if (html && htmlNote.trim()) lines.push("• UI details: " + htmlNote.trim());
+        if (isCanon) {
+          lines.push("• Price: Not fixed yet — please contact Mei to check if this work is already known/researched before a quote.");
+          lines.push("• Note: " + time);
+        } else if (isFreeToken) {
+          lines.push("• Token depth: Flexible (no length requirement)");
+          lines.push("• Price: No token-based quote — discuss separately if needed.");
+          lines.push("• Note: " + time);
+        } else {
+          lines.push("• Reference estimate: " + price);
+          lines.push("• Expected time: " + time);
+        }
+        lines.push("• Idea / Plot: " + (plot.trim() || "(Plot details not filled yet)"));
+      }
+      document.getElementById("briefPreview").textContent = lines.join("\n");
+      window.__meiBriefText = lines.join("\n");
+    }
+
+    function openCanonCheckModal() {
+      var modal = document.getElementById("canonCheckModal");
+      if (!modal) return;
+      var title = document.getElementById("canonCheckTitle");
+      var desc = document.getElementById("canonCheckDesc");
+      var desc2 = document.getElementById("canonCheckDesc2");
+      var yes = document.getElementById("canonCheckYes");
+      var no = document.getElementById("canonCheckNo");
+      if (vi) {
+        if (title) title.textContent = "Từ tác phẩm có sẵn";
+        if (desc) desc.textContent = "Loại này cần Mei check trước xem đã biết / đã nghiên cứu tác phẩm đó chưa, rồi mới báo giá và nhận đơn.";
+        if (desc2) desc2.textContent = "Hãy nhắn Mei trên Facebook để trao đổi nhé.";
+        if (yes) yes.textContent = "Liên hệ Mei";
+        if (no) no.textContent = "Hủy";
+      } else {
+        if (title) title.textContent = "Based on existing work";
+        if (desc) desc.textContent = "For this type, Mei needs to check first whether the work is already known/researched before quoting or accepting the order.";
+        if (desc2) desc2.textContent = "Please message Mei on Facebook to discuss.";
+        if (yes) yes.textContent = "Contact Mei";
+        if (no) no.textContent = "Cancel";
+      }
+      modal.classList.add("show");
+    }
+    function closeCanonCheckModal() {
+      var modal = document.getElementById("canonCheckModal");
+      if (modal) modal.classList.remove("show");
+    }
+    function selectTypePill(value) {
+      var group = root.querySelector('[data-brief="type"]');
+      if (!group) return;
+      group.querySelectorAll(".brief-pill").forEach(function (b) {
+        b.classList.toggle("active", b.getAttribute("data-v") === value);
+      });
+      refresh();
+    }
+
+    root.querySelectorAll(".brief-pills").forEach(function (group) {
+      group.addEventListener("click", function (e) {
+        var btn = e.target.closest(".brief-pill");
+        if (!btn || !group.contains(btn)) return;
+        var kind = group.getAttribute("data-brief");
+        var val = btn.getAttribute("data-v");
+        if (kind === "type" && val === "canon") {
+          if (window.playClick) window.playClick("soft");
+          group.querySelectorAll(".brief-pill").forEach(function (b) { b.classList.remove("active"); });
+          btn.classList.add("active");
+          refresh();
+          openCanonCheckModal();
+          return;
+        }
+        group.querySelectorAll(".brief-pill").forEach(function (b) { b.classList.remove("active"); });
+        btn.classList.add("active");
+        if (window.playClick) window.playClick("soft");
+        refresh();
+      });
+    });
+
+    var canonYes = document.getElementById("canonCheckYes");
+    var canonNo = document.getElementById("canonCheckNo");
+    var canonModal = document.getElementById("canonCheckModal");
+    if (canonYes) {
+      canonYes.addEventListener("click", function () {
+        if (window.playClick) window.playClick("pop");
+        closeCanonCheckModal();
+        /* keep canon selected */
+      });
+    }
+    if (canonNo) {
+      canonNo.addEventListener("click", function () {
+        if (window.playClick) window.playClick("soft");
+        closeCanonCheckModal();
+        selectTypePill("oc");
+      });
+    }
+    if (canonModal) {
+      canonModal.addEventListener("click", function (e) {
+        if (e.target === canonModal) {
+          closeCanonCheckModal();
+          selectTypePill("oc");
+        }
+      });
+    }
+    ["briefPrivate", "briefHtml", "briefNsfw"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener("change", refresh);
+    });
+    ["briefPlot", "briefHtmlNote", "briefPlatNote"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener("input", refresh);
+    });
+    var copyBtn = document.getElementById("briefCopy");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("pop");
+        var text = window.__meiBriefText || "";
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showToast(vi ? "Đã sao chép brief!" : "Brief copied!");
+          }).catch(function () { window.prompt("Copy:", text); });
+        } else {
+          window.prompt("Copy:", text);
+        }
+      });
+    }
+    refresh();
   }
 
   function renderCommands() {
@@ -6794,24 +7315,27 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   
   (function setupEffectToggle() {
     var toggle = document.getElementById("effectToggle");
+    var toggleTb = document.getElementById("effectToggleToolbar");
     var label = document.getElementById("effectToggleLabel");
-    if (!toggle) return;
-    try {
-      if (localStorage.getItem("mei_reduce_motion") === "1") {
-        toggle.checked = true;
-        document.body.classList.add("reduce-motion");
-      }
-    } catch (e) {}
-    function syncLabel() {
-      if (!label) return;
-      label.textContent = "Giảm effect / Reduce effects";
+    var reduced = false;
+    try { reduced = localStorage.getItem("mei_reduce_motion") === "1"; } catch (e) {}
+    function apply(on) {
+      document.body.classList.toggle("reduce-motion", on);
+      if (toggle) toggle.checked = on;
+      if (toggleTb) toggleTb.checked = on;
+      try { localStorage.setItem("mei_reduce_motion", on ? "1" : "0"); } catch (e) {}
     }
-    syncLabel();
-    toggle.addEventListener("change", function () {
-      document.body.classList.toggle("reduce-motion", toggle.checked);
-      try { localStorage.setItem("mei_reduce_motion", toggle.checked ? "1" : "0"); } catch (e) {}
-      if (window.playClick) window.playClick("soft");
-    });
+    apply(reduced);
+    if (label) label.textContent = "Giảm effect / Reduce effects";
+    function bind(el) {
+      if (!el) return;
+      el.addEventListener("change", function () {
+        apply(el.checked);
+        if (window.playClick) window.playClick("soft");
+      });
+    }
+    bind(toggle);
+    bind(toggleTb);
   })();
 
   (function setupThemeToggle() {
