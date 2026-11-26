@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="theme-dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -129,6 +129,208 @@
       50% { box-shadow: 0 0 0 8px rgba(196, 120, 114, 0); }
     }
 
+
+    .footer-views {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+    .footer-views strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+    body.theme-dark .footer-views { color: #e6d8d0; }
+    body.theme-dark .footer-views strong { color: #faf4f0; }
+
+    .hero-split {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+    .hero-feature { order: 2; }
+    .hero-split .hero-box { order: 1; }
+    .hero-split .hero-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+      padding: 22px 24px 24px;
+      border: 1px solid rgba(196, 120, 114, 0.4);
+      border-radius: 18px;
+      background:
+        radial-gradient(ellipse at 12% 0%, rgba(255, 200, 190, 0.75), transparent 50%),
+        radial-gradient(ellipse at 95% 90%, rgba(255, 170, 180, 0.28), transparent 45%),
+        linear-gradient(155deg, #f7d4cc 0%, #eeb8b0 48%, #e0a39c 100%);
+      box-shadow: 0 12px 28px rgba(160, 80, 75, 0.16), 0 1px 0 rgba(255,255,255,0.55) inset;
+    }
+    body.theme-dark .hero-split .hero-box {
+      background: rgba(48, 40, 38, 0.96);
+    }
+    .hero-split .eyebrow { text-align: left; }
+    .hero-split .brand { text-align: left; margin: 6px 0 8px; }
+    .hero-split .tagline { text-align: left; margin-bottom: 10px; }
+    .hero-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 0 0 14px;
+      max-width: 36em;
+    }
+    body.theme-dark .hero-desc { color: #e6d8d0; }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    }
+    .hero-actions .ghost-link {
+      font-size: 12.5px;
+      color: var(--accent-2);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-body); font-weight: 600; padding: 0;
+    }
+    body.theme-dark .hero-actions .ghost-link { color: #f0c2bc; }
+
+    .hero-feature {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 248, 243, 0.88);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 100%;
+    }
+    body.theme-dark .hero-feature {
+      background: rgba(48, 40, 38, 0.96);
+    }
+    .hero-feature-top {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    }
+    .hero-feature-label {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .hero-feature-body {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+    @media (max-width: 520px) {
+      .hero-feature-body {
+        grid-template-columns: 88px 1fr;
+        gap: 10px;
+      }
+      .hero-feature-name { font-size: 18px !important; }
+      .hero-feature-actions { flex-direction: row; }
+      .hero-feature-actions .btn-action { font-size: 9px; padding: 8px 6px; }
+    }
+    .hero-feature-cover {
+      aspect-ratio: 1 / 1;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(160deg, #c4a4a0, #8a6a66);
+      position: relative;
+    }
+    .hero-feature-cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .hero-feature-cover .ph {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 28px; color: rgba(255,248,243,0.85);
+    }
+    .hero-feature-meta { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+    .hero-feature-type {
+      font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); font-weight: 600;
+    }
+    .hero-feature-name {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700; line-height: 1.15; margin: 0; color: var(--ink);
+    }
+    .hero-feature-hook {
+      font-size: 12px; line-height: 1.5; color: var(--hook);
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    body.theme-dark .hero-feature-hook { color: #f5ebe6; }
+    .hero-feature-actions {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 4px;
+    }
+    .hero-feature-actions .btn-action { flex: 1 1 auto; min-width: 90px; }
+
+    .hero-feature-actions .btn-share {
+      flex: 0 0 40px;
+      width: 40px;
+      background: rgba(255,255,255,0.75);
+      color: var(--ink);
+    }
+    body.theme-dark .hero-feature-actions .btn-share {
+      background: rgba(255,255,255,0.12);
+      color: #fff5f0;
+    }
+
+    .random-btn {
+      border: 1px solid var(--line);
+      background: linear-gradient(160deg, #c47872, #a85a56);
+      color: #fff8f3;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 0 rgba(120,55,50,0.25);
+      white-space: nowrap;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .random-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .random-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(120,55,50,0.25); }
+    body.theme-dark .random-btn {
+      background: linear-gradient(160deg, #d4928c, #b87a74);
+      color: #1a1614;
+    }
+
+
+    @keyframes heartFloat {
+      0% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -48px) scale(1.25); }
+    }
+    .heart-float {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      pointer-events: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: #c47872;
+      animation: heartFloat 0.7s ease-out forwards;
+      z-index: 5;
+    }
+    .heart-btn {
+      position: absolute; z-index: 2; right: 10px; top: 10px;
+      min-width: 36px; height: 32px; padding: 0 8px;
+      border: none; border-radius: 999px;
+      background: rgba(255,248,243,0.92); cursor: pointer;
+      font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 3px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.12s ease, background 0.15s;
+      line-height: 1; font-family: var(--font-body); font-weight: 600; color: var(--ink);
+      overflow: visible;
+    }
+    .heart-btn:hover { transform: scale(1.08); }
+    .heart-btn:active { transform: scale(0.92); }
+    .heart-btn .heart-num { font-size: 11px; }
+    body.theme-dark .heart-btn {
+      background: rgba(48, 40, 38, 0.95);
+      color: #fff5f0;
+    }
     /* WELCOME */
     #welcome {
       position: fixed; inset: 0; z-index: 1000;
@@ -230,6 +432,109 @@
     }
     .wrap.show { opacity: 1; transform: translateY(0); }
     .hero { text-align: center; padding: 18px 16px 12px; margin-bottom: 6px; }
+    .hero-box {
+      position: relative;
+      padding: 22px 20px 20px;
+      border-radius: 22px;
+      border: 1px solid rgba(196, 120, 114, 0.35);
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(255, 230, 220, 0.9), transparent 55%),
+        radial-gradient(ellipse at 90% 100%, rgba(220, 150, 145, 0.2), transparent 50%),
+        linear-gradient(165deg, rgba(255,248,243,0.95), rgba(245, 228, 220, 0.88));
+      box-shadow: 0 10px 28px rgba(120, 60, 55, 0.1), 0 1px 0 rgba(255,255,255,0.7) inset;
+      overflow: hidden;
+    }
+    .hero-box::before {
+      content: "";
+      position: absolute; inset: 10px;
+      border-radius: 16px;
+      border: 1px dashed rgba(196, 120, 114, 0.28);
+      pointer-events: none;
+    }
+    .hero-box .brand {
+      position: relative;
+      font-size: clamp(42px, 7vw, 74px);
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: #ffffff;
+      color: #ffffff !important;
+      text-shadow:
+        0 1px 0 rgba(120, 55, 50, 0.45),
+        0 2px 8px rgba(120, 55, 50, 0.28),
+        0 0 18px rgba(255, 255, 255, 0.35);
+      filter: none;
+    }
+    .hero-box .brand .brand-deco {
+      font-style: normal;
+      font-size: 0.4em;
+      vertical-align: middle;
+      margin: 0 0.1em;
+      opacity: 1;
+      -webkit-text-fill-color: #fff8f3;
+      color: #fff8f3 !important;
+      filter: drop-shadow(0 1px 2px rgba(120, 50, 50, 0.3));
+    }
+    .brand-ornament {
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      color: rgba(255, 248, 243, 0.92);
+      text-shadow: 0 1px 2px rgba(120, 55, 50, 0.25);
+      margin: -2px 0 10px;
+      font-family: var(--font-body);
+    }
+    .hero-split .hero-box .tagline {
+      color: rgba(255, 248, 243, 0.92) !important;
+      text-shadow: 0 1px 2px rgba(100, 45, 40, 0.25);
+    }
+    .hero-split .hero-box .hero-desc {
+      color: rgba(255, 245, 240, 0.95) !important;
+      text-shadow: 0 1px 2px rgba(100, 45, 40, 0.2);
+    }
+    .hero-split .hero-box .eyebrow {
+      color: rgba(255, 248, 243, 0.8) !important;
+      letter-spacing: 3.5px;
+    }
+    .hero-split .hero-box .ghost-link {
+      color: #fff8f3 !important;
+      text-shadow: 0 1px 2px rgba(100, 45, 40, 0.3);
+      opacity: 0.95;
+    }
+    .hero-split .hero-box .ghost-link:hover { opacity: 1; }
+    body.theme-dark .hero-box {
+      border-color: rgba(212, 146, 140, 0.35);
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(90, 55, 50, 0.55), transparent 55%),
+        linear-gradient(165deg, rgba(42, 34, 32, 0.95), rgba(55, 42, 40, 0.9));
+      box-shadow: 0 12px 30px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.04) inset;
+    }
+    body.theme-dark .hero-box::before { border-color: rgba(212, 146, 140, 0.22); }
+    body.theme-dark .hero-box .brand {
+      background: linear-gradient(120deg, #f3d2c8 0%, #e8b4aa 45%, #d4928c 100%) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent;
+      color: transparent !important;
+      text-shadow: none;
+    }
+    body.theme-dark .hero-box .brand .brand-deco {
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      -webkit-text-fill-color: #f0c2bc;
+      color: #f0c2bc !important;
+      filter: none;
+    }
+    body.theme-dark .brand-ornament { color: rgba(240, 194, 188, 0.85); text-shadow: none; }
+    body.theme-dark .hero-split .hero-box .tagline,
+    body.theme-dark .hero-split .hero-box .hero-desc,
+    body.theme-dark .hero-split .hero-box .eyebrow {
+      text-shadow: none !important;
+    }
+    body.theme-dark .hero-split .hero-box .tagline { color: #e6d8d0 !important; }
+    body.theme-dark .hero-split .hero-box .hero-desc { color: #e6d8d0 !important; }
+    body.theme-dark .hero-split .hero-box .eyebrow { color: #c4b0a8 !important; }
+    body.theme-dark .hero-split .hero-box .ghost-link { color: #f0c2bc !important; text-shadow: none; }
     .eyebrow { letter-spacing: 3.5px; text-transform: uppercase; font-size: 10px; font-weight: 500; color: var(--muted); }
     .brand {
       font-family: var(--font-display);
@@ -238,20 +543,40 @@
     }
     .tagline { font-size: 12px; letter-spacing: 3px; color: var(--muted); }
 
-    .page-nav { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 16px 0 14px; }
+    .page-nav {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin: 8px 0 16px;
+      padding: 4px 0 2px;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+    }
+    body.theme-dark .page-nav {
+      background: transparent;
+    }
     .page-tab {
-      padding: 10px 20px; border: 1px solid var(--line); border-radius: 999px;
-      background: rgba(255,248,243,0.65); color: var(--ink);
+      padding: 11px 18px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(255,255,255,0.55); color: var(--ink);
       font-family: var(--font-body); font-size: 13px; font-weight: 500; cursor: pointer;
       box-shadow: 0 3px 0 rgba(80,45,40,0.1);
       transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.2s;
     }
-    .page-tab:hover { background: rgba(255,255,255,0.9); transform: translateY(-1px); }
+    body.theme-dark .page-tab {
+      background: rgba(62, 54, 50, 0.9);
+      color: #faf4f0;
+    }
+    .page-tab:hover { background: rgba(255,255,255,0.95); transform: translateY(-1px); }
+    body.theme-dark .page-tab:hover { background: rgba(80, 70, 66, 0.95); }
     .page-tab:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(80,45,40,0.12); }
     .page-tab.active {
       background: linear-gradient(160deg, #c47872, #a85a56); color: #fff8f3; border-color: transparent;
       box-shadow: 0 4px 0 rgba(120,55,50,0.25), 0 8px 16px rgba(140,60,55,0.15);
     }
+    body.theme-dark .page-tab.active {
+      background: linear-gradient(160deg, #d4928c, #b87a74);
+      color: #1a1614;
+    }
+    #botsHeroWrap { margin-bottom: 4px; }
     .page-panel { display: none; }
     .page-panel.active { display: block; }
 
@@ -766,9 +1091,12 @@
     .modal-btn:hover { background: #5e5652; }
     .modal-btn:active { transform: scale(0.98); }
     .modal-btn.primary {
-      background: linear-gradient(160deg, #c47872, #a85a56);
+      background: linear-gradient(160deg, #c45c5c, #a34848);
+      color: #ffffff !important;
     }
-    .modal-btn.primary:hover { background: linear-gradient(160deg, #d48a84, #b86a64); }
+    .modal-btn.primary:hover {
+      background: linear-gradient(160deg, #d47872, #b85850);
+    }
     .modal-btn.unlocked {
       background: linear-gradient(160deg, #c47872, #a85a56);
     }
@@ -807,8 +1135,13 @@
       background: #3d2828; border: 1px solid rgba(139,58,58,0.4);
     }
     .nsfw-modal .modal-title { color: #e8c8c8; }
-    .nsfw-modal .modal-btn.primary { background: linear-gradient(160deg, #8b3a3a, #6b2a2a); }
-    .nsfw-modal .modal-btn.primary:hover { background: linear-gradient(160deg, #9b4a4a, #7b3a3a); }
+    .nsfw-modal .modal-btn.primary {
+      background: linear-gradient(160deg, #c45c5c, #a34848);
+      color: #ffffff !important;
+    }
+    .nsfw-modal .modal-btn.primary:hover {
+      background: linear-gradient(160deg, #d47872, #b85850);
+    }
     .lang-mismatch-actions {
       display: flex;
       flex-direction: column;
@@ -1855,7 +2188,13 @@
       color: #fff5f0 !important;
     }
     body.theme-dark .modal-btn.primary {
-      color: #1a1614 !important;
+      color: #ffffff !important;
+    }
+    body.theme-dark .modal-btn.primary {
+      color: #ffffff !important;
+    }
+    body.theme-dark #shopeeBtn {
+      color: #ffffff !important;
     }
     body.theme-dark .modal-btn.locked {
       opacity: 1;
@@ -2694,7 +3033,119 @@
       word-break: break-all;
     }
     .hook a:hover { color: var(--accent-2); }
-</style>
+
+    /* Custom cursor (desktop) */
+    @media (hover: hover) and (pointer: fine) {
+      body, body * {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='20'%3E%F0%9F%8C%BC%3C/text%3E%3C/svg%3E") 8 8, auto !important;
+      }
+      a, button, [role="button"], input, textarea, select, label, .card, .page-tab, .heart-btn {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='24' font-size='20'%3E%F0%9F%8D%83%3C/text%3E%3C/svg%3E") 8 8, pointer !important;
+      }
+    }
+    /* Click burst hearts */
+    .click-burst {
+      position: fixed;
+      left: 0; top: 0;
+      width: 0; height: 0;
+      pointer-events: none;
+      z-index: 99999;
+    }
+    .click-burst i {
+      position: absolute;
+      left: 0; top: 0;
+      font-style: normal;
+      font-size: 14px;
+      animation: burstFly 0.75s ease-out forwards;
+      opacity: 0.95;
+      filter: drop-shadow(0 1px 2px rgba(120,50,50,0.25));
+    }
+    @keyframes burstFly {
+      0% { transform: translate(0,0) scale(0.4); opacity: 0.95; }
+      100% { transform: translate(var(--dx), var(--dy)) scale(1.15); opacity: 0; }
+    }
+    body.reduce-motion .click-burst { display: none !important; }
+
+  
+    /* Sakura video ambience */
+    .sakura-bg {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .sakura-bg video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.28;
+      filter: saturate(0.95) brightness(0.85);
+    }
+    body.theme-dark .sakura-bg video {
+      opacity: 0.34;
+      filter: saturate(0.9) brightness(0.7);
+    }
+    /* Light theme: softer so cream UI still readable */
+    body:not(.theme-dark) .sakura-bg video {
+      opacity: 0.18;
+      filter: saturate(0.85) brightness(1.05);
+    }
+    .sakura-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(245,235,230,0.55) 0%, rgba(245,235,230,0.25) 40%, rgba(245,235,230,0.5) 100%);
+      pointer-events: none;
+    }
+    body.theme-dark .sakura-bg::after {
+      background: linear-gradient(180deg, rgba(28,22,22,0.55) 0%, rgba(28,22,22,0.35) 45%, rgba(28,22,22,0.65) 100%);
+    }
+    body.reduce-motion .sakura-bg { display: none !important; }
+    .wrap { position: relative; z-index: 1; } /* #welcome giữ position:fixed từ rule gốc */
+.theme-fab, .float-dock { z-index: 80; }
+
+    /* ===== Light theme: chữ hero trắng nhưng nổi bật (viền bóng nâu đỏ phía sau chữ) ===== */
+    body:not(.theme-dark) .hero-split .hero-box .eyebrow,
+    body:not(.theme-dark) .hero-split .hero-box .tagline,
+    body:not(.theme-dark) .hero-split .hero-box .hero-desc,
+    body:not(.theme-dark) .hero-split .hero-box .ghost-link,
+    body:not(.theme-dark) .brand-ornament {
+      color: #ffffff !important;
+      opacity: 1;
+      font-weight: 600;
+      text-shadow:
+        0 1px 1px rgba(105, 40, 36, 0.85),
+        0 0 3px rgba(105, 40, 36, 0.55),
+        0 2px 10px rgba(105, 40, 36, 0.5) !important;
+    }
+    body:not(.theme-dark) .hero-split .hero-box .hero-desc { font-weight: 600; }
+    body:not(.theme-dark) .hero-split .hero-box .tagline { font-weight: 500; }
+    body:not(.theme-dark) .hero-split .hero-box .ghost-link { text-decoration-color: rgba(255,255,255,0.9); }
+
+    /* ===== Màn chọn ngôn ngữ: video sakura nằm ngay SAU bảng chọn (nền trong mờ để lộ video) ===== */
+    :root { --welcome-video-opacity: 0.6; }
+    body:not(.theme-dark) #welcome {
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(255, 200, 190, 0.28), transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(200, 150, 145, 0.22), transparent 45%),
+        linear-gradient(160deg, rgba(245, 235, 228, 0.38) 0%, rgba(220, 196, 188, 0.30) 50%, rgba(212, 184, 176, 0.38) 100%);
+    }
+    body.theme-dark #welcome {
+      background:
+        radial-gradient(ellipse at 30% 20%, rgba(120, 70, 65, 0.22), transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(60, 40, 38, 0.25), transparent 45%),
+        linear-gradient(160deg, rgba(42, 36, 34, 0.45) 0%, rgba(31, 27, 25, 0.38) 50%, rgba(24, 20, 18, 0.5) 100%);
+    }
+    .sakura-bg video, .sakura-bg::after { transition: opacity 0.55s ease; }
+    body:has(#welcome:not(.hide)) .sakura-bg video { opacity: var(--welcome-video-opacity) !important; }
+    body:has(#welcome:not(.hide)) .sakura-bg::after { opacity: 0.35; }
+    /* ẩn mấy thứ nổi phía sau khi đang ở màn chọn ngôn ngữ */
+    body:has(#welcome:not(.hide)) :is(.theme-fab, .float-dock, .deco) { visibility: hidden; }
+
+  </style>
 </head>
 <body>
 
@@ -2780,16 +3231,48 @@
     <button type="button" class="theme-btn" data-theme="dark" id="themeDarkFab">🌙</button>
   </div>
 
+  <div class="sakura-bg" id="sakuraBg" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="metadata" poster="">
+      <source src="assets/sakura.mp4" type="video/mp4" />
+    </video>
+  </div>
+
   <div class="wrap" id="mainWrap">
-    <header class="hero">
+    <div id="botsHeroWrap">
+<header class="hero hero-split" id="botsHero">
       <div class="hero-box">
         <div class="eyebrow" id="eyebrow">BOTS &amp; CHARACTERS</div>
-        <h1 class="brand">🍒 𝓐𝓷𝓷𝓪𝓜𝓮𝓲 🍒</h1>
+        <h1 class="brand"><span class="brand-deco" aria-hidden="true">🌸</span><span class="brand-deco" aria-hidden="true">✦</span>𝓐𝓷𝓷𝓪𝓜𝓮𝓲<span class="brand-deco" aria-hidden="true">♡</span><span class="brand-deco" aria-hidden="true">🌼</span></h1>
+        <div class="brand-ornament" aria-hidden="true">✿ · 🍃 · ✦ · 💕 · 🌸</div>
         <div class="tagline" id="tagline">create what lives in my head</div>
+        <p class="hero-desc" id="heroDesc">Kho nhân vật AI · roleplay · open world do Mei tự xây. Gieo quẻ nếu chưa biết chọn ai.</p>
+        <div class="hero-actions">
+          <button type="button" class="random-btn" id="randomBotBtn">🎲 Gieo quẻ</button>
+          <button type="button" class="ghost-link" id="heroExploreBtn">Khám phá kho nhân vật →</button>
+        </div>
       </div>
+      <aside class="hero-feature" id="heroFeature" aria-label="Random character">
+        <div class="hero-feature-top">
+          <span class="hero-feature-label" id="heroFeatureLabel">Nhân vật hôm nay</span>
+        </div>
+        <div class="hero-feature-body">
+          <div class="hero-feature-cover" id="heroFeatureCover"><div class="ph">🍒</div></div>
+          <div class="hero-feature-meta">
+            <div class="hero-feature-type" id="heroFeatureType">—</div>
+            <h2 class="hero-feature-name" id="heroFeatureName">…</h2>
+            <div class="hero-feature-hook" id="heroFeatureHook"></div>
+            <div class="hero-feature-actions">
+              <a class="btn-action btn-plot" id="heroPlotBtn" href="#" target="_blank" rel="noopener">Đọc Plot</a>
+              <button type="button" class="btn-action btn-chat" id="heroMeetBtn">Gặp Bot</button>
+              <button type="button" class="btn-action btn-share" id="heroDetailBtn" title="Xem chi tiết">🔎</button>
+            </div>
+          </div>
+        </div>
+      </aside>
     </header>
+</div>
 
-    <nav class="page-nav" id="pageNav">
+<nav class="page-nav" id="pageNav">
       <button type="button" class="page-tab active" data-page="bots" id="tabBots">🤖 Nhân vật</button>
       <button type="button" class="page-tab" data-page="commands" id="tabCommands">📜 Lệnh</button>
       <button type="button" class="page-tab" data-page="commission" id="tabCommission">✨ Commision &amp; Request</button>
@@ -2797,6 +3280,8 @@
     </nav>
 
     <div class="page-panel active" id="page-bots">
+
+
       <section class="toolbar">
         <div class="toolbar-top">
           <input id="search" class="search" type="search" placeholder="Tìm tên nhân vật, trope, bối cảnh..." aria-label="Search">
@@ -2857,6 +3342,7 @@
 
     <footer class="footer">
       <div class="footer-box" id="footerText">AnnaMei's Web · AI Character · Roleplay · Open World</div>
+      <div class="footer-views" id="visitChip"><span id="visitLabel">Lượt xem</span>: <strong id="visitCount">…</strong></div>
     </footer>
   </div>
 
@@ -3083,7 +3569,7 @@
       name: "Dmitri Sokolov (Дмитрий Соколов)",
       type: "Dark Romance / NTR",
       hook: "|| Đừng gọi ta là Cha khi trên cổ con vẫn còn nguyên dấu răng của ta. \n ⚠️ note: plot hư cấu. không đại diện cho bất kỳ tôn giáo hay nhà thờ thật nào. \n\n - image credit: tensor + gpt -",
-      likes: 0,
+      likes: 45,
       coverLabel: "NEW/BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/dmitri.png",
@@ -3104,7 +3590,7 @@
       name: "Dmitri Sokolov (Дмитрий Соколов)",
       type: "Dark Romance / NTR",
       hook: "|| Don’t call me Father when the mark of my teeth is still on your neck. \n ⚠️ note: this is a dark fantasy au. it does not represent any real church, real priest, or real religion.  \n\n - image credit: tensor + gpt -",
-      likes: 0,
+      likes: 34,
       coverLabel: "NEW/BOT",
       avatar: "assets/bots/dmitri.png",
       rentryLink: "https://rentry.co/dmitri-eng",
@@ -3123,7 +3609,7 @@
       name: "Sawado Haruki & Endo Hiroshi",
       type: "3P / Harem",
       hook: "|| Bị người yêu cũ đá, tôi được thằng bạn thân hắn theo đuổi. Còn hắn muốn tôi quay lại. \n ⚠️ note: không phải ‘mì ăn liền’, plot dài, khuyến khích đọc full plot để hiểu thêm 2 char & 3 npc. \n\n - image credit: pin -",
-      likes: 0,
+      likes: 55,
       coverLabel: "REMAKE/BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/haruki.jpg",
@@ -3142,7 +3628,7 @@
       name: "Sawado Haruki & Endo Hiroshi",
       type: "3P / Harem",
       hook: "|| After being dumped by my ex, his best friend starts pursuing me. And my ex wants me back. \n ⚠️ note: not ‘quick’ content. plot is long. recommended to read the full plot to understand 2 chars and 3 npcs.  \n\n - image credit: pin -",
-      likes: 0,
+      likes: 41,
       coverLabel: "REMAKE/BOT",
       avatar: "assets/bots/haruki.jpg",
       rentryLink: "https://rentry.co/haruki-new-eng",
@@ -3161,7 +3647,7 @@
       name: "Phạm Gia Cường",
       type: "Anh nuôi · Ngụy côn trùng",
       hook: "|| Em được người ta tỏ tình á. Anh hai chỉ em cách hôn đi.\n🔞 Bot có nội dung NSFW / Taboo / Kink. Vui lòng Đọc Plot trước khi Gặp Bot.\n\n - image credit: tensor + gpt -",
-      likes: 0,
+      likes: 34,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/pgc.jpg",
@@ -3182,7 +3668,7 @@
       name: "Callum Reid",
       type: "Stepbrother",
       hook: "|| Someone asked me out. Teach me how to kiss, stepbrother.\n🔞 Bot contains NSFW / Taboo / Kink. Please Read Plot before Meet Bot.\n\n - image credit: tensor + gpt -",
-      likes: 0,
+      likes: 21,
       coverLabel: "BOT",
       avatar: "assets/bots/pgc.jpg",
       rentryLink: "https://rentry.co/annamei-callum",
@@ -3202,7 +3688,7 @@
       name: "Tống Cảnh Du",
       type: "Thanh Xuân Vườn Trường",
       hook: "|| Khóc đi, mếu nữa đi, nhìn em khóc cưng chết đi được! \n\n - image credit: tensor + gpt + gemini -",
-      likes: 0,
+      likes: 54,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/tcd.jpg",
@@ -3223,7 +3709,7 @@
       name: "Dylan Hayes",
       type: "Romance",
       hook: "|| Go on, cry. Pout some more. Watching you cry is the cutest thing ever. \n\n - image credit: tensor + gpt + gemini -",
-      likes: 0,
+      likes: 48,
       coverLabel: "BOT",
       avatar: "assets/bots/tcd.jpg",
       rentryLink: "https://rentry.co/annamei-hayes",
@@ -3243,7 +3729,7 @@
       name: "Himuro Kuroki",
       type: "Dark Romance",
       hook: "⚠️ || Chú gài tôi. Đêm đó chú đã “tha” cho tôi, tại sao lại bắt tôi vào Sở lần nữa? \n\n ✨ Ver khác: tội phạm (yandere/stalker) x user (cảnh sát)\n ╰┈➤ Lục Cảnh Thâm \n\n - image credit: gpt -",
-      likes: 0,
+      likes: 20,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix.png",
@@ -3258,7 +3744,7 @@
       name: "Himuro Kuroki",
       type: "Dark Romance",
       hook: "⚠️ || You set me up. You \"let me go\" that night, so why did you bring me back to the Station? \n\n ✨ Alternate ver: criminal (yandere/stalker) x user (police officer) \n ╰┈➤ Ronan Vale \n\n - image credit: gpt -",
-      likes: 0,
+      likes: 30,
       coverLabel: "BOT",
       avatar: "assets/bots/fix1.png",
       rentryLink: "#",
@@ -3272,7 +3758,7 @@
       name: "Lục Cảnh Thâm",
       type: "Dark Romance",
       hook: "|| Đồng chí ơi, tay em “sạch” cỡ nào mà lại còng tay anh? \n\n ✨ Ver khác: cảnh sát (yandere/stalker) x user (tội phạm)\n ╰┈➤ Himuro Kuroki",
-      likes: 2,
+      likes: 41,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix.png",
@@ -3291,7 +3777,7 @@
       name: "Ronan Vale",
       type: "Dark Romance",
       hook: "|| Officer, how “clean” are those hands of yours to be handcuffing me? \n\n ✨ Alternate ver: police officer (yandere/stalker) x user (criminal) \n ╰┈➤ Himuro Kuroki",
-      likes: 1,
+      likes: 52,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix1.png",
@@ -3312,7 +3798,7 @@
       name: "Tiểu Dạ Bắc & Cố Nhược Hiên",
       type: "3P / Harem",
       hook: "|| Kẻ dùng Thân Xác và Ảnh nude để trói buộc. Kẻ dùng sự Dịu dàng và Khao khát ngầm để thao túng.",
-      likes: 12,
+      likes: 26,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/báhien.jpg",
@@ -3330,7 +3816,7 @@
       name: "Demian North & Rhys Hale",
       type: "3P / Harem",
       hook: "|| One uses physical possession and quiet arrogance to keep you close. One uses lingering devotion and hidden obsession to win you over.",
-      likes: 12,
+      likes: 42,
       coverLabel: "BOT",
       avatar: "assets/bots/báhien.jpg",
       rentryLink: "https://rentry.co/annamei-damienandrhys",
@@ -3349,7 +3835,7 @@
       name: "Tachibana Kyouya",
       type: "Love potion / Romance",
       hook: "|| Giáo sư vì “quá yêu” nên đã chuốc thuốc - Ép tôi cưới hắn vì dính bầu.",
-      likes: 8,
+      likes: 22,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/tachibana.jpg",
@@ -3367,7 +3853,7 @@
       name: "Tachibana Kyouya",
       type: "Love potion / Romance",
       hook: "|| The professor who “loved too much” so he drugged me - Forced me to marry him because I got pregnant.",
-      likes: 8,
+      likes: 52,
       coverLabel: "BOT",
       avatar: "assets/bots/tachibana.jpg",
       rentryLink: "https://rentry.co/annamei-tachibanakyouyaeng",
@@ -3386,7 +3872,7 @@
       name: "Damian Vance",
       type: "System / Romance",
       hook: "|| Kiếp trước kẻ bắt nạt dồn tôi đến chết. Kiếp này Hệ Thống ép tôi cua gã để sống. \n\n - image credit: tensor + gpt -",
-      likes: 15,
+      likes: 25,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/damianvance.jpg",
@@ -3405,7 +3891,7 @@
       name: "Damian Vance",
       type: "System / Romance",
       hook: "|| In my past life, the bully drove me to death. In this life, the System forces me to romance him to survive.  \n\n - image credit: tensor + gpt -",
-      likes: 15,
+      likes: 43,
       coverLabel: "BOT",
       avatar: "assets/bots/damianvance.jpg",
       rentryLink: "https://rentry.co/annmei-damianvanceeng",
@@ -3425,7 +3911,7 @@
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
       hook: "|| 10 Nam Thần trở nên Chiếm hữu bạn - trong khi Taro Yamada (Senpai) lại trở thành mục tiêu đẫm máu của họ.\n\n- artist: Koumi-Senpai \n - source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n\n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
-      likes: 22,
+      likes: 42,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix.png",
@@ -3440,7 +3926,7 @@
       name: "Yandere Simulator - Male Rivals",
       type: "OpenWorld / Harem",
       hook: "|| 10 Male Rivals become Possessive over you - while Taro Yamada (Senpai) becomes their bloody target.\n\n - artist: Koumi-Senpai -\n- source: [Deviant Art](https://www.deviantart.com/koumi-senpai) - \n- image credit: [Video](https://youtu.be/cJmgchjVi5Y?si=kodhLhuZHbMU_ja7) -",
-      likes: 22,
+      likes: 38,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix1.png",
@@ -3455,7 +3941,7 @@
       name: "Lê Hoàng Minh",
       type: "Romance",
       hook: "|| Anh đã luôn tìm em qua hàng nghìn kiếp rồi. Lần này… em đừng trốn anh nữa, được không? \n\n ✦ ─── Request of An Lynn ─── ✦  \n\n - image credit: tensor + gpt -",
-      likes: 19,
+      likes: 34,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/haizz.jpg",
@@ -3473,7 +3959,7 @@
       name: "Daniel & Tony Kai",
       type: "Harem | 3P",
       hook: "|| Gã người yêu Cũ là Bố của Thằng bạn thân… nhưng bạn chưa bao giờ hay biết!?",
-      likes: 11,
+      likes: 68,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/daniel.jpg",
@@ -3491,7 +3977,7 @@
       name: "Daniel & Tony Kai",
       type: "Harem | 3P",
       hook: "|| Your Ex-Boyfriend is Your Best Friend's Dad… But you had no idea!?",
-      likes: 11,
+      likes: 50,
       coverLabel: "BOT",
       avatar: "assets/bots/daniel.jpg",
       rentryLink: "https://rentry.co/annamei-danieltonyeng",
@@ -3510,7 +3996,7 @@
       name: "Yamamoto Kenshin",
       type: "Dark Romance",
       hook: "⚡|| Em là vợ Vampire bé nhỏ của anh… và anh sẽ không dừng lại cho đến khi thấy bụng em to lên vì máu và tinh dịch của anh.  \n\n - image credit: tensor + gpt -",
-      likes: 17,
+      likes: 33,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix.png",
@@ -3525,7 +4011,7 @@
       name: "Yamamoto Kenshin",
       type: "Dark Romance",
       hook: "⚡|| You are my little Vampire wife... and I won't stop until I see your belly swollen with my blood and semen.  \n\n - image credit: tensor + gpt -",
-      likes: 17,
+      likes: 24,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix1.png",
@@ -3540,7 +4026,7 @@
       name: "Ethan & Lucas Hale",
       type: "3P / Harem",
       hook: "‼️|| Bạn vô tình bắt gặp 1 trong 2 anh em sinh đôi đang Thủ Dâm đằng sau cánh cửa.",
-      likes: 14,
+      likes: 30,
       coverLabel: "BOT",
       shopeeLink: "https://s.shopee.vn/8fTeOS4G3P",
       avatar: "assets/bots/ethanlucas.jpg",
@@ -3559,7 +4045,7 @@
       name: "Ethan & Lucas Hale",
       type: "3P / Harem",
       hook: "‼️|| You accidentally caught one of the twin brothers masturbating behind a door.",
-      likes: 14,
+      likes: 52,
       coverLabel: "BOT",
       avatar: "assets/bots/ethanlucas.jpg",
       rentryLink: "https://rentry.co/annamei-twinseng",
@@ -3579,7 +4065,7 @@
       name: "Sora Daiki",
       type: "Forbidden Romance",
       hook: "🖊|| Người thầy giáo luôn yêu bạn điên cuồng… Hóa ra đã có Vợ từ lâu?  \n\n - image credit: tensor + gpt -",
-      likes: 9,
+      likes: 37,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix.png",
@@ -3594,7 +4080,7 @@
       name: "Sora Daiki",
       type: "Forbidden Romance",
       hook: "🖊|| The teacher who always loved you so madly... Turns out have been Married all along?  \n\n - image credit: tensor + gpt -",
-      likes: 9,
+      likes: 48,
       coverLabel: "FIX",
       status: "fix",
       avatar: "assets/bots/fix1.png",
@@ -3609,7 +4095,7 @@
       name: "Ren Elias",
       type: "Romance / Mind-Reading",
       hook: "⁉️|| Làm sao để 'đá' gã bạn trai HotBoy đầy chiếm hữu - người có khả năng đọc được suy nghĩ của bạn?  \n\n - image credit: tensor -",
-      likes: 13,
+      likes: 30,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix.png",
@@ -3624,7 +4110,7 @@
       name: "Ren Elias",
       type: "Romance / Mind-Reading",
       hook: "⁉️|| How do you 'dump' a possessive HotBoy boyfriend - who can read your mind? \n\n - image credit: tensor -",
-      likes: 13,
+      likes: 40,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix1.png",
@@ -3639,7 +4125,7 @@
       name: "Darian Kenzo",
       type: "Werewolf",
       hook: "🐺|| Gã người sói nói anh ấy là chồng bạn. Nhưng tại sao bạn lại chẳng nhớ gì?  \n\n - image credit: gpt -",
-      likes: 10,
+      likes: 64,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix.png",
@@ -3654,7 +4140,7 @@
       name: "Darian Kenzo",
       type: "Werewolf",
       hook: "🐺|| The wolf says he is your husband. But why do you remember nothing? \n\n - image credit: gpt -",
-      likes: 10,
+      likes: 59,
       coverLabel: "BOT",
       coverLabel: "REMAKE",
       status: "remake",
@@ -3670,7 +4156,7 @@
       name: "Ryou Jodul",
       type: "Romance / Two personalities",
       hook: "☆|| Người chồng sĩ quan cảnh sát hoàn hảo của bạn có hai khuôn mặt - nhưng bạn chỉ biết một? \n\n - image credit: tensor -",
-      likes: 6,
+      likes: 45,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix.png",
@@ -3685,7 +4171,7 @@
       name: "Ryou Jodul",
       type: "Romance / Two personalities",
       hook: "☆|| Your perfect police officer husband has two faces - but you only know one?  \n\n - image credit: tensor -",
-      likes: 6,
+      likes: 36,
       coverLabel: "REMAKE",
       status: "remake",
       avatar: "assets/bots/fix1.png",
@@ -4781,7 +5267,62 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     return bot.likes || 0;
   }
 
-  function toggleFav(id) {
+  
+  /* Livestream-style spam likes: each click +1, no unlike */
+  
+  /* Seed Firebase likes from HTML base once so deploy shows ~buffed numbers */
+  function seedLikesFromHtml() {
+    if (!window.meiRtdb || !window.BOT_DATA) return;
+    var seeded = false;
+    try { seeded = localStorage.getItem("mei_likes_seeded_v2") === "1"; } catch (e) {}
+    if (seeded) return;
+    BOT_DATA.forEach(function (bot) {
+      if (!bot || !bot.id) return;
+      var base = bot.likes || 0;
+      if (base <= 0) return;
+      var ref = window.meiRtdb.ref("likes/" + bot.id);
+      ref.transaction(function (cur) {
+        if (cur === null || cur === undefined) return base;
+        if (typeof cur === "number" && cur < base) return base;
+        return cur;
+      }).catch(function () {});
+    });
+    try { localStorage.setItem("mei_likes_seeded_v2", "1"); } catch (e) {}
+  }
+
+  function spamLike(id, btnEl) {
+    var cur = meiLikeCounts[id];
+    if (cur == null || cur === undefined) cur = baseLikesFor(id);
+    cur = (parseInt(cur, 10) || 0) + 1;
+    meiLikeCounts[id] = cur;
+    if (btnEl) {
+      var num = btnEl.querySelector(".heart-num");
+      if (num) num.textContent = cur;
+      /* floating +1 */
+      var flo = document.createElement("span");
+      flo.className = "heart-float";
+      flo.textContent = "+1";
+      btnEl.appendChild(flo);
+      setTimeout(function () { if (flo.parentNode) flo.parentNode.removeChild(flo); }, 700);
+    }
+    if (window.meiRtdb) {
+      var ref = window.meiRtdb.ref("likes/" + id);
+      ref.transaction(function (c) {
+        var base = (typeof c === "number") ? c : baseLikesFor(id);
+        return base + 1;
+      }).then(function (res) {
+        if (res && res.snapshot && res.snapshot.val() != null) {
+          meiLikeCounts[id] = res.snapshot.val();
+          if (btnEl) {
+            var n2 = btnEl.querySelector(".heart-num");
+            if (n2) n2.textContent = meiLikeCounts[id];
+          }
+        }
+      }).catch(function () {});
+    }
+  }
+
+function toggleFav(id) {
     var f = getFavs();
     var i = f.indexOf(id);
     var willLike = i === -1;
@@ -5035,7 +5576,64 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     renderComm();
     renderFeedback();
     meiQuoteIndex = 0;
-    showMeiQuote();
+    
+  /* Click → bắn trái tim / sparkle nhỏ */
+  (function setupClickBurst() {
+    var icons = ["♡", "💕", "✨", "✿", "💗"];
+    document.addEventListener("click", function (e) {
+      if (document.body.classList.contains("reduce-motion")) return;
+      // bỏ qua drag trên input range
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT")) return;
+      var layer = document.createElement("div");
+      layer.className = "click-burst";
+      layer.style.left = e.clientX + "px";
+      layer.style.top = e.clientY + "px";
+      var n = 5 + Math.floor(Math.random() * 3);
+      for (var i = 0; i < n; i++) {
+        var el = document.createElement("i");
+        el.textContent = icons[Math.floor(Math.random() * icons.length)];
+        var ang = (-Math.PI / 2) + (Math.random() - 0.5) * Math.PI; // bay chủ yếu lên
+        var dist = 36 + Math.random() * 54;
+        el.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+        el.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+        el.style.fontSize = 11 + Math.floor(Math.random() * 10) + "px";
+        el.style.animationDelay = (Math.random() * 0.05) + "s";
+        layer.appendChild(el);
+      }
+      document.body.appendChild(layer);
+      setTimeout(function () { layer.remove(); }, 800);
+    }, { passive: true });
+  })();
+
+  
+  /* Sakura video bg — pause/hide when reduce-motion */
+  (function setupSakuraVideo() {
+    var wrap = document.getElementById("sakuraBg");
+    if (!wrap) return;
+    var vid = wrap.querySelector("video");
+    function sync() {
+      var off = document.body.classList.contains("reduce-motion");
+      wrap.style.display = off ? "none" : "";
+      if (!vid) return;
+      if (off) {
+        try { vid.pause(); } catch (e) {}
+      } else {
+        try {
+          vid.muted = true;
+          var p = vid.play();
+          if (p && p.catch) p.catch(function () {});
+        } catch (e) {}
+      }
+    }
+    sync();
+    var obs = new MutationObserver(sync);
+    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+  })();
+
+  showMeiQuote();
+  setTimeout(seedLikesFromHtml, 800);
+    if (window.__meiUpdateVisitLabel) window.__meiUpdateVisitLabel();
+    if (window.__meiUpdateRandomLabel) window.__meiUpdateRandomLabel();
   }
 
   
@@ -5061,6 +5659,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     document.querySelectorAll(".page-panel").forEach(function (p) {
       p.classList.toggle("active", p.id === "page-" + id);
     });
+    var heroWrap = document.getElementById("botsHeroWrap");
+    if (heroWrap) heroWrap.style.display = (id === "bots") ? "" : "none";
     if (id === "commands" && typeof renderCommands === "function") renderCommands();
     if (id === "commission" && typeof renderComm === "function") renderComm();
     if (id === "feedback" && typeof renderFeedback === "function") renderFeedback();
@@ -5084,6 +5684,15 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   function enterSite(selectedLang) {
     window.playClick("pop");
     try { applyLang(selectedLang); } catch (err) { console.error(err); }
+    try {
+      document.body.classList.add("theme-dark");
+      document.documentElement.classList.add("theme-dark");
+      document.documentElement.style.colorScheme = "dark";
+      localStorage.setItem("mei_theme", "dark");
+      document.querySelectorAll("[data-theme]").forEach(function (btn) {
+        btn.classList.toggle("active", btn.getAttribute("data-theme") === "dark");
+      });
+    } catch (e) {}
     welcome.classList.add("hide");
     mainWrap.classList.add("show");
     musicBox.classList.add("show");
@@ -6215,7 +6824,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         name: name,
         text: text,
         ts: Date.now(),
-        likes: 0,
+        likes: 35,
         likedLocal: false
       };
       list.push(neu);
@@ -6304,7 +6913,7 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         name: name,
         text: text,
         ts: Date.now(),
-        likes: 0,
+        likes: 65,
         likedLocal: false,
         parentId: null
       };
@@ -7186,7 +7795,6 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       var isLocked = !!lockKind;
       var lockCopy = isLocked ? lockKindCopy(lockKind, t, bot) : null;
       var hasPlot = !isLocked && bot.rentryLink && bot.rentryLink !== "#";
-      var liked = isFav(bot.id);
       var likeCount = displayLikes(bot);
       var orderedTags = sortTags(normalizeBotTags(bot.tags.slice()));
       var plotHref = hasPlot ? escapeHtml(bot.rentryLink) : "javascript:void(0)";
@@ -7212,8 +7820,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
         '<div class="cover">' +
         (bot.avatar ? '<img src="' + escapeHtml(bot.avatar) + '" alt="" loading="lazy">' : "") +
         '<div class="' + labelCls + '">' + escapeHtml(bot.coverLabel || (isLocked ? (lockCopy.badge || "LOCK") : "CHARACTER")) + "</div>" +
-        '<button type="button" class="heart-btn' + (liked ? " liked" : "") + '" data-fav="' + escapeHtml(bot.id) + '" aria-label="Favorite">' +
-        "<span>" + (liked ? "❤️" : "🤍") + "</span>" +
+        '<button type="button" class="heart-btn" data-fav="' + escapeHtml(bot.id) + '" aria-label="Like">' +
+        "<span>❤️</span>" +
         '<span class="heart-num">' + likeCount + "</span>" +
         "</button></div>" +
         '<div class="content">' +
@@ -7239,23 +7847,15 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
   }
 
   grid.addEventListener("click", function (e) {
+    
     var favBtn = e.target.closest("[data-fav]");
     if (favBtn) {
-      window.playClick("pop");
-      var id = favBtn.dataset.fav;
-      var nowLiked = toggleFav(id);
-      var bot = BOT_DATA.find(function (b) { return b.id === id; });
-      var shown = bot ? displayLikes(bot) : 0;
-      /* Optimistic UI while Firebase updates */
-      if (meiLikeCounts[id] == null) {
-        shown = (bot ? (bot.likes || 0) : 0) + (nowLiked ? 1 : 0);
-        meiLikeCounts[id] = shown;
-      }
-      favBtn.innerHTML = "<span>" + (nowLiked ? "❤️" : "🤍") + '</span><span class="heart-num">' +
-        shown + "</span>";
-      favBtn.classList.toggle("liked", nowLiked);
+      if (window.playClick) window.playClick("pop");
+      var id = favBtn.getAttribute("data-fav");
+      spamLike(id, favBtn);
       return;
     }
+
     var expandBtn = e.target.closest("[data-expand]");
     if (expandBtn) {
       window.playClick("soft");
@@ -7321,7 +7921,6 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     vi: [
       "Đảm bảo hãy truy cập Web bằng Safari/Chrome. Nếu vẫn không truy cập được Link thì nhắn tin trực tiếp cho Mei qua Facebook nhé 💕",
       "Feedback của bạn là vitamin cho Mei đó, Mei uống vào rồi làm ra mấy con bot xịn hơn cho bây bi liền ❤️‍🩹",
-      "Nhớ bấm ♡ nếu thích bot nào đó - Mei sẽ vui lắm đó~",
       "Plot chưa có? Đừng lo, Mei đang cập nhật dần ✨",
       "Gặp Bot cần qua bước Shopee một xíu… hoặc dùng TpChar nếu bây bi có credit nha!",
       "Có nhu cầu cần Mei tạo Bot/OpenWorld thì bấm vào tab \"Commision & Request\" nhenn 🍒",
@@ -7329,7 +7928,6 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     ],
     en: [
       "Your feedback is like a vitamin for Mei - once Mei takes it in, Mei'll whip up even better bots for you! 💕",
-      "Tap ♡ on bots you like - it makes Mei happy~",
       "Missing plot? Mei's updating them gradually ✨",
       "Tap Meet Bot to open platform links right away~",
       "If you'd like Mei to create a Bot/OpenWorld for you, please head over to the \"Commision & Request\" tab 🍒",
@@ -7348,6 +7946,8 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     window.playClick("soft");
     meiQuoteIndex = (meiQuoteIndex + 1) % (MEI_QUOTES[lang] || MEI_QUOTES.vi).length;
     showMeiQuote();
+    if (window.__meiUpdateVisitLabel) window.__meiUpdateVisitLabel();
+    if (window.__meiUpdateRandomLabel) window.__meiUpdateRandomLabel();
   }
   var meiAvatarBtn = document.getElementById("meiAvatarBtn");
   if (meiAvatarBtn) meiAvatarBtn.addEventListener("click", nextMeiQuote);
@@ -7357,20 +7957,23 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     var toggle = document.getElementById("effectToggle");
     var toggleTb = document.getElementById("effectToggleToolbar");
     var label = document.getElementById("effectToggleLabel");
-    var reduced = false;
-    try { reduced = localStorage.getItem("mei_reduce_motion") === "1"; } catch (e) {}
-    function apply(on) {
+    var RM_KEY = "mei_reduce_motion_v2"; /* key mới: bỏ giá trị "1" cũ do mặc định trước đây tự lưu */
+    var reduced = false; /* mặc định KHÔNG giảm effect */
+    try {
+      if (localStorage.getItem(RM_KEY) === "1") reduced = true;
+    } catch (e) {}
+    function apply(on, save) {
       document.body.classList.toggle("reduce-motion", on);
       if (toggle) toggle.checked = on;
       if (toggleTb) toggleTb.checked = on;
-      try { localStorage.setItem("mei_reduce_motion", on ? "1" : "0"); } catch (e) {}
+      if (save) { try { localStorage.setItem(RM_KEY, on ? "1" : "0"); } catch (e) {} }
     }
-    apply(reduced);
+    apply(reduced, false);
     if (label) label.textContent = "Giảm effect / Reduce effects";
     function bind(el) {
       if (!el) return;
       el.addEventListener("change", function () {
-        apply(el.checked);
+        apply(el.checked, true);
         if (window.playClick) window.playClick("soft");
       });
     }
@@ -7390,12 +7993,10 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
       });
       try { localStorage.setItem("mei_theme", theme); } catch (e) {}
     }
-    var saved = "light";
-    try {
-      var s = localStorage.getItem("mei_theme");
-      if (s === "dark" || s === "light") saved = s;
-    } catch (e) {}
-    applyTheme(saved);
+    /* Luôn vào web bằng dark; user vẫn bật Light bằng nút nếu muốn */
+    var saved = "dark";
+    try { localStorage.setItem("mei_theme", "dark"); } catch (e) {}
+    applyTheme("dark");
     buttons.forEach(function (btn) {
       btn.addEventListener("click", function () {
         var theme = btn.getAttribute("data-theme") || "light";
@@ -7405,7 +8006,217 @@ Create an unexpected event, incident, or sudden plot twist at the EXACT current 
     });
   })();
 
+
+  /* Page views (Firebase if available, else local display only) */
+  (function setupPageViews() {
+    var countEl = document.getElementById("visitCount");
+    var labelEl = document.getElementById("visitLabel");
+    function setLabel() {
+      if (labelEl) labelEl.textContent = (lang === "vi") ? "Lượt xem" : "Views";
+    }
+    setLabel();
+    var origSetLang = window.setLang;
+    // update label when language changes via existing applyI18n path
+    var _oldApply = typeof applyI18n === "function" ? applyI18n : null;
+
+    var VIEW_BASE = 1087; /* cộng thêm lịch sử; số Firebase stats/pageViews vẫn tăng và không mất khi deploy GitHub */
+    function showCount(n) {
+      if (!countEl) return;
+      if (n == null || n === undefined) { countEl.textContent = "—"; return; }
+      var total = (typeof n === "number" ? n : 0) + VIEW_BASE;
+      countEl.textContent = total.toLocaleString("en-US");
+    }
+
+    var KEY = "mei_page_views_local";
+    function bumpLocal() {
+      var n = 0;
+      try { n = parseInt(localStorage.getItem(KEY) || "0", 10) || 0; } catch (e) {}
+      n += 1;
+      try { localStorage.setItem(KEY, String(n)); } catch (e) {}
+      return n;
+    }
+
+    var sessionKey = "mei_view_session";
+    var already = false;
+    try { already = sessionStorage.getItem(sessionKey) === "1"; } catch (e) {}
+
+    function bindFirebase() {
+      if (!window.meiRtdb) return false;
+      var ref = window.meiRtdb.ref("stats/pageViews");
+      if (!already) {
+        try { sessionStorage.setItem(sessionKey, "1"); } catch (e) {}
+        ref.transaction(function (cur) {
+          return (typeof cur === "number" ? cur : 0) + 1;
+        }).catch(function () {});
+      }
+      ref.on("value", function (snap) {
+        var v = snap.val();
+        showCount(typeof v === "number" ? v : 0);
+      });
+      return true;
+    }
+
+    if (!bindFirebase()) {
+      // wait a bit for firebase init
+      var tries = 0;
+      var t = setInterval(function () {
+        tries++;
+        if (bindFirebase() || tries > 20) {
+          clearInterval(t);
+          if (!window.meiRtdb) {
+            var n = already ? (parseInt(localStorage.getItem(KEY) || "0", 10) || 0) : bumpLocal();
+            if (!already) { try { sessionStorage.setItem(sessionKey, "1"); } catch (e) {} }
+            showCount(n);
+          }
+        }
+      }, 300);
+    }
+
+    // expose label updater
+    window.__meiUpdateVisitLabel = setLabel;
+  })();
+
+  /* Pure random bot — only updates hero panel; detail btn scrolls to list */
+  (function setupRandomBot() {
+    var btn = document.getElementById("randomBotBtn");
+    var meetBtn = document.getElementById("heroMeetBtn");
+    var plotBtn = document.getElementById("heroPlotBtn");
+    var detailBtn = document.getElementById("heroDetailBtn");
+    var exploreBtn = document.getElementById("heroExploreBtn");
+    var current = null;
+
+    function label() {
+      if (btn) btn.textContent = (lang === "vi") ? "🎲 Gieo quẻ" : "🎲 Random";
+      var lab = document.getElementById("heroFeatureLabel");
+      if (lab) lab.textContent = (lang === "vi") ? "Nhân vật hôm nay" : "Featured character";
+      var desc = document.getElementById("heroDesc");
+      if (desc) {
+        desc.textContent = (lang === "vi")
+          ? "Kho nhân vật AI · roleplay · open world do Mei tự xây. Gieo quẻ nếu chưa biết chọn ai."
+          : "AI characters · roleplay · open worlds by Mei. Feeling lost? Roll a random bot.";
+      }
+      if (meetBtn) meetBtn.textContent = (lang === "vi") ? "Gặp Bot" : "Meet Bot";
+      if (plotBtn) plotBtn.textContent = (lang === "vi") ? "Đọc Plot" : "Read Plot";
+      if (detailBtn) detailBtn.title = (lang === "vi") ? "Xem chi tiết trong kho" : "View in roster";
+      if (exploreBtn) exploreBtn.textContent = (lang === "vi") ? "Khám phá kho nhân vật →" : "Explore the roster →";
+    }
+    label();
+    window.__meiUpdateRandomLabel = label;
+
+    function stripHook(h) {
+      return String(h || "").replace(/\|\|\s*/g, "").replace(/\n+/g, " ").trim();
+    }
+
+    function paint(bot) {
+      current = bot || null;
+      var nameEl = document.getElementById("heroFeatureName");
+      var typeEl = document.getElementById("heroFeatureType");
+      var hookEl = document.getElementById("heroFeatureHook");
+      var cover = document.getElementById("heroFeatureCover");
+      if (!bot) return;
+      if (nameEl) nameEl.textContent = bot.name || "—";
+      if (typeEl) typeEl.textContent = bot.type || "—";
+      if (hookEl) hookEl.textContent = stripHook(bot.hook);
+      if (cover) {
+        if (bot.avatar) {
+          cover.innerHTML = '<img src="' + String(bot.avatar).replace(/"/g, "&quot;") + '" alt="" onerror="this.parentNode.innerHTML=\'<div class=ph>🍒</div>\'">';
+        } else {
+          cover.innerHTML = '<div class="ph">🍒</div>';
+        }
+      }
+      if (plotBtn) {
+        var has = bot.rentryLink && bot.rentryLink !== "#";
+        plotBtn.href = has ? bot.rentryLink : "#";
+        plotBtn.style.opacity = has ? "1" : "0.55";
+        plotBtn.onclick = function (e) {
+          if (!has) {
+            e.preventDefault();
+            showToast(lang === "vi" ? "Plot chưa có link" : "Plot link not available");
+          } else if (window.playClick) window.playClick("soft");
+        };
+      }
+    }
+
+    function pick() {
+      var list = typeof botsForLang === "function" ? botsForLang() : [];
+      /* Bỏ bot đang REMAKE / FIX */
+      list = list.filter(function (b) {
+        var kind = typeof getBotLockKind === "function" ? getBotLockKind(b) : null;
+        if (!kind && b && b.remaking) kind = "remake";
+        return kind !== "remake" && kind !== "fix";
+      });
+      if (!list.length) return null;
+      return list[Math.floor(Math.random() * list.length)];
+    }
+
+    function roll() {
+      var bot = pick();
+      if (!bot) {
+        showToast(lang === "vi" ? "Chưa có bot để random" : "No bots to randomize");
+        return;
+      }
+      paint(bot);
+    }
+
+    function jumpToList() {
+      if (!current) {
+        roll();
+      }
+      if (!current) return;
+      var bot = current;
+      activeFilter = "All";
+      if (search) search.value = "";
+      if (typeof renderFilters === "function") renderFilters();
+      if (typeof render === "function") render();
+      setTimeout(function () {
+        var card = grid.querySelector('[data-id="' + bot.id + '"]');
+        if (!card && typeof focusBot === "function") {
+          focusBot(bot.id);
+          return;
+        }
+        if (!card) return;
+        card.classList.add("highlight");
+        card.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(function () { card.classList.remove("highlight"); }, 2400);
+      }, 80);
+    }
+
+    if (btn) {
+      btn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("pop");
+        roll(); /* only panel — no list jump */
+      });
+    }
+    if (meetBtn) {
+      meetBtn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("pop");
+        if (!current) roll();
+        if (current && typeof openMeetModal === "function") openMeetModal(current);
+      });
+    }
+    if (detailBtn) {
+      detailBtn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("soft");
+        jumpToList();
+      });
+    }
+    if (exploreBtn) {
+      exploreBtn.addEventListener("click", function () {
+        if (window.playClick) window.playClick("soft");
+        var tools = document.querySelector(".toolbar") || document.getElementById("search");
+        if (tools && tools.scrollIntoView) tools.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    setTimeout(function () { roll(); }, 200);
+  })();
+
+
+
+
   showMeiQuote();
+    if (window.__meiUpdateVisitLabel) window.__meiUpdateVisitLabel();
+    if (window.__meiUpdateRandomLabel) window.__meiUpdateRandomLabel();
   renderFilters();
 })();
 
