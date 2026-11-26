@@ -8036,15 +8036,21 @@ function toggleFav(id) {
       return n;
     }
 
-    var sessionKey = "mei_view_session";
+    /* Đếm người truy cập riêng biệt: mỗi thiết bị/trình duyệt chỉ +1 lần duy nhất (lưu bền trong localStorage) */
+    var sessionKey = "mei_view_counted_v1";
     var already = false;
-    try { already = sessionStorage.getItem(sessionKey) === "1"; } catch (e) {}
+    try { already = localStorage.getItem(sessionKey) === "1"; } catch (e) {}
+    if (!already) { try { already = sessionStorage.getItem(sessionKey) === "1"; } catch (e) {} }
+    function markCounted() {
+      try { localStorage.setItem(sessionKey, "1"); } catch (e) {}
+      try { sessionStorage.setItem(sessionKey, "1"); } catch (e) {}
+    }
 
     function bindFirebase() {
       if (!window.meiRtdb) return false;
       var ref = window.meiRtdb.ref("stats/pageViews");
       if (!already) {
-        try { sessionStorage.setItem(sessionKey, "1"); } catch (e) {}
+        markCounted();
         ref.transaction(function (cur) {
           return (typeof cur === "number" ? cur : 0) + 1;
         }).catch(function () {});
@@ -8065,7 +8071,7 @@ function toggleFav(id) {
           clearInterval(t);
           if (!window.meiRtdb) {
             var n = already ? (parseInt(localStorage.getItem(KEY) || "0", 10) || 0) : bumpLocal();
-            if (!already) { try { sessionStorage.setItem(sessionKey, "1"); } catch (e) {} }
+            if (!already) markCounted();
             showCount(n);
           }
         }
