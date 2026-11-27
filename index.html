@@ -3104,6 +3104,17 @@
       background: linear-gradient(180deg, rgba(28,22,22,0.55) 0%, rgba(28,22,22,0.35) 45%, rgba(28,22,22,0.65) 100%);
     }
     body.reduce-motion .sakura-bg { display: none !important; }
+
+    /* Lớp phủ video sakura: giảm bớt để video nhìn rõ hơn (tăng số alpha nếu thấy loạn mắt) */
+    .sakura-bg::after {
+      background: linear-gradient(180deg, rgba(245,235,230,0.26) 0%, rgba(245,235,230,0.06) 40%, rgba(245,235,230,0.24) 100%);
+    }
+    body.theme-dark .sakura-bg::after {
+      background: linear-gradient(180deg, rgba(28,22,22,0.28) 0%, rgba(28,22,22,0.12) 45%, rgba(28,22,22,0.36) 100%);
+    }
+
+    /* Popup Ko-fi (EN): nền hộp luôn sáng nên chữ phải đậm ở dark theme */
+    body.theme-dark .meet-kofi-text { color: #6b4a44; }
     .wrap { position: relative; z-index: 1; } /* #welcome giữ position:fixed từ rule gốc */
 .theme-fab, .float-dock { z-index: 80; }
 
@@ -8105,6 +8116,8 @@ function toggleFav(id) {
       if (plotBtn) plotBtn.textContent = (lang === "vi") ? "Đọc Plot" : "Read Plot";
       if (detailBtn) detailBtn.title = (lang === "vi") ? "Xem chi tiết trong kho" : "View in roster";
       if (exploreBtn) exploreBtn.textContent = (lang === "vi") ? "Khám phá kho nhân vật →" : "Explore the roster →";
+      /* Đổi ngôn ngữ: nếu bot đang hiển thị không thuộc ngôn ngữ mới (hoặc đang remake/fix) thì gieo lại */
+      if (current && !isRollable(current)) roll();
     }
     label();
     window.__meiUpdateRandomLabel = label;
@@ -8143,14 +8156,19 @@ function toggleFav(id) {
       }
     }
 
+    /* Bot được phép hiện ở khung Featured / Gieo quẻ: đúng ngôn ngữ đang chọn + không REMAKE/FIX */
+    function isRollable(b) {
+      if (!b) return false;
+      if (!(b.lang === "both" || b.lang === lang)) return false;
+      var kind = typeof getBotLockKind === "function" ? getBotLockKind(b) : null;
+      if (!kind && b.remaking) kind = "remake";
+      if (!kind && /^\s*(remake|fix)\s*$/i.test(String(b.coverLabel || ""))) kind = "remake";
+      return kind !== "remake" && kind !== "fix";
+    }
+
     function pick() {
       var list = typeof botsForLang === "function" ? botsForLang() : [];
-      /* Bỏ bot đang REMAKE / FIX */
-      list = list.filter(function (b) {
-        var kind = typeof getBotLockKind === "function" ? getBotLockKind(b) : null;
-        if (!kind && b && b.remaking) kind = "remake";
-        return kind !== "remake" && kind !== "fix";
-      });
+      list = list.filter(isRollable);
       if (!list.length) return null;
       return list[Math.floor(Math.random() * list.length)];
     }
