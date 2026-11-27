@@ -8138,6 +8138,8 @@ function toggleFav(id) {
     }
 
     function paint(bot) {
+      /* Chốt chặn: không bao giờ vẽ bot sai ngôn ngữ / đang remake-fix */
+      if (bot && !isRollable(bot)) bot = pick();
       current = bot || null;
       var nameEl = document.getElementById("heroFeatureName");
       var typeEl = document.getElementById("heroFeatureType");
@@ -8242,6 +8244,12 @@ function toggleFav(id) {
         if (tools && tools.scrollIntoView) tools.scrollIntoView({ behavior: "smooth", block: "start" });
       });
     }
+
+    /* Mọi cách đổi ngôn ngữ đều đổi <html lang> -> kiểm tra lại bot đang hiện */
+    try {
+      new MutationObserver(function () { label(); })
+        .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    } catch (e) {}
 
     setTimeout(function () { roll(); }, 200);
   })();
