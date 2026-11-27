@@ -3136,6 +3136,13 @@
     body:not(.theme-dark) .hero-split .hero-box .tagline { font-weight: 500; }
     body:not(.theme-dark) .hero-split .hero-box .ghost-link { text-decoration-color: rgba(255,255,255,0.9); }
 
+    /* Tab Lệnh / Commission / Q&A: giữ khung AnnaMei, bỏ Gieo quẻ + Khám phá + Featured */
+    body.tab-other #randomBotBtn,
+    body.tab-other #heroExploreBtn,
+    body.tab-other .hero-actions,
+    body.tab-other #heroFeature { display: none !important; }
+    body.tab-other .hero-split .hero-box .hero-desc { margin-bottom: 0; }
+
     /* ===== Màn chọn ngôn ngữ: video sakura nằm ngay SAU bảng chọn (nền trong mờ để lộ video) ===== */
     :root { --welcome-video-opacity: 0.6; }
     body:not(.theme-dark) #welcome {
@@ -3339,10 +3346,8 @@
       <div class="fb-page" id="feedbackPage">
         <!-- filled by JS -->
       </div>
-    </div>
 
-    
-    <section class="policy-section" id="policySection">
+      <section class="policy-section" id="policySection">
       <span class="policy-deco" aria-hidden="true">🍒</span>
       <span class="policy-deco" aria-hidden="true">✨</span>
       <span class="policy-deco" aria-hidden="true">💫</span>
@@ -3350,6 +3355,8 @@
       <h3 id="policyTitle">Vấn đề Bản quyền &amp; Sử dụng AI</h3>
       <div id="policyBody"></div>
     </section>
+    </div>
+
 
     <footer class="footer">
       <div class="footer-box" id="footerText">AnnaMei's Web · AI Character · Roleplay · Open World</div>
@@ -5670,8 +5677,11 @@ function toggleFav(id) {
     document.querySelectorAll(".page-panel").forEach(function (p) {
       p.classList.toggle("active", p.id === "page-" + id);
     });
+    /* Khung AnnaMei luôn hiện ở mọi tab; ở tab khác "Nhân vật" thì ẩn Gieo quẻ / Khám phá / Featured (xem CSS body.tab-other) */
     var heroWrap = document.getElementById("botsHeroWrap");
-    if (heroWrap) heroWrap.style.display = (id === "bots") ? "" : "none";
+    if (heroWrap) heroWrap.style.display = "";
+    document.body.classList.toggle("tab-other", id !== "bots");
+    if (window.__meiUpdateRandomLabel) window.__meiUpdateRandomLabel();
     if (id === "commands" && typeof renderCommands === "function") renderCommands();
     if (id === "commission" && typeof renderComm === "function") renderComm();
     if (id === "feedback" && typeof renderFeedback === "function") renderFeedback();
@@ -8108,9 +8118,10 @@ function toggleFav(id) {
       if (lab) lab.textContent = (lang === "vi") ? "Nhân vật hôm nay" : "Featured character";
       var desc = document.getElementById("heroDesc");
       if (desc) {
+        var onBots = !document.body.classList.contains("tab-other");
         desc.textContent = (lang === "vi")
-          ? "Kho nhân vật AI · roleplay · open world do Mei tự xây. Gieo quẻ nếu chưa biết chọn ai."
-          : "AI characters · roleplay · open worlds by Mei. Feeling lost? Roll a random bot.";
+          ? "Kho nhân vật AI · roleplay · open world do Mei tự xây." + (onBots ? " Gieo quẻ nếu chưa biết chọn ai." : "")
+          : "AI characters · roleplay · open worlds by Mei." + (onBots ? " Feeling lost? Roll a random bot." : "");
       }
       if (meetBtn) meetBtn.textContent = (lang === "vi") ? "Gặp Bot" : "Meet Bot";
       if (plotBtn) plotBtn.textContent = (lang === "vi") ? "Đọc Plot" : "Read Plot";
