@@ -9,6 +9,8 @@
   <link rel="apple-touch-icon" href="assets/site-avatar.png?v=5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://annaweb-mei-default-rtdb.firebaseio.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -8059,12 +8061,25 @@ function toggleFav(id) {
     var _oldApply = typeof applyI18n === "function" ? applyI18n : null;
 
     var VIEW_BASE = 1087; /* cộng thêm lịch sử; số Firebase stats/pageViews vẫn tăng và không mất khi deploy GitHub */
+    var CACHE = "mei_views_cache"; /* số lần xem gần nhất đã thấy -> hiện ngay, khỏi chờ Firebase */
+    var gotLive = false;
     function showCount(n) {
       if (!countEl) return;
       if (n == null || n === undefined) { countEl.textContent = "—"; return; }
       var total = (typeof n === "number" ? n : 0) + VIEW_BASE;
       countEl.textContent = total.toLocaleString("en-US");
+      try { localStorage.setItem(CACHE, String(total)); } catch (e) {}
     }
+    try {
+      var cached = parseInt(localStorage.getItem(CACHE) || "0", 10);
+      if (cached > 0 && countEl) countEl.textContent = cached.toLocaleString("en-US");
+    } catch (e) {}
+    /* Firebase im quá lâu / bị từ chối đọc: đừng để "…" mãi */
+    function giveUpWaiting() {
+      if (gotLive || !countEl) return;
+      if (countEl.textContent === "…") countEl.textContent = "—";
+    }
+    setTimeout(giveUpWaiting, 8000);
 
     var KEY = "mei_page_views_local";
     function bumpLocal() {
@@ -8089,14 +8104,21 @@ function toggleFav(id) {
       if (!window.meiRtdb) return false;
       var ref = window.meiRtdb.ref("stats/pageViews");
       if (!already) {
-        markCounted();
         ref.transaction(function (cur) {
           return (typeof cur === "number" ? cur : 0) + 1;
-        }).catch(function () {});
+        }).then(function (res) {
+          if (!res || res.committed !== false) markCounted(); /* chỉ đánh dấu đã đếm khi ghi thành công */
+        }).catch(function (err) {
+          console.warn("pageViews write failed:", err && (err.code || err.message));
+        });
       }
       ref.on("value", function (snap) {
         var v = snap.val();
+        gotLive = true;
         showCount(typeof v === "number" ? v : 0);
+      }, function (err) {
+        console.warn("pageViews read failed:", err && (err.code || err.message));
+        giveUpWaiting();
       });
       return true;
     }
