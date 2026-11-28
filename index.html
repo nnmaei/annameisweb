@@ -3308,7 +3308,7 @@
               <button type="button" class="util-btn" data-util-lang="vi" id="utilLangVi">VI</button>
               <button type="button" class="util-btn" data-util-lang="en" id="utilLangEn">EN</button>
             </div>
-            <label class="util-check"><input type="checkbox" id="effectToggleToolbar" /> Giảm effect</label>
+            <label class="util-check"><input type="checkbox" id="effectToggleToolbar" /> <span id="effectToolbarText">Giảm effect</span></label>
             <div id="count" class="count"></div>
           </div>
         </div>
@@ -7998,6 +7998,17 @@ function toggleFav(id) {
     }
     apply(reduced, false);
     if (label) label.textContent = "Giảm effect / Reduce effects";
+    /* Nhãn ở thanh công cụ đổi theo ngôn ngữ đang chọn */
+    var tbText = document.getElementById("effectToolbarText");
+    function syncToolbarText() {
+      if (!tbText) return;
+      tbText.textContent = (document.documentElement.lang === "en") ? "Reduce effects" : "Giảm effect";
+    }
+    syncToolbarText();
+    try {
+      new MutationObserver(syncToolbarText)
+        .observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+    } catch (e) {}
     function bind(el) {
       if (!el) return;
       el.addEventListener("change", function () {
